@@ -1,32 +1,43 @@
-# GitSOS - Guía Interactiva de Git y GitHub
+# Astro Starter Kit: Minimal
 
-**Autora:** Katherine Gomez
+```sh
+npm create astro@latest -- --template minimal
+```
 
-## 📖 Resumen del Proyecto
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-**GitSOS** es una aplicación web diseñada como la guía definitiva de Git y GitHub para desarrolladores junior y estudiantes. Nuestro objetivo principal es ofrecer documentación fácil de leer, respaldada por fuentes oficiales, y potenciada por un chatbot asistente impulsado por Inteligencia Artificial que resuelva problemas frecuentes en tiempo real.
+## 🚀 Project Structure
 
-## 🚀 Arquitectura y Stack Tecnológico
+Inside of your Astro project, you'll see the following folders and files:
 
-La aplicación se divide en contenido estático de alta velocidad (documentación) y componentes dinámicos aislados (chatbot).
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-- **Frontend y Contenido:** Astro (con Starlight) para generación estática. Uso de MDX para incrustar componentes de React.
-- **Diseño y UI:** Figma y Antigravity para wireframes y componentes rápidos.
-- **Despliegue (CI/CD):** Vercel para despliegue automatizado con cada push.
-- **Chatbot Asistente:** Google Gemini API (o GPT-4o mini) integrado con Vercel AI SDK.
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-## 📚 Temario: "Rutas Anti-Frustración"
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-El contenido está enfocado en casos de uso reales:
+Any static assets, like images, can be placed in the `public/` directory.
 
-1. **El Modelo Mental:** Diferencia entre Git y GitHub, las tres zonas de Git, y configuración inicial.
-2. **El Flujo Diario:** `git status`, `git add`, `git commit -m` y `git log`.
-3. **Multiverso y Despliegues:** Manejo de ramas (`branch`, `switch`, `checkout`) y sincronización (`push`, `pull`, `merge`).
-4. **La Sala de Emergencias:** Resolviendo desastres con `amend`, `cherry-pick`, `stash`, `rm --cached`, conflictos de merge, y la diferencia entre `revert` y `reset`.
+## 🧞 Commands
 
-## 🛠️ Reglas de Contribución y Desarrollo
+All commands are run from the root of the project, from a terminal:
 
-Este proyecto sigue reglas estrictas de control de versiones definidas en el archivo `AGENTS.md`:
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-1. **Rama de Trabajo:** Antes de modificar código, se debe verificar o crear la rama `develop` a partir de `main`. **Todo el trabajo debe hacerse exclusivamente en `develop`**.
-2. **Commits y Pushes:** Los agentes / asistentes no deben ejecutar `git commit` ni `git push` automáticamente. Se deben mostrar los cambios y esperar la **autorización explícita** ("autorizado" o "hacé el commit") del usuario.
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
