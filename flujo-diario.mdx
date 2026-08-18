@@ -1,0 +1,85 @@
+---
+title: Flujo Diario Basico en Git
+description: El ciclo de vida diario para guardar y sincronizar tu codigo de forma segura.
+---
+
+# El Flujo de Trabajo Diario: Guardar y Compartir Código
+
+Una vez que entiendes el modelo mental de Git, el siguiente paso es dominar el ciclo de vida diario de tu código [24]. Este flujo te permitirá registrar tus avances de forma incremental, segura y ordenada.
+
+---
+
+## 1. El Ciclo de Vida del Código en Solitario
+
+Cuando trabajas en tu proyecto, el código fluye de manera natural a través de las tres zonas que aprendiste en el modelo mental [24]:
+
+1.  **Modificar:** Creas o editas archivos en tu directorio de trabajo (*working directory*) [23, 24].
+2.  **Preparar:** Seleccionas qué cambios están listos para la foto e indexas esos archivos en el área de preparación (*staging area*) [24].
+3.  **Confirmar:** Tomas la foto de forma permanente guardándola en tu repositorio local (*local repository*) [24].
+
+---
+
+## 2. Diagnóstico Constante: El comando `git status`
+
+Nunca trabajes a ciegas. El comando más importante de tu día a día es:
+
+```bash
+git status
+```
+
+Este comando inspecciona tu árbol de trabajo (*working tree*) y te da un diagnóstico preciso del estado actual del proyecto [27, 91]. Te mostrará:
+*   Qué archivos han sido modificados pero aún no se han preparado (*modified*) [22].
+*   Qué archivos están listos para confirmarse en el área de preparación (*staged*) [22, 25].
+*   Qué archivos nuevos están en tu carpeta pero que Git aún no está rastreando (*untracked files*) [22, 25].
+
+---
+
+## 3. Preparando Cambios: `git add`
+
+Para pasar tus archivos modificados o nuevos al área de preparación (*staging area*), utilizas el comando `git add` [24, 27]. Tienes dos formas principales de hacerlo:
+
+*   **Añadir un archivo específico:** Es la forma recomendada cuando quieres tener control total sobre qué subes.
+    ```bash
+    git add ruta/al/archivo.js
+    ```
+*   **Añadir todos los archivos modificados y nuevos:** Añade todo el directorio actual de golpe.
+    ```bash
+    git add .
+    ```
+
+---
+
+## 4. Tomando la Foto Histórica: `git commit -m`
+
+Cuando tus archivos modificados ya están seguros en el área de preparación (*staging area*), es hora de consolidarlos en el historial con un commit (*commit*) [24]. Un commit es una copia instantánea inmutable (*snapshot*) de tu código en ese preciso momento [14].
+
+Para crear una confirmación básica, utiliza:
+
+```bash
+git commit -m "feat: agregar sistema de autenticacion de usuarios"
+```
+
+### Convenciones de Mensajes Semánticos
+
+Para que tu historial de confirmaciones (*commit history*) sea legible para otros desarrolladores o para ti en el futuro, es una excelente práctica seguir convenciones de mensajes semánticos (*semantic commits*). El formato recomendado es: `<tipo>: <descripción corta en minúsculas>`.
+
+*   `feat`: Una nueva característica para el usuario (ej: `feat: agregar boton de logout`).
+*   `fix`: Una resolución de un error o bug (ej: `fix: corregir desbordamiento en boton de pago`).
+*   `docs`: Cambios únicamente en la documentación (ej: `docs: actualizar guia de instalacion`).
+*   `chore`: Tareas de mantenimiento, configuración o actualización de dependencias que no modifican el código de producción (ej: `chore: actualizar version de react`).
+
+---
+
+## 5. Sincronización con la Nube: `git push`
+
+Tu commit ahora está guardado de manera segura en tu base de datos local (*local repository*) [22]. Sin embargo, si tu computadora falla, podrías perderlo todo. Para respaldarlo y colaborar, debes enviar tus cambios al repositorio remoto (*remote repository*) alojado en GitHub o GitLab [5, 6]:
+
+```bash
+git push origin main
+```
+
+*(Nota: `origin` es el nombre predeterminado de tu conexión remota y `main` es el nombre de tu rama principal).*
+
+> **💡 Consejo de Senior:** Usa `git status` como tu panel de control principal. Acostúmbrate a ejecutarlo antes y después de cada `git add` y `git commit`. Te ahorrará subir archivos temporales, dependencias pesadas o credenciales sensibles al área de preparación (*staging area*) por error [24, 91].
+
+---

@@ -1,0 +1,118 @@
+---
+title: Sala de Emergencias de Git
+description: Guia de rescate rapido para salir de apuros y solucionar problemas comunes de Git en la terminal.
+---
+
+# Sala de Emergencias: Guía de Rescate Técnico
+
+A todos nos pasa: cometes un error en un mensaje de confirmación, guardas tu trabajo en la rama equivocada o entras en pánico al ver un conflicto de fusión. No te preocupes. Git está diseñado con integridad para que casi todo sea recuperable y corregible [19, 21]. Esta guía es tu caja de herramientas de primeros auxilios.
+
+---
+
+## 1. Editar un mensaje de commit recién hecho: `git commit --amend`
+
+Si acabas de hacer un commit (*commit*) en tu repositorio local pero cometiste una falta de ortografía, olvidaste agregar un archivo o escribiste un mensaje poco claro, puedes corregir la última confirmación fácilmente [21, 27]:
+
+```bash
+git commit --amend -m "feat: corregir mensaje del ultimo commit"
+```
+
+Si además querías incluir un archivo olvidado, simplemente ponlo en el área de preparación (*staging area*) con `git add` y luego ejecuta `git commit --amend` sin la opción `-m` para actualizar la foto histórica actual en lugar de crear una nueva [24, 27].
+
+---
+
+## 2. Reubicar un commit hecho en la rama equivocada: `git cherry-pick`
+
+Si hiciste un commit de trabajo importante en una rama incorrecta, puedes "importar" individualmente esa copia instantánea hacia la rama correcta utilizando su hash SHA-1 de 40 caracteres [20, 28]:
+
+```bash
+# 1. Cambia a la rama donde DEBERÍA estar el cambio
+git checkout rama-correcta
+
+# 2. Copia el commit específico usando su identificador hash
+git cherry-pick a1b2c3d4
+```
+
+*(Una vez que el commit se copie de forma segura en la rama correcta, puedes regresar a la rama incorrecta y eliminar el commit no deseado).*
+
+---
+
+## 3. Guardar cambios temporalmente sin hacer commit: `git stash`
+
+Imagina que estás a mitad de un desarrollo complejo en tu directorio de trabajo (*working directory*), pero te piden corregir un error crítico de inmediato en producción. No quieres hacer un commit a medias de tu código incompleto.
+
+Para limpiar tu directorio de trabajo y guardar tus cambios temporales en un baúl seguro, utiliza:
+
+```bash
+git stash
+```
+
+Una vez que hayas solucionado la emergencia y quieras recuperar tu trabajo justo donde lo dejaste, regresa a tu rama y ejecuta:
+
+```bash
+git stash pop
+```
+
+---
+
+## 4. Eliminar un archivo del seguimiento de Git que se subió por error
+
+Si accidentalmente subiste archivos que no deberían estar en el repositorio (como una carpeta de dependencias `node_modules` o credenciales de entorno `.env`), y Git los está rastreando, debes coordinar `.gitignore` y `git rm` [27, 28].
+
+Si solo añades el archivo a tu archivo `.gitignore`, Git continuará rastreándolo si ya fue confirmado anteriormente [28]. Debes indicarle a Git que deje de hacerle seguimiento en su índice (*index*) pero **sin borrar el archivo físico de tu computadora** [27, 57]:
+
+```bash
+# Elimina el archivo del seguimiento del staging area (localmente se conserva)
+git rm --cached .env
+```
+
+Luego de ejecutar esto, asegúrate de añadir `.env` a tu archivo `.gitignore`, guarda el archivo y crea un commit con los cambios [28]:
+
+```bash
+git add .gitignore
+git commit -m "chore: ignorar archivo de variables de entorno y remover del tracking"
+```
+
+---
+
+## 5. Entender y Resolver un Conflicto de Fusión (*merge conflict*)
+
+Un conflicto de fusión (*merge conflict*) ocurre cuando dos personas modifican exactamente las mismas líneas de un mismo archivo en ramas distintas, y Git no sabe de forma automática qué versión conservar [96, 100].
+
+Cuando esto ocurre, la fusión se pausa y Git inyecta marcadores de conflicto directamente en el archivo afectado [100]. Al abrir el archivo en tu editor, verás esta estructura:
+
+```text
+<<<<<<< HEAD
+Código de tu rama local actual (donde estás posicionado)
+=======
+Código que proviene de la otra rama que intentas fusionar
+>>>>>>> feat/nueva-vista
+```
+
+### ¿Cómo solucionarlo?
+1.  **Analiza:** Reúnete con tu equipo si es necesario y decide qué código debe conservarse.
+2.  **Edita:** Elimina manualmente los marcadores `<<<<<<<`, `=======` y `>>>>>>>`, dejando únicamente el código limpio deseado.
+3.  **Registra:** Guarda el archivo, añádelo al área de preparación (*staging area*) para indicarle a Git que el conflicto ha sido resuelto y finaliza la fusión [99, 100]:
+    ```bash
+    git add archivo-resuelto.js
+    git commit -m "merge: resolver conflictos de fusion en archivo-resuelto"
+    ```
+
+---
+
+## 6. Deshacer el Historial: `git revert` (Seguro) vs. `git reset` (Destructivo)
+
+Si necesitas deshacer cambios que ya están en el historial de confirmaciones, Git te ofrece dos herramientas con filosofías y niveles de riesgo muy diferentes [46]:
+
+*   **`git revert` (Seguro para entornos colaborativos):** Este comando crea un **nuevo commit** que realiza exactamente los cambios opuestos al commit que deseas deshacer [46]. No destruye ni altera el historial existente, por lo que es la única opción segura para ramas compartidas que ya están en GitHub o GitLab [46].
+    ```bash
+    git revert a1b2c3d4
+    ```
+*   **`git reset` (Destructivo y solo para local):** Este comando mueve físicamente la punta (*tip*) de tu rama hacia atrás en el tiempo, eliminando todos los commits posteriores de la línea histórica de esa rama [46]. Reescribe el historial de confirmaciones de forma permanente, por lo que solo debes usarlo en tus commits locales antes de enviarlos a la nube [46].
+    ```bash
+    git reset --hard a1b2c3d4
+    ```
+
+> **💡 Consejo de Senior:** Como regla de oro de la ingeniería de software: **nunca** uses `git reset` para eliminar o alterar commits que ya hayan sido enviados (*push*) a un repositorio compartido en GitHub o GitLab [46]. Al reescribir el historial compartido, romperás el flujo de trabajo de tus compañeros. En su lugar, utiliza siempre `git revert`, lo que generará un commit seguro que deshace los cambios sin alterar la línea de tiempo histórica [46].
+
+---

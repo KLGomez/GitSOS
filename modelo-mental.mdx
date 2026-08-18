@@ -1,0 +1,64 @@
+---
+title: Modelo Mental de Git
+description: Entendiendo la diferencia fundamental entre Git local y la nube, y las tres zonas de control de versiones.
+---
+
+# El Modelo Mental de Git: Tu Mapa de Navegación
+
+Para dominar el control de versiones sin frustrarte, el primer paso es comprender que Git no es simplemente un programa para "subir archivos" [12]. Es un sistema de archivos miniatura que toma copias instantáneas (*snapshots*) de tu proyecto a lo largo del tiempo [14, 15].
+
+---
+
+## 1. Git Local vs. Plataformas en la Nube: ¿Quién es quién?
+
+Es común confundir Git con GitHub o GitLab, pero son herramientas con roles completamente distintos:
+
+*   **El Motor Local (Git):** Es un sistema de control de versiones distribuido (*distributed version control system*) que se ejecuta en tu propia computadora [16, 31]. Git funciona de forma local [16]. Toda la base de datos con el historial completo de tu proyecto se encuentra en tu disco duro [16]. Esto significa que puedes hacer confirmaciones (*commits*), revisar historiales y crear ramas (*branches*) instantáneamente y sin necesidad de conexión a internet o VPN [16, 17, 18].
+*   **Las Plataformas de Alojamiento (GitHub / GitLab):** Son servicios en la nube que hospedan copias de tu repositorio local (*remote repository*) [5, 6, 105, 108]. Su principal objetivo es facilitar el código colaborativo (*collaborative coding*), la gestión de proyectos y la integración continua [106, 111]. En estas plataformas es donde interactúas con conceptos de colaboración como las solicitudes de incorporación de cambios (*pull requests* o *merge requests*) [106].
+
+En resumen: **Git es la herramienta que gestiona tu historial en local, mientras que GitHub y GitLab son los servidores en la nube que te permiten compartir ese historial con el mundo.**
+
+---
+
+## 2. Las Tres Zonas Principiles de Git
+
+En tu máquina local, tu proyecto se divide en tres áreas lógicas o "zonas" de trabajo [23]. Entender estas zonas es la clave para no perder el control de tu código:
+
+```
++------------------------------------------------------------+
+|                     TU COMPUTADORA (LOCAL)                 |
+|                                                            |
+|  +--------------------+  git add   +--------------------+  |
+|  | Working Directory  | ---------> |   Staging Area     |  |
+|  | (Carpeta de Trabajo|            |     (Índice)       |  |
+|  +--------------------+            +--------------------+  |
+|            ^                                 |             |
+|            | git restore                     | git commit  |
+|            |                                 v             |
+|  +------------------------------------------------------+  |
+|  |                    Local Repository                  |  |
+|  |                 (Directorio .git)                    |  |
+|  +------------------------------------------------------+  |
++------------------------------------------------------------+
+```
+
+1.  **Directorio de Trabajo (*working directory*):** Es la carpeta física en tu computadora donde ves y modificas tus archivos directamente [23]. Aquí es donde editas tu código en tu editor favorito. Los archivos en esta zona que han sufrido cambios pero no se han preparado están en estado modificado (*modified*) [22, 25].
+2.  **Área de Preparación (*staging area* o *index*):** Es un archivo temporal (generalmente contenido dentro del directorio de Git) que actúa como un "borrador" de tu próxima confirmación [24]. Aquí marcas qué cambios específicos del *working directory* quieres incluir en tu siguiente foto histórica [24]. Los archivos aquí están en estado preparado (*staged*) [22, 25].
+3.  **Repositorio Local (*local repository* o *Git directory*):** Es el corazón de Git [23]. Aquí es donde se almacenan todos los metadatos y la base de datos de objetos comprimidos con el historial completo y permanente de tu proyecto [23, 95]. Cuando confirmas tus cambios aquí, los archivos pasan al estado confirmado (*committed*) [22, 25].
+
+---
+
+## 3. Configuración Inicial: Tu Identidad en Git
+
+Antes de realizar tu primer commit, es obligatorio decirle a Git quién eres. Git asocia un autor a cada confirmación de forma inmutable [63, 64].
+
+Para configurar tu nombre de usuario (*user.name*) y dirección de correo electrónico (*user.email*), ejecuta los siguientes comandos en tu terminal [52]:
+
+```bash
+git config --global user.name "Tu Nombre Real"
+git config --global user.email "tu-correo@ejemplo.com"
+```
+
+> **💡 Consejo de Senior:** Configura siempre tu nombre y correo real con `git config --global`. Esta información se incrusta de forma inmutable en cada copia instantánea (*snapshot*) de tu historial, y cambiarla más adelante es complejo y puede dañar la atribución de autoría en tu perfil de GitHub o GitLab [52, 63, 64].
+
+---

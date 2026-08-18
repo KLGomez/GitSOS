@@ -9,9 +9,41 @@ import GitSOSInterface from '../components/GitSOSInterface';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>GitSOS</title>
+    <title>GitSOS - Guía Interactiva y Asistente de Git</title>
+    <meta name="description" content="Guía definitiva de Git y GitHub para desarrolladores junior con chatbot de rescate en tiempo real." />
   </head>
-  <body class="bg-slate-950 m-0 p-0">
-    <GitSOSInterface client:load />
+  <body class="bg-slate-950 m-0 p-0 text-slate-200">
+    <GitSOSInterface client:load>
+      <header class="mb-10">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+          Bienvenido a GitSOS
+        </h2>
+        <p class="text-lg text-slate-400">
+          La guía interactiva de Git y GitHub para desarrolladores junior.
+        </p>
+      </header>
+      
+      <div class="prose prose-invert prose-slate max-w-none">
+        <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-8 backdrop-blur-sm shadow-sm">
+          <h3 class="text-2xl font-semibold text-white mb-4">Empezando con tu repositorio</h3>
+          <p class="text-slate-300 leading-relaxed mb-6">
+            Git no tiene por qué ser intimidante. Imagina a Git como una máquina del tiempo para tu código.
+            Cada <code class="bg-slate-950 px-1.5 py-0.5 rounded text-indigo-300 font-mono text-sm border border-slate-800">commit</code> es una foto instantánea que te permite volver atrás si las cosas salen mal. 
+            En este recorrido, aprenderemos desde lo más básico hasta cómo salir de apuros cuando tu rama parece un desastre.
+          </p>
+          <p class="text-slate-300 leading-relaxed mb-6">
+            Selecciona una lección en el menú de la izquierda para comenzar. Si alguna vez te sientes perdido o tienes una emergencia con tu código, ¡abre el chat de rescate en la esquina inferior derecha y nuestro Senior Dev te ayudará a solucionarlo!
+          </p>
+          <div class="pt-2 flex flex-wrap gap-4">
+            <a 
+              href="/docs/modelo-mental" 
+              class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2.5 rounded-lg transition-colors shadow-sm"
+            >
+              Comenzar con: El Modelo Mental →
+            </a>
+          </div>
+        </div>
+      </div>
+    </GitSOSInterface>
   </body>
 </html>
