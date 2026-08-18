@@ -56,16 +56,20 @@ const ChatCodeBlock: React.FC<React.HTMLAttributes<HTMLPreElement>> = ({ childre
 const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
   const [chatOpen, setChatOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
-    api: '/api/chat',
-    initialMessages: [
-      {
-        id: 'welcome',
-        role: 'assistant',
-        content: '¡Hola! ¿Rompiste un commit? Dime qué pasó y lo arreglamos.',
-      },
-    ],
-  });
+  const [chatInput, setChatInput] = useState('');
+  
+  const chatState = useChat({ api: '/api/chat' });
+  const rawSendMessage = chatState?.sendMessage;
+  const sendMessage = (msg: any) => {
+    if (!rawSendMessage) return;
+    if (typeof msg === 'string') {
+      return rawSendMessage({ text: msg });
+    }
+    return rawSendMessage(msg);
+  };
+
+  const messages = chatState?.messages || [];
+  const isLoading = chatState?.status === 'submitted' || chatState?.status === 'streaming' || Boolean(chatState?.isLoading);
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
@@ -159,73 +163,81 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
             
             {/* Chat Body */}
             <div className="p-4 flex-1 h-80 overflow-y-auto bg-slate-900/50 flex flex-col gap-3">
-              {messages.map((m) => (
-                <div 
-                  key={m.id} 
-                  className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  {m.role !== 'user' && (
-                    <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5">
-                      <LifeBuoy size={15} />
-                    </div>
-                  )}
-                  
+              {messages.map((m: any) => {
+                const messageText = typeof m.content === 'string' 
+                  ? m.content 
+                  : (typeof m.text === 'string' 
+                      ? m.text 
+                      : (Array.isArray(m.parts) ? m.parts.map((p: any) => p.text || '').join('') : ''));
+
+                return (
                   <div 
-                    className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
-                      m.role === 'user' 
-                        ? 'bg-indigo-600 text-white rounded-tr-none whitespace-pre-wrap' 
-                        : 'bg-slate-800 text-slate-200 rounded-tl-none border border-slate-700 shadow-sm'
-                    }`}
+                    key={m.id || Math.random()} 
+                    className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    {m.role === 'user' ? (
-                      m.content
-                    ) : (
-                      <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                          p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                          pre: ChatCodeBlock,
-                          code: ({ className, children, ...props }) => {
-                            const isInline = !className && typeof children === 'string' && !children.includes('\n');
-                            return isInline ? (
-                              <code className="bg-slate-950/70 text-indigo-300 px-1.5 py-0.5 rounded text-xs font-mono border border-slate-700/60" {...props}>
+                    {m.role !== 'user' && (
+                      <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5">
+                        <LifeBuoy size={15} />
+                      </div>
+                    )}
+                    
+                    <div 
+                      className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
+                        m.role === 'user' 
+                          ? 'bg-indigo-600 text-white rounded-tr-none whitespace-pre-wrap' 
+                          : 'bg-slate-800 text-slate-200 rounded-tl-none border border-slate-700 shadow-sm'
+                      }`}
+                    >
+                      {m.role === 'user' ? (
+                        messageText
+                      ) : (
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+                            pre: ChatCodeBlock,
+                            code: ({ className, children, ...props }) => {
+                              const isInline = !className && typeof children === 'string' && !children.includes('\n');
+                              return isInline ? (
+                                <code className="bg-slate-950/70 text-indigo-300 px-1.5 py-0.5 rounded text-xs font-mono border border-slate-700/60" {...props}>
+                                  {children}
+                                </code>
+                              ) : (
+                                <code className={className} {...props}>
+                                  {children}
+                                </code>
+                              );
+                            },
+                            ul: ({ children }) => <ul className="list-disc list-inside space-y-1 my-1.5">{children}</ul>,
+                            ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 my-1.5">{children}</ol>,
+                            li: ({ children }) => <li className="text-slate-200">{children}</li>,
+                            strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
+                            em: ({ children }) => <em className="italic text-indigo-300 font-medium">{children}</em>,
+                            a: ({ href, children }) => (
+                              <a href={href} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
                                 {children}
-                              </code>
-                            ) : (
-                              <code className={className} {...props}>
+                              </a>
+                            ),
+                            blockquote: ({ children }) => (
+                              <blockquote className="border-l-2 border-indigo-500 pl-3 my-2 text-slate-300 italic">
                                 {children}
-                              </code>
-                            );
-                          },
-                          ul: ({ children }) => <ul className="list-disc list-inside space-y-1 my-1.5">{children}</ul>,
-                          ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 my-1.5">{children}</ol>,
-                          li: ({ children }) => <li className="text-slate-200">{children}</li>,
-                          strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
-                          em: ({ children }) => <em className="italic text-indigo-300 font-medium">{children}</em>,
-                          a: ({ href, children }) => (
-                            <a href={href} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
-                              {children}
-                            </a>
-                          ),
-                          blockquote: ({ children }) => (
-                            <blockquote className="border-l-2 border-indigo-500 pl-3 my-2 text-slate-300 italic">
-                              {children}
-                            </blockquote>
-                          ),
-                        }}
-                      >
-                        {m.content}
-                      </ReactMarkdown>
+                              </blockquote>
+                            ),
+                          }}
+                        >
+                          {messageText}
+                        </ReactMarkdown>
+                      )}
+                    </div>
+
+                    {m.role === 'user' && (
+                      <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0 text-slate-300 shadow-md mt-0.5">
+                        <User size={15} />
+                      </div>
                     )}
                   </div>
-
-                  {m.role === 'user' && (
-                    <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0 text-slate-300 shadow-md mt-0.5">
-                      <User size={15} />
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
               {isLoading && (
                 <div className="flex gap-2.5 justify-start">
                   <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5">
@@ -248,7 +260,10 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => append({ role: 'user', content: action })}
+                    onClick={() => {
+                      setChatInput('');
+                      sendMessage(action);
+                    }}
                     className="flex-shrink-0 text-xs px-2.5 py-1 rounded-full bg-slate-800 hover:bg-indigo-500/20 text-slate-300 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/40 transition-all active:scale-95 cursor-pointer shadow-sm"
                   >
                     {action}
@@ -261,21 +276,23 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
                 <form 
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleSubmit(e);
+                    if (!chatInput.trim()) return;
+                    sendMessage(chatInput);
+                    setChatInput('');
                   }}
                   className="flex items-center gap-2"
                 >
                   <input 
                     type="text" 
-                    value={input || ''}
-                    onChange={handleInputChange}
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Escribe tu emergencia aquí..." 
                     className="flex-1 bg-slate-900 text-slate-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 border border-slate-700 placeholder-slate-500 text-sm transition-all"
                   />
                   <button 
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-500 text-white p-2.5 rounded-xl transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={!input?.trim() || isLoading}
+                    disabled={!chatInput?.trim() || isLoading}
                   >
                     <Send size={18} />
                   </button>
