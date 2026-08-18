@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Brain, Repeat, GitMerge, LifeBuoy, Send, MessageCircle, GitBranch, User, Home, Menu, X, Copy, Check } from 'lucide-react';
 import { useChat } from '@ai-sdk/react';
 import ReactMarkdown from 'react-markdown';
@@ -70,6 +70,12 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
 
   const messages = chatState?.messages || [];
   const isLoading = chatState?.status === 'submitted' || chatState?.status === 'streaming' || Boolean(chatState?.isLoading);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isLoading]);
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
@@ -161,8 +167,8 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
               </button>
             </div>
             
-            {/* Chat Body */}
-            <div className="p-4 flex-1 h-80 overflow-y-auto bg-slate-900/50 flex flex-col gap-3">
+            {/* Chat Body con Scroll Vertical */}
+            <div className="p-4 flex-1 h-80 sm:h-96 max-h-[420px] overflow-y-auto bg-slate-900/50 flex flex-col gap-4 scroll-smooth">
               {messages.map((m: any) => {
                 const messageText = typeof m.content === 'string' 
                   ? m.content 
@@ -250,6 +256,8 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
                   </div>
                 </div>
               )}
+              {/* Ancla para Auto-scroll */}
+              <div ref={messagesEndRef} />
             </div>
             
             {/* Quick Actions & Chat Input */}
