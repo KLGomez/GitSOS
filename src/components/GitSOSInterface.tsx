@@ -32,19 +32,32 @@ const ChatCodeBlock: React.FC<React.HTMLAttributes<HTMLPreElement>> = ({ childre
   };
 
   return (
-    <div className="relative group my-2.5">
-      <button
-        type="button"
-        onClick={handleCopy}
-        className="absolute top-2 right-2 z-10 p-1.5 rounded-md bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700/80 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 shadow-sm flex items-center justify-center cursor-pointer"
-        title="Copiar código"
-        aria-label="Copiar código al portapapeles"
-      >
-        {isCopied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-      </button>
+    <div className="rounded-lg bg-slate-950 border border-slate-800 overflow-hidden my-3 shadow-md">
+      {/* Terminal Header */}
+      <div className="bg-slate-900 px-4 py-2 flex items-center justify-between border-b border-slate-800 select-none">
+        {/* macOS Traffic Lights */}
+        <div className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-sm"></span>
+          <span className="w-3 h-3 rounded-full bg-amber-500 inline-block shadow-sm"></span>
+          <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-sm"></span>
+        </div>
+
+        {/* Copy Button */}
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="p-1.5 rounded-md bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-slate-300 border border-slate-700/50 transition-all flex items-center justify-center cursor-pointer shadow-sm"
+          title="Copiar código"
+          aria-label="Copiar código al portapapeles"
+        >
+          {isCopied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+        </button>
+      </div>
+
+      {/* Terminal Code Area */}
       <pre
         ref={preRef}
-        className="bg-slate-950 border border-slate-700 rounded-lg p-2.5 pt-3 overflow-x-auto text-xs font-mono text-emerald-400 shadow-inner"
+        className="p-4 bg-transparent overflow-x-auto text-xs sm:text-sm font-mono text-emerald-400 leading-relaxed scrollbar-chat"
         {...props}
       >
         {children}
