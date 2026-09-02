@@ -168,7 +168,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
             </div>
             
             {/* Chat Body con Scroll Vertical */}
-            <div className="p-4 flex-1 h-80 sm:h-96 max-h-[420px] overflow-y-auto bg-slate-900/50 flex flex-col gap-4 scroll-smooth">
+            <div className="p-4 pr-2 flex-1 h-80 sm:h-96 max-h-[420px] overflow-y-auto scrollbar-chat bg-slate-900/50 flex flex-col gap-4 scroll-smooth">
               {messages.map((m: any) => {
                 const messageText = typeof m.content === 'string' 
                   ? m.content 
