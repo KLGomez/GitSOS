@@ -1,7 +1,9 @@
 ---
-title: Modelo Mental de Git
-description: Entendiendo la diferencia fundamental entre Git local y la nube, y las tres zonas de control de versiones.
+title: "Modelo Mental de Git"
+description: "Entendiendo la diferencia fundamental entre Git local y la nube, y las tres zonas de control de versiones."
 ---
+
+import GitZonesDiagram from '../../components/GitZonesDiagram.tsx';
 
 # El Modelo Mental de Git: Tu Mapa de Navegación
 
@@ -24,23 +26,7 @@ En resumen: **Git es la herramienta que gestiona tu historial en local, mientras
 
 En tu máquina local, tu proyecto se divide en tres áreas lógicas o "zonas" de trabajo [23]. Entender estas zonas es la clave para no perder el control de tu código:
 
-```
-+------------------------------------------------------------+
-|                     TU COMPUTADORA (LOCAL)                 |
-|                                                            |
-|  +--------------------+  git add   +--------------------+  |
-|  | Working Directory  | ---------> |   Staging Area     |  |
-|  | (Carpeta de Trabajo|            |     (Índice)       |  |
-|  +--------------------+            +--------------------+  |
-|            ^                                 |             |
-|            | git restore                     | git commit  |
-|            |                                 v             |
-|  +------------------------------------------------------+  |
-|  |                    Local Repository                  |  |
-|  |                 (Directorio .git)                    |  |
-|  +------------------------------------------------------+  |
-+------------------------------------------------------------+
-```
+<GitZonesDiagram client:load />
 
 1.  **Directorio de Trabajo (*working directory*):** Es la carpeta física en tu computadora donde ves y modificas tus archivos directamente [23]. Aquí es donde editas tu código en tu editor favorito. Los archivos en esta zona que han sufrido cambios pero no se han preparado están en estado modificado (*modified*) [22, 25].
 2.  **Área de Preparación (*staging area* o *index*):** Es un archivo temporal (generalmente contenido dentro del directorio de Git) que actúa como un "borrador" de tu próxima confirmación [24]. Aquí marcas qué cambios específicos del *working directory* quieres incluir en tu siguiente foto histórica [24]. Los archivos aquí están en estado preparado (*staged*) [22, 25].
