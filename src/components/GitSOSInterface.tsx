@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Brain, Repeat, GitMerge, LifeBuoy, Send, MessageCircle, GitBranch, User, Home, Menu, X, Copy, Check } from 'lucide-react';
+import { Brain, Repeat, GitMerge, LifeBuoy, Send, MessageCircle, GitBranch, User, Home, Menu, X, Copy, Check, Cloud, GitPullRequest, Workflow } from 'lucide-react';
 import { useChat } from '@ai-sdk/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -144,7 +144,10 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
           <NavItem href="/" icon={<Home size={20} />} text="Inicio" onClick={() => setIsMobileMenuOpen(false)} />
           <NavItem href="/docs/modelo-mental" icon={<Brain size={20} />} text="El Modelo Mental" onClick={() => setIsMobileMenuOpen(false)} />
           <NavItem href="/docs/flujo-diario" icon={<Repeat size={20} />} text="El Flujo Diario" onClick={() => setIsMobileMenuOpen(false)} />
+          <NavItem href="/docs/colaboracion-remota" icon={<Cloud size={20} />} text="Colaboración Remota" onClick={() => setIsMobileMenuOpen(false)} />
+          <NavItem href="/docs/flujo-ramas-nube" icon={<GitPullRequest size={20} />} text="Flujo de Ramas en la Nube" onClick={() => setIsMobileMenuOpen(false)} />
           <NavItem href="/docs/multiverso-despliegues" icon={<GitMerge size={20} />} text="Multiverso y Despliegues" onClick={() => setIsMobileMenuOpen(false)} />
+          <NavItem href="/docs/introduccion-cicd" icon={<Workflow size={20} />} text="Introducción a CI/CD" onClick={() => setIsMobileMenuOpen(false)} />
           <NavItem href="/docs/sala-emergencias" icon={<LifeBuoy size={20} />} text="La Sala de Emergencias" onClick={() => setIsMobileMenuOpen(false)} />
         </nav>
         <div className="p-4 text-xs text-slate-500 text-center border-t border-slate-800/50">
@@ -155,7 +158,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
       {/* Área de Contenido (Centro/Derecha) */}
       <main className="flex-1 overflow-y-auto p-6 md:p-12 lg:p-16">
         <div className="max-w-4xl mx-auto">
-          <div className="prose prose-invert prose-indigo max-w-none prose-headings:text-slate-100 prose-a:text-indigo-400 prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800">
+          <div className="prose prose-invert prose-indigo max-w-none prose-headings:text-slate-100 prose-a:text-indigo-400">
             {children}
           </div>
         </div>

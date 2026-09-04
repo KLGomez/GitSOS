@@ -1,0 +1,51 @@
+---
+title: "Flujo de Ramas en la Nube: Colaborando en Equipo"
+description: "Aprende a bifurcar repositorios, abrir Pull Requests y Merge Requests, y realizar revisiones de código profesionales."
+---
+
+# Flujo de Ramas en la Nube: Colaborando en Equipo
+
+En el desarrollo de software moderno, rara vez trabajarás solo en un repositorio [106]. Para que decenas de desarrolladores colaboren en el mismo proyecto sin pisarse el código, las plataformas como GitHub y GitLab implementan flujos de trabajo colaborativos (*collaborative coding workflows*) [106, 111].
+
+---
+
+## 1. Bifurcaciones (*forks*): Tu Copia Personal de Experimentos
+
+Cuando deseas contribuir a un proyecto de código abierto o no tienes permisos directos de escritura en el repositorio principal de tu empresa, utilizas una bifurcación (*fork*) [6].
+
+*   Un **Fork** es una copia idéntica del repositorio principal que se crea directamente en tu cuenta de GitHub o GitLab [6].
+*   Al ser tuyo, tienes permisos absolutos para experimentar, crear ramas, confirmar cambios (*commits*) y hacer pruebas sin alterar el repositorio oficial del equipo [6].
+
+---
+
+## 2. Solicitudes de Integración: El Puente de Colaboración
+
+Una vez que has implementado una nueva funcionalidad o corregido un bug en tu rama secundaria (ya sea en tu fork o directamente en una rama del repositorio de tu equipo), el siguiente paso es pedirle a los administradores que incorporen tus cambios en la rama principal (*main*) [106].
+
+Para ello, utilizas la herramienta de integración de la plataforma:
+
+*   **En GitHub - Solicitud de incorporación de cambios (*pull request*):** Es el espacio donde propones formalmente la integración de tus commits de una rama a otra, mostrando las diferencias de código exactas [106].
+*   **En GitLab - Solicitud de fusión (*merge request*):** Es el término equivalente en GitLab que cumple exactamente la misma función: proponer la integración de cambios de tu línea de desarrollo independiente a la rama oficial [108].
+
+### El flujo estándar de contribución:
+1.  Creas una rama local para tu tarea (`git checkout -b feat/mi-tarea`) [4].
+2.  Haces tus confirmaciones (`git commit -m "feat: mi tarea"`) [24].
+3.  Subes tu rama a tu repositorio remoto (`git push origin feat/mi-tarea`) [27].
+4.  Abres un **Pull Request** (GitHub) o **Merge Request** (GitLab) desde la interfaz web [106, 108].
+
+---
+
+## 3. Revisión de Código (*code review*)
+
+Antes de que un Pull Request o Merge Request sea aprobado y fusionado por un desarrollador senior, se inicia una fase indispensable llamada revisión de código (*code review*) [108].
+
+Durante este proceso, el equipo puede:
+*   Dejar comentarios en líneas específicas de código para proponer mejoras.
+*   Discutir alternativas de diseño o alertar sobre posibles fallos de seguridad.
+*   Aprobar (*approve*) los cambios o solicitar modificaciones adicionales antes de dar luz verde a la fusión (*merge*) [96, 108].
+
+Si te solicitan correcciones, simplemente editas los archivos en tu máquina local, haces un nuevo commit y lo empujas (*push*) a la misma rama; la solicitud de integración en la web se actualizará automáticamente.
+
+> **💡 Consejo de Senior:** Trata cada Pull Request o Merge Request como una conversación técnica, no como un examen. Escribe descripciones claras que expliquen qué hace tu código, por qué decidiste implementarlo de esa forma y adjunta capturas de pantalla si modificas elementos visuales. Esto agiliza la revisión y reduce los tiempos de despliegue [106, 108].
+
+---

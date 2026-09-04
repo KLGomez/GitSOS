@@ -1,0 +1,90 @@
+---
+title: "Introducción a CI/CD: Automatización para Ingenieros"
+description: "Descubre cómo integrar flujos automatizados de pruebas y despliegue usando GitHub Actions y GitLab CI/CD."
+---
+
+# Introducción a CI/CD: Automatización para Ingenieros
+
+En equipos de alto rendimiento, no basta con fusionar el código manualmente. Cada cambio debe ser verificado de forma automática para asegurar que no se introduzcan fallos (*bugs*) en producción [111]. A esta disciplina se le conoce como Integración y Despliegue Continuo (*CI/CD*).
+
+---
+
+## 1. ¿Qué es CI/CD?
+
+*   **Integración Continua (*continuous integration* o *CI*):** Es la práctica de automatizar la compilación, empaquetado y ejecución de pruebas unitarias cada vez que un miembro del equipo sube código o abre un Pull Request / Merge Request [106, 111].
+*   **Despliegue Continuo (*continuous delivery/deployment* o *CD*):** Es la automatización que toma el código que pasó todas las pruebas y lo publica automáticamente en los servidores de producción o pruebas sin intervención manual [112].
+
+---
+
+## 2. GitHub Actions: Flujos de Trabajo en YAML
+
+En **GitHub**, la automatización de CI/CD se gestiona mediante GitHub Actions utilizando archivos de configuración escritos en formato YAML [106]. Estos archivos de flujo de trabajo (*workflow files*) deben guardarse obligatoriamente en una carpeta especial en la raíz de tu proyecto: `.github/workflows/` [106].
+
+### Ejemplo de Configuración Básica en GitHub (`.github/workflows/test.yml`):
+```yaml
+name: Ejecutar Pruebas Automatizadas
+
+# Evento que dispara el flujo (cada vez que hay un push a la rama main)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Descargar Código
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Instalar Dependencias
+      run: npm ci
+
+    - name: Ejecutar Tests
+      run: npm test
+```
+
+---
+
+## 3. GitLab CI/CD: Automatización Nativa
+
+En **GitLab**, el motor de CI/CD está integrado de forma nativa desde su origen [108, 111]. Para definir los flujos de automatización, debes crear un único archivo YAML en la raíz del proyecto llamado obligatoriamente `.gitlab-ci.yml` [108].
+
+### Ejemplo de Configuración Básica en GitLab (`.gitlab-ci.yml`):
+```yaml
+# Definición de las etapas del pipeline
+stages:
+  - test
+
+# Nombre de la tarea
+ejecutar_pruebas:
+  stage: test
+  image: node:20
+  before_script:
+    - npm ci
+  script:
+    - npm test
+  only:
+    - main
+    - merge_requests
+```
+
+---
+
+## 4. El Ciclo de Vida del Pipeline
+
+Cuando subes tus archivos de configuración de CI/CD, tanto GitHub como GitLab detectarán automáticamente el archivo y ejecutarán el flujo de trabajo (*pipeline*) en servidores en la nube temporales (llamados *runners* o *workers*).
+
+Podrás ver el estado del pipeline directamente en la web de tu Pull Request / Merge Request:
+*   **Check Verde (Exitoso):** Indica que todas las pruebas pasaron de forma segura y el código está listo para ser fusionado [111].
+*   **Equis Roja (Fallo):** Indica que alguna prueba falló o el código no compila. La fusión se bloquea automáticamente para evitar dañar la versión de producción [111].
+
+> **💡 Consejo de Senior:** Diseña tus tareas de CI/CD para que fallen lo más rápido posible. Coloca las pruebas unitarias más rápidas al principio del flujo. Si hay algún error básico de formato o sintaxis, el pipeline fallará en segundos sin gastar minutos de servidor procesando compilaciones pesadas [111].
+
+---
