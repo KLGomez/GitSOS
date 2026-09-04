@@ -1,0 +1,79 @@
+---
+title: Glosario Técnico y Bibliografía Oficial
+description: El diccionario definitivo de términos de control de versiones y el respaldo bibliográfico de GitSOS.
+---
+
+# Glosario Técnico y Bibliografía Oficial
+
+Para consolidar tu aprendizaje en **GitSOS**, hemos reunido en este documento todos los términos técnicos clave utilizados a lo largo de los módulos, acompañados de sus definiciones formales respaldadas por la documentación oficial. Al final, encontrarás la bibliografía y las fuentes de verdad utilizadas para construir esta plataforma educativa.
+
+---
+
+## 1. Glosario Técnico de Ingeniería de Software
+
+### Conceptos de Arquitectura y Almacenamiento
+
+*   **Directorio de Trabajo (*working directory*):** El directorio físico en el disco duro de tu computadora que contiene una copia de una versión específica del proyecto [23]. Aquí es donde editas, creas y manipulas los archivos de tu código directamente antes de enviarlos a Git [23].
+*   **Área de Preparación (*staging area* o *index*):** Un archivo temporal, administrado por Git y generalmente ubicado dentro del directorio `.git`, que registra y agrupa la información sobre los cambios específicos que vas a incluir en tu próxima confirmación (*commit*) [24]. También sirve como espacio de preparación de múltiples versiones (*stages*) durante un proceso de fusión desatendido o en conflicto [100].
+*   **Repositorio Local (*local repository* o *Git directory*):** El corazón y la sección más importante de un proyecto Git [23]. Contiene los metadatos y la base de datos de objetos comprimidos donde se almacena de forma inmutable todo el historial de versiones de tu proyecto [23, 95].
+*   **Repositorio Remoto (*remote repository*):** Una versión de tu proyecto alojada en un servidor en la nube (como GitHub o GitLab) o en otra máquina de la red [5, 6]. Permite realizar copias de respaldo de tu repositorio local e interactuar con los cambios de otros desarrolladores [5, 108].
+*   **Base de Datos de Objetos (*object database*):** Estructura interna de Git que almacena los datos de tu historial en cuatro componentes principales comprimidos [95, 96]:
+    *   **Blobs (*blobs*):** Objetos de bajo nivel que contienen los datos y contenidos crudos de tus archivos (sin nombres ni metadatos de rutas) [96].
+    *   **Árboles (*trees*):** Objetos que apuntan a blobs y a otros árboles secundarios, recreando la estructura y jerarquía de carpetas y archivos de tu directorio de trabajo [96].
+    *   **Confirmaciones (*commits*):** Objetos que referencian a un árbol raíz específico y a una lista de confirmaciones padre para representar un paso en la línea de tiempo del proyecto [96].
+    *   **Etiquetas (*tags*):** Objetos opcionales que apuntan directamente a una confirmación para marcar un punto importante (como una versión del software) [97].
+*   **Suma de Comprobación SHA-1 (*SHA-1 checksum*):** Una cadena hexadecimal única de 40 caracteres (0-9, a-f) calculada en base al contenido de cada objeto en Git [20]. Garantiza la absoluta integridad de los datos, haciendo imposible modificar un archivo sin que Git lo detecte [19, 20].
+
+### Comandos y Operaciones Diarias
+
+*   **Comandos de Porcelana (*porcelain commands*):** Comandos fáciles de usar y orientados a la experiencia del desarrollador final, diseñados para las tareas cotidianas de control de versiones (ej. `git status`, `git add`, `git commit`) [27, 44].
+*   **Comandos de Plomería (*plumbing commands*):** Comandos de bajo nivel utilizados internamente por Git para interactuar con la base de datos de objetos (ej. `git cat-file`, `git hash-object`) [28, 47]. Tienen una sintaxis muy estable y son ideales para la creación de scripts [47].
+*   **Confirmación (*commit*):** La acción y el resultado de tomar una "copia instantánea" (*snapshot*) del estado de tus archivos preparados en el índice y guardarlos permanentemente en la base de datos de tu repositorio local [14, 24].
+*   **Rama (*branch*):** Un puntero o referencia móvil de texto simple que apunta al commit más reciente de una línea de desarrollo independiente [96, 98]. En Git, las ramas son extremadamente rápidas, ligeras y casi instantáneas de crear [15].
+*   **Fusión (*merge*):** El proceso técnico de integrar el historial de confirmaciones de una rama de desarrollo independiente dentro de otra rama activa [96].
+*   **Conflicto de Fusión (*merge conflict*):** Situación que ocurre cuando dos ramas modifican de manera diferente la misma línea de un mismo archivo, impidiendo que Git realice una fusión automática [100]. Requiere que un desarrollador limpie manualmente los marcadores antes de completar el commit de fusión [100].
+
+### Colaboración en la Nube
+
+*   **Bifurcación (*fork*):** Una copia completa de un repositorio de GitHub o GitLab que se crea en tu propia cuenta en la nube [106]. Te permite experimentar y modificar el código libremente sin peligro de alterar el repositorio original [106].
+*   **Solicitud de Incorporación de Cambios (*pull request*):** Concepto de colaboración nativo de **GitHub** mediante el cual informas a los mantenedores de un proyecto sobre los cambios que has subido a una rama y les pides formalmente fusionarlos en la rama principal [106].
+*   **Solicitud de Fusión (*merge request*):** El equivalente colaborativo de la solicitud de incorporación de cambios pero nativo de la plataforma **GitLab**, permitiendo revisar y discutir el código antes de la fusión [108].
+*   **Descarga de Datos (*fetch*):** Operación para descargar los últimos cambios, ramas e historial desde el servidor remoto hacia tu repositorio local sin alterar o fusionar nada en tu directorio de trabajo activo [27, 70].
+*   **Actualización Directa (*pull*):** Comando compuesto que realiza un fetch de metadatos remotos y los fusiona (*merge*) de forma automática en la rama activa en la que te encuentras posicionado [27].
+
+---
+
+## 2. Bibliografía y Fuentes Oficiales
+
+Todo el contenido didáctico desarrollado en la plataforma **GitSOS** se apoya estrictamente en la literatura de referencia y la documentación técnica de los creadores y líderes del ecosistema de desarrollo de software:
+
+### 1. Pro Git Book (2.ª Edición)
+*   **Título:** *Pro Git* de Scott Chacon y Ben Straub.
+*   **Propósito en GitSOS:** Es la fuente de verdad fundamental detrás de nuestro modelo mental [1, 12]. Proporciona los conceptos de almacenamiento en copias instantáneas (*snapshots*) [14], la descripción del estado de tres zonas [23, 24] y los diagramas lógicos de la arquitectura inmutable de Git [15].
+*   **Capítulos Clave Ingeridos:**
+    *   *Capítulo 1: Inicio y Fundamentos de Git* [2, 12].
+    *   *Capítulo 2: Guardando cambios en el Repositorio y Trabajo con Remotos* [3].
+    *   *Capítulo 3: Ramificaciones en Git (¿Qué es una rama?)* [4].
+
+### 2. Manual de Referencia de Git
+*   **Título:** *Git Reference Manual & User Manual* (Mantenido por Junio C Hamano y la comunidad de código abierto de Git) [31, 104].
+*   **Propósito en GitSOS:** Estándar técnico utilizado para garantizar la precisión de cada comando de consola y variable de entorno [27, 28, 31]. De aquí derivamos las explicaciones de la diferencia entre comandos de porcelana y de plomería [44, 47], la seguridad del repositorio y el uso de firmas hash SHA-1 [19, 97].
+*   **Secciones Consultadas:**
+    *   *SINOPSIS y OPCIONES del núcleo de Git* [30, 32].
+    *   *Guía del Usuario de Conceptos Internos de Git* [95, 103].
+
+### 3. Documentación Oficial de GitHub
+*   **Título:** *GitHub Docs Portal* (GitHub, Inc.) [105].
+*   **Propósito en GitSOS:** Base metodológica para explicar flujos de trabajo colaborativos modernos [106]. Aporta las directrices de configuración de cuentas, autenticación mediante SSH e HTTPS [105], y la creación de flujos de integración y despliegue automatizado con **GitHub Actions** [106].
+*   **Áreas Ingeridas:** *Código colaborativo y flujos de solicitudes de incorporación de cambios (Pull Requests)* [106].
+
+### 4. Documentación Oficial de GitLab
+*   **Título:** *GitLab Documentation Hub* (GitLab, B.V.) [108].
+*   **Propósito en GitSOS:** Utilizado como referencia para el desarrollo del flujo cooperativo avanzado y solicitudes de fusión (*Merge Requests*) [108], además de la sintaxis estricta y flujos de configuración del archivo de automatización integrada en **GitLab CI/CD** [111].
+*   **Secciones Consultadas:** *Get started with Git & GitLab CI/CD workflows* [110, 111].
+
+---
+
+> **💡 Consejo de Senior:** Nunca dependas de tutoriales de terceros que puedan estar obsoletos. Los manuales oficiales de Git, GitHub y GitLab se actualizan continuamente con cada versión estable [29, 108]. Acostúmbrate a ejecutar `git help <comando>` en tu propia terminal para obtener la documentación detallada del comportamiento local exacto de tu versión de Git [31].
+
+---
