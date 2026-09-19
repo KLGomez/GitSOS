@@ -23,33 +23,115 @@ const docs = rawDocs
   </head>
   <body class="bg-slate-950 m-0 p-0 text-slate-200">
     <GitSOSInterface client:load docs={docs}>
-      <header class="mb-10">
-        <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+      <header class="mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-4">
+          <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+          Guía Interactiva para Developers Junior
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 font-bold mb-4">
           Bienvenido a GitSOS
-        </h2>
-        <p class="text-lg text-slate-400">
-          La guía interactiva de Git y GitHub para desarrolladores junior.
+        </h1>
+        <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+          Domina el control de versiones sin frustraciones. Aprende la arquitectura interna de Git, las buenas prácticas de colaboración y cómo salir de cualquier emergencia técnica.
         </p>
       </header>
       
-      <div class="prose prose-invert prose-slate max-w-none">
-        <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-8 backdrop-blur-sm shadow-sm">
-          <h3 class="text-2xl font-semibold text-white mb-4">Empezando con tu repositorio</h3>
-          <p class="text-slate-300 leading-relaxed mb-6">
-            Git no tiene por qué ser intimidante. Imagina a Git como una máquina del tiempo para tu código.
-            Cada <code class="bg-slate-950 px-1.5 py-0.5 rounded text-indigo-300 font-mono text-sm border border-slate-800">commit</code> es una foto instantánea que te permite volver atrás si las cosas salen mal. 
-            En este recorrido, aprenderemos desde lo más básico hasta cómo salir de apuros cuando tu rama parece un desastre.
-          </p>
-          <p class="text-slate-300 leading-relaxed mb-6">
-            Selecciona una lección en el menú de la izquierda para comenzar. Si alguna vez te sientes perdido o tienes una emergencia con tu código, ¡abre el chat de rescate en la esquina inferior derecha y nuestro Senior Dev te ayudará a solucionarlo!
-          </p>
-          <div class="pt-2 flex flex-wrap gap-4">
-            <a 
-              href="/docs/modelo-mental" 
-              class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2.5 rounded-lg transition-colors shadow-sm"
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Tarjeta 1: Entiende el Modelo Mental -->
+        <a 
+          href="/docs/modelo-mental" 
+          class="group p-6 bg-slate-900/50 border border-slate-800 rounded-xl hover:border-indigo-500/50 hover:bg-slate-800 transition-all flex flex-col justify-between shadow-sm"
+        >
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain">
+                <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+                <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+                <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                <path d="M12 18v4"/>
+                <path d="M8 22h8"/>
+              </svg>
+            </div>
+            <h2 class="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
+              Entiende el Modelo Mental
+            </h2>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Comprende cómo almacena Git tus archivos en snapshots, la diferencia entre local y la nube, y domina las tres zonas de control de versiones.
+            </p>
+          </div>
+          <div class="mt-6 flex items-center text-sm font-medium text-indigo-400 group-hover:text-indigo-300 transition-colors">
+            <span>Comenzar aprendizaje</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5 group-hover:translate-x-1 transition-transform">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Tarjeta 2: Sala de Emergencias -->
+        <a 
+          href="/docs/sala-emergencias" 
+          class="group p-6 bg-slate-900/50 border border-slate-800 rounded-xl hover:border-indigo-500/50 hover:bg-slate-800 transition-all flex flex-col justify-between shadow-sm"
+        >
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mb-4 group-hover:scale-105 group-hover:bg-rose-500/20 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-life-buoy">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m4.93 4.93 4.24 4.24"/>
+                <path d="m14.83 9.17 4.24-4.24"/>
+                <path d="m14.83 14.83 4.24 4.24"/>
+                <path d="m9.17 14.83-4.24 4.24"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <h2 class="text-xl font-bold text-white group-hover:text-rose-300 transition-colors mb-2">
+              Sala de Emergencias
+            </h2>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Soluciones inmediatas para apuros comunes: commit en la rama equivocada, archivos .env subidos por error y resolución de merge conflicts.
+            </p>
+          </div>
+          <div class="mt-6 flex items-center text-sm font-medium text-rose-400 group-hover:text-rose-300 transition-colors">
+            <span>Ver primeros auxilios</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5 group-hover:translate-x-1 transition-transform">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Banner del Asistente IA (Full Width) -->
+        <div class="col-span-1 md:col-span-2 p-6 md:p-8 rounded-xl border border-indigo-500/30 bg-indigo-900/10 backdrop-blur-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-lg shadow-indigo-950/20">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 flex-shrink-0 mt-1 sm:mt-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle">
+                <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Asistente de Rescate
+              </div>
+              <h2 class="text-xl md:text-2xl font-bold text-white mb-2">
+                ¿Rompiste tu rama?
+              </h2>
+              <p class="text-slate-300 text-sm md:text-base max-w-xl leading-relaxed">
+                ¿Rompiste tu rama? Abre el chat de rescate y un Senior Dev te guiará paso a paso para solucionar cualquier problema sin perder tu código.
+              </p>
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full sm:w-auto">
+            <button 
+              type="button" 
+              onclick="document.querySelector('.fixed.bottom-6.right-6 button')?.click()"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-3 rounded-lg transition-all shadow-md shadow-indigo-900/30 hover:scale-105 active:scale-95 cursor-pointer"
             >
-              Comenzar con: El Modelo Mental →
-            </a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Abrir Chat de Rescate</span>
+            </button>
           </div>
         </div>
       </div>
