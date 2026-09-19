@@ -20,6 +20,25 @@
   background-color: #6366f1; /* indigo-500 al pasar el mouse */
 }
 
+/* Custom Scrollbar para el Sidebar */
+.scrollbar-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b transparent; /* slate-800 */
+}
+.scrollbar-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-sidebar::-webkit-scrollbar-thumb {
+  background-color: #1e293b; /* slate-800 */
+  border-radius: 20px;
+}
+.scrollbar-sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #475569; /* slate-600 */
+}
+
 /* Estilos base para bloques de código y diagramas ASCII en MDX */
 .prose pre {
   @apply relative pt-12 pb-4 px-4 bg-slate-950 rounded-xl border border-slate-800 overflow-x-auto max-w-[85vw] sm:max-w-full text-xs sm:text-sm font-mono leading-relaxed shadow-lg mb-6;

@@ -1,4 +1,4 @@
-﻿---
+---
 import { getCollection } from 'astro:content';
 
 const rawDocs = await getCollection('docs');
@@ -10,7 +10,7 @@ const docs = rawDocs
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+<nav class="flex-1 pl-4 pr-3 py-6 space-y-1.5 overflow-y-auto scrollbar-sidebar">
   <a 
     href="/" 
     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all group"
