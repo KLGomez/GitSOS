@@ -1,8 +1,17 @@
 ---
 import '../styles/global.css';
 import GitSOSInterface from '../components/GitSOSInterface.tsx';
+import { getCollection } from 'astro:content';
 
 const { frontmatter } = Astro.props;
+
+const rawDocs = await getCollection('docs');
+const docs = rawDocs
+  .map((doc) => ({
+    ...doc,
+    slug: doc.slug ?? doc.id,
+  }))
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 ---
 
 <!doctype html>
@@ -15,7 +24,7 @@ const { frontmatter } = Astro.props;
     <title>{frontmatter?.title ? `${frontmatter.title} - GitSOS` : 'GitSOS Docs'}</title>
   </head>
   <body class="bg-slate-950 m-0 p-0 text-slate-200">
-    <GitSOSInterface client:load>
+    <GitSOSInterface client:load docs={docs}>
       <article class="prose prose-invert max-w-none">
         <slot />
       </article>
