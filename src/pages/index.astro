@@ -1,6 +1,15 @@
 ---
 import '../styles/global.css';
 import GitSOSInterface from '../components/GitSOSInterface';
+import { getCollection } from 'astro:content';
+
+const rawDocs = await getCollection('docs');
+const docs = rawDocs
+  .map((doc) => ({
+    ...doc,
+    slug: doc.slug ?? doc.id,
+  }))
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 ---
 
 <html lang="es">
@@ -13,7 +22,7 @@ import GitSOSInterface from '../components/GitSOSInterface';
     <meta name="description" content="Guía definitiva de Git y GitHub para desarrolladores junior con chatbot de rescate en tiempo real." />
   </head>
   <body class="bg-slate-950 m-0 p-0 text-slate-200">
-    <GitSOSInterface client:load>
+    <GitSOSInterface client:load docs={docs}>
       <header class="mb-10">
         <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
           Bienvenido a GitSOS

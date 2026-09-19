@@ -1,12 +1,47 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Brain, Repeat, GitMerge, LifeBuoy, Send, MessageCircle, GitBranch, User, Home, Menu, X, Copy, Check, Cloud, GitPullRequest, Workflow } from 'lucide-react';
+import { Brain, Repeat, GitMerge, LifeBuoy, Send, MessageCircle, GitBranch, User, Home, Menu, X, Copy, Check, Cloud, GitPullRequest, Workflow, BookOpen } from 'lucide-react';
 import { useChat } from '@ai-sdk/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+export interface DocItem {
+  id: string;
+  slug?: string;
+  data: {
+    title: string;
+    description?: string;
+    order?: number;
+    category?: string;
+  };
+}
+
 interface GitSOSInterfaceProps {
   children?: React.ReactNode;
+  docs?: DocItem[];
 }
+
+const getDocIcon = (slug: string) => {
+  switch (slug) {
+    case 'modelo-mental':
+      return <Brain size={20} />;
+    case 'flujo-diario':
+      return <Repeat size={20} />;
+    case 'colaboracion-remota':
+      return <Cloud size={20} />;
+    case 'flujo-ramas-nube':
+      return <GitPullRequest size={20} />;
+    case 'multiverso-despliegues':
+      return <GitMerge size={20} />;
+    case 'introduccion-cicd':
+      return <Workflow size={20} />;
+    case 'sala-emergencias':
+      return <LifeBuoy size={20} />;
+    case 'glosario-bibliografia':
+      return <BookOpen size={20} />;
+    default:
+      return <BookOpen size={20} />;
+  }
+};
 
 const quickActions = [
   "Subí un archivo .env",
@@ -66,7 +101,7 @@ const ChatCodeBlock: React.FC<React.HTMLAttributes<HTMLPreElement>> = ({ childre
   );
 };
 
-const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
+const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => {
   const [chatOpen, setChatOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [chatInput, setChatInput] = useState('');
@@ -142,13 +177,18 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children }) => {
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
           <NavItem href="/" icon={<Home size={20} />} text="Inicio" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/modelo-mental" icon={<Brain size={20} />} text="El Modelo Mental" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/flujo-diario" icon={<Repeat size={20} />} text="El Flujo Diario" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/colaboracion-remota" icon={<Cloud size={20} />} text="Colaboración Remota" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/flujo-ramas-nube" icon={<GitPullRequest size={20} />} text="Flujo de Ramas en la Nube" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/multiverso-despliegues" icon={<GitMerge size={20} />} text="Multiverso y Despliegues" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/introduccion-cicd" icon={<Workflow size={20} />} text="Introducción a CI/CD" onClick={() => setIsMobileMenuOpen(false)} />
-          <NavItem href="/docs/sala-emergencias" icon={<LifeBuoy size={20} />} text="La Sala de Emergencias" onClick={() => setIsMobileMenuOpen(false)} />
+          {docs?.map((doc) => {
+            const slug = doc.slug ?? doc.id;
+            return (
+              <NavItem
+                key={slug}
+                href={`/docs/${slug}`}
+                icon={getDocIcon(slug)}
+                text={doc.data.title}
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+            );
+          })}
         </nav>
         <div className="p-4 text-xs text-slate-500 text-center border-t border-slate-800/50">
           v1.0.0-beta

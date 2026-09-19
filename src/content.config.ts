@@ -8,6 +8,8 @@ const docs = defineCollection({
       required_error: 'El campo "title" es obligatorio en el frontmatter del documento MDX.',
     }),
     description: z.string().optional(),
+    order: z.number().optional(),
+    category: z.string().optional(),
   }),
 });
 
