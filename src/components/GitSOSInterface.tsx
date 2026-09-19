@@ -175,7 +175,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
             <X size={20} />
           </button>
         </div>
-        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <nav className="flex-1 pl-4 pr-3 py-6 space-y-1.5 overflow-y-auto scrollbar-sidebar">
           <NavItem href="/" icon={<Home size={20} />} text="Inicio" onClick={() => setIsMobileMenuOpen(false)} />
           {docs?.map((doc) => {
             const slug = doc.slug ?? doc.id;
