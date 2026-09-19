@@ -7,15 +7,15 @@ category: "Avanzado"
 
 # El Multiverso de los Despliegues: Ramas y Fusiones
 
-Uno de los superpoderes más grandes de Git es su sistema de ramificaciones (*branching system*) [4, 15]. A diferencia de otros sistemas de control de versiones antiguos donde duplicar el código era lento y costoso, en Git las ramas son increíblemente ligeras y rápidas, permitiéndote experimentar con total seguridad [12, 15, 16].
+Uno de los superpoderes más grandes de Git es su sistema de ramificaciones (*branching system*). A diferencia de otros sistemas de control de versiones antiguos donde duplicar el código era lento y costoso, en Git las ramas son increíblemente ligeras y rápidas, permitiéndote experimentar con total seguridad.
 
 ---
 
 ## 1. El Concepto de Aislamiento mediante Ramas
 
-Una rama (*branch*) representa una línea de tiempo o línea de desarrollo independiente dentro de tu proyecto [95, 96]. 
+Una rama (*branch*) representa una línea de tiempo o línea de desarrollo independiente dentro de tu proyecto. 
 
-Imagina que la rama principal (generalmente llamada `main` o `master`) es el tronco de un árbol que contiene el código estable que ya está en producción. Si quieres agregar una nueva funcionalidad o corregir un error, en lugar de modificar el código directamente en el tronco, creas una ramificación secundaria. Esto aísla tu desarrollo y garantiza que, pase lo que pase en tu experimento, la versión estable de producción nunca se romperá [15].
+Imagina que la rama principal (generalmente llamada `main` o `master`) es el tronco de un árbol que contiene el código estable que ya está en producción. Si quieres agregar una nueva funcionalidad o corregir un error, en lugar de modificar el código directamente en el tronco, creas una ramificación secundaria. Esto aísla tu desarrollo y garantiza que, pase lo que pase en tu experimento, la versión estable de producción nunca se romperá.
 
 ---
 
@@ -45,7 +45,7 @@ Para crear una rama nueva y moverte a ella inmediatamente en un solo paso, puede
 
 ## 3. Uniendo los Historiales: `git merge`
 
-Cuando tu desarrollo en la rama secundaria esté terminado, probado y listo para producción, es hora de incorporar esos cambios de vuelta a la rama principal. A este proceso se le llama fusión (*merge*) [96].
+Cuando tu desarrollo en la rama secundaria esté terminado, probado y listo para producción, es hora de incorporar esos cambios de vuelta a la rama principal. A este proceso se le llama fusión (*merge*).
 
 Para realizar la fusión, primero debes posicionarte en la rama que recibirá los cambios (el destino, normalmente `main`) y luego solicitar la fusión de la rama secundaria:
 
@@ -61,7 +61,7 @@ git merge feat/nueva-vista
 
 ## 4. Manteniendo tu Código al Día: `git pull`
 
-Cuando trabajas en equipo, tus compañeros subirán cambios constantemente al servidor remoto en GitHub o GitLab [6, 108]. Tu repositorio local comenzará a quedar desactualizado.
+Cuando trabajas en equipo, tus compañeros subirán cambios constantemente al servidor remoto en GitHub o GitLab. Tu repositorio local comenzará a quedar desactualizado.
 
 Para traer las últimas copias instantáneas (*snapshots*) desde el servidor remoto y fusionarlas automáticamente con tu código local actual, utiliza:
 
@@ -69,8 +69,8 @@ Para traer las últimas copias instantáneas (*snapshots*) desde el servidor rem
 git pull origin main
 ```
 
-Este comando realiza internamente un fetch (*git fetch*) para descargar la información de la nube y luego una fusión (*git merge*) para integrar esos cambios en tu rama local activa [27].
+Este comando realiza internamente un fetch (*git fetch*) para descargar la información de la nube y luego una fusión (*git merge*) para integrar esos cambios en tu rama local activa.
 
-> **💡 Consejo de Senior:** En Git, las ramas son simplemente archivos de texto ligeros que contienen un hash de 40 caracteres apuntando a un commit [98]. No temas crear ramas para cada pequeña funcionalidad o corrección de error (*bugfix*); es un proceso instantáneo y de costo casi nulo que mantiene la línea principal a salvo [15, 16].
+> **💡 Consejo de Senior:** En Git, las ramas son simplemente archivos de texto ligeros que contienen un hash de 40 caracteres apuntando a un commit. No temas crear ramas para cada pequeña funcionalidad o corrección de error (*bugfix*); es un proceso instantáneo y de costo casi nulo que mantiene la línea principal a salvo.
 
 ---

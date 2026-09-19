@@ -7,25 +7,25 @@ category: "Fundamentos"
 
 # El Flujo de Trabajo Diario: Inicializar, Guardar y Sincronizar Código
 
-Para dominar Git en tu día a día, necesitas entender cómo iniciar tus proyectos, guardar tus cambios localmente y mantener sincronizado tu trabajo con la nube (*remote repository*) [16, 105].
+Para dominar Git en tu día a día, necesitas entender cómo iniciar tus proyectos, guardar tus cambios localmente y mantener sincronizado tu trabajo con la nube (*remote repository*).
 
 ---
 
 ## 1. Obteniendo un Repositorio: `git init` vs. `git clone`
 
-Antes de que Git pueda rastrear cualquier cambio, debes obtener o crear un repositorio [3, 27]. Tienes dos caminos para lograr esto:
+Antes de que Git pueda rastrear cualquier cambio, debes obtener o crear un repositorio. Tienes dos caminos para lograr esto:
 
 ### Opción A: Inicializar un proyecto local desde cero (*initialize repository*)
-Si tienes una carpeta de código en tu computadora y quieres empezar a controlar sus versiones con Git, posiciónate en esa carpeta dentro de tu terminal y ejecuta [27]:
+Si tienes una carpeta de código en tu computadora y quieres empezar a controlar sus versiones con Git, posiciónate en esa carpeta dentro de tu terminal y ejecuta:
 
 ```bash
 git init
 ```
 
-Este comando inicializa (*initializes*) un nuevo repositorio y crea una carpeta oculta llamada `.git` en la raíz de tu proyecto [39, 95]. Esta carpeta contiene toda la base de datos de objetos comprimidos e historiales de Git [23, 95]. **¡No la borres!**
+Este comando inicializa (*initializes*) un nuevo repositorio y crea una carpeta oculta llamada `.git` en la raíz de tu proyecto. Esta carpeta contiene toda la base de datos de objetos comprimidos e historiales de Git. **¡No la borres!**
 
 ### Opción B: Clonar un proyecto existente (*clone repository*)
-Si el proyecto ya existe en un servidor remoto como GitHub o GitLab, no necesitas inicializarlo. En su lugar, descargas una copia exacta y completa del repositorio (incluyendo todo su historial de versiones) a tu máquina local usando [23, 27, 102]:
+Si el proyecto ya existe en un servidor remoto como GitHub o GitLab, no necesitas inicializarlo. En su lugar, descargas una copia exacta y completa del repositorio (incluyendo todo su historial de versiones) a tu máquina local usando:
 
 ```bash
 git clone https://github.com/usuario/nombre-del-proyecto.git
@@ -35,32 +35,32 @@ git clone https://github.com/usuario/nombre-del-proyecto.git
 
 ## 2. El Ciclo de Vida del Código en Solitario
 
-Una vez que tu repositorio está listo, tu trabajo diario fluirá de manera natural a través de las tres zonas principales de Git [24]:
+Una vez que tu repositorio está listo, tu trabajo diario fluirá de manera natural a través de las tres zonas principales de Git:
 
-1.  **Modificar:** Creas o editas archivos en tu directorio de trabajo (*working directory*) [23, 24].
-2.  **Preparar:** Seleccionas qué cambios específicos están listos para tu confirmación e indexas esos archivos en el área de preparación (*staging area* o *index*) [24].
-3.  **Confirmar:** Tomas la copia instantánea permanente (*snapshot*) guardándola de forma segura en tu repositorio local (*local repository*) [14, 24].
+1.  **Modificar:** Creas o editas archivos en tu directorio de trabajo (*working directory*).
+2.  **Preparar:** Seleccionas qué cambios específicos están listos para tu confirmación e indexas esos archivos en el área de preparación (*staging area* o *index*).
+3.  **Confirmar:** Tomas la copia instantánea permanente (*snapshot*) guardándola de forma segura en tu repositorio local (*local repository*).
 
 ---
 
 ## 3. Diagnóstico Constante: El comando `git status`
 
-Nunca trabajes a ciegas en tu terminal. El comando de diagnóstico más importante de tu día a día es [27]:
+Nunca trabajes a ciegas en tu terminal. El comando de diagnóstico más importante de tu día a día es:
 
 ```bash
 git status
 ```
 
-Este comando inspecciona tu árbol de trabajo (*working tree*) y te da un diagnóstico preciso del estado del proyecto [27, 91]. Te mostrará:
-*   Qué archivos han sido modificados pero aún no se han preparado (*modified*) [22].
-*   Qué archivos están listos para confirmarse en el área de preparación (*staged*) [22, 25].
-*   Qué archivos nuevos están en tu carpeta pero que Git aún no rastrea (*untracked files*) [22, 25].
+Este comando inspecciona tu árbol de trabajo (*working tree*) y te da un diagnóstico preciso del estado del proyecto. Te mostrará:
+*   Qué archivos han sido modificados pero aún no se han preparado (*modified*).
+*   Qué archivos están listos para confirmarse en el área de preparación (*staged*).
+*   Qué archivos nuevos están en tu carpeta pero que Git aún no rastrea (*untracked files*).
 
 ---
 
 ## 4. Preparando Cambios: `git add`
 
-Para mover tus modificaciones desde el directorio de trabajo hacia el área de preparación (*staging area*), utilizas el comando `git add` [24, 27]. Tienes dos formas principales de hacerlo:
+Para mover tus modificaciones desde el directorio de trabajo hacia el área de preparación (*staging area*), utilizas el comando `git add`. Tienes dos formas principales de hacerlo:
 
 *   **Añadir un archivo específico:** Es la forma recomendada para mantener confirmaciones limpias y enfocadas.
     ```bash
@@ -75,9 +75,9 @@ Para mover tus modificaciones desde el directorio de trabajo hacia el área de p
 
 ## 5. Guardando Cambios Localmente: `git commit -m`
 
-Cuando tus archivos ya están en el área de preparación (*staging area*), es hora de consolidarlos en el historial con un commit (*commit*) [24]. Un commit es una copia instantánea inmutable (*snapshot*) de tu código en ese preciso instante [14].
+Cuando tus archivos ya están en el área de preparación (*staging area*), es hora de consolidarlos en el historial con un commit (*commit*). Un commit es una copia instantánea inmutable (*snapshot*) de tu código en ese preciso instante.
 
-Para crear una confirmación básica con un mensaje explicativo, utiliza [24]:
+Para crear una confirmación básica con un mensaje explicativo, utiliza:
 
 ```bash
 git commit -m "feat: agregar sistema de autenticacion de usuarios"
@@ -95,41 +95,41 @@ Para que tu historial de confirmaciones (*commit history*) sea legible y profesi
 
 ## 6. Sincronización y Trabajo con Repositorios Remotos
 
-Los repositorios remotos (*remote repositories*) son copias de tu proyecto hospedadas en internet (en plataformas como GitHub o GitLab) que permiten la colaboración y sirven como respaldo de tu código [5, 6, 16].
+Los repositorios remotos (*remote repositories*) son copias de tu proyecto hospedadas en internet (en plataformas como GitHub o GitLab) que permiten la colaboración y sirven como respaldo de tu código.
 
 ### Vincular un repositorio local a uno remoto (*add remote*)
-Si iniciaste tu repositorio en local con `git init`, necesitas decirle a Git a qué servidor en la nube debe conectarse [27]:
+Si iniciaste tu repositorio en local con `git init`, necesitas decirle a Git a qué servidor en la nube debe conectarse:
 
 ```bash
 git remote add origin https://github.com/usuario/nombre-del-proyecto.git
 ```
 
-*(Nota: `origin` es el nombre estándar que Git le asigna a tu conexión con el servidor remoto principal, pero puedes tener múltiples conexiones remetidas) [27, 70].*
+*(Nota: `origin` es el nombre estándar que Git le asigna a tu conexión con el servidor remoto principal, pero puedes tener múltiples conexiones remetidas).*
 
 ### Verificar conexiones remotas (*view remotes*)
-Para asegurarte de que tu repositorio local está apuntando correctamente al servidor de alojamiento remoto [27]:
+Para asegurarte de que tu repositorio local está apuntando correctamente al servidor de alojamiento remoto:
 
 ```bash
 git remote -v
 ```
 
 ### Subir tus cambios por primera vez (*push*)
-Una vez creado tu commit local, envíalo a la nube con [27, 70]:
+Una vez creado tu commit local, envíalo a la nube con:
 
 ```bash
 git push -u origin main
 ```
 
-*(La bandera `-u` u *upstream* brinda una vinculación entre tu rama local `main` y la rama remota de `origin`, permitiendo que en los siguientes envíos solo necesites escribir `git push` [27, 70, 91]).*
+*(La bandera `-u` u *upstream* brinda una vinculación entre tu rama local `main` y la rama remota de `origin`, permitiendo que en los siguientes envíos solo necesites escribir `git push`).*
 
 ### Obtener y Fusionar Actualizaciones (*fetch and pull*)
-Si trabajas en equipo, tus compañeros subirán confirmaciones al servidor remoto. Tienes dos maneras de descargar esa información [27]:
+Si trabajas en equipo, tus compañeros subirán confirmaciones al servidor remoto. Tienes dos maneras de descargar esa información:
 
-1.  **`git fetch` (Descarga segura):** Descarga los metadatos e historial de cambios del servidor remoto pero **no modifica** tu directorio de trabajo actual [27, 70]. Te permite revisar qué hay de nuevo sin alterar tu código activo.
+1.  **`git fetch` (Descarga segura):** Descarga los metadatos e historial de cambios del servidor remoto pero **no modifica** tu directorio de trabajo actual. Te permite revisar qué hay de nuevo sin alterar tu código activo.
     ```bash
     git fetch origin
     ```
-2.  **`git pull` (Descarga y fusión):** Descarga los cambios de la nube y los fusiona (*merge*) inmediatamente en tu rama local activa [27]. Es el equivalente a ejecutar un `fetch` seguido de un `merge`.
+2.  **`git pull` (Descarga y fusión):** Descarga los cambios de la nube y los fusiona (*merge*) inmediatamente en tu rama local activa. Es el equivalente a ejecutar un `fetch` seguido de un `merge`.
     ```bash
     git pull origin main
     ```
