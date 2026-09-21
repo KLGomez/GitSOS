@@ -12,7 +12,7 @@
 ---
 
 <p align="center">
-  <img src="./public/preview.jpg" alt="GitSOS Dashboard y Asistente de Rescate IA" width="100%" style="border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
+  <img src="./public/preview.png" alt="GitSOS Dashboard y Asistente de Rescate IA" width="100%" style="border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
 </p>
 
 ---
@@ -134,11 +134,11 @@ GitSOS/
 ├── docs/                         # Documentación técnica interna y especificaciones
 │   ├── arquitectura-asistente.md # Diseño técnico del pipeline del chatbot y prompts
 │   ├── especificacion-proyecto.md# Especificación funcional, modelo mental y roadmap
-│   └── preview.jpg               # Captura de pantalla de la interfaz para documentación
+│   └── preview.png               # Captura de pantalla de la interfaz para documentación
 │
 ├── public/                       # Recursos estáticos servidos directamente
 │   ├── favicon.svg               # Isotipo vectorial de GitSOS
-│   └── preview.jpg               # Previsualización en alta resolución de la UI
+│   └── preview.png               # Previsualización en alta resolución de la UI
 │
 └── src/
     ├── components/               # Componentes de UI e Islas de React
