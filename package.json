@@ -1,7 +1,10 @@
 {
-  "name": "steadfast-series",
+  "name": "gitsos",
+  "version": "1.0.0",
+  "description": "Guía interactiva de Git y GitHub para desarrolladores junior con asistente de rescate impulsado por IA.",
+  "author": "Katherine Gomez",
+  "license": "MIT",
   "type": "module",
-  "version": "0.0.1",
   "engines": {
     "node": ">=22.12.0"
   },
