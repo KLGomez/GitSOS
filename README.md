@@ -5,9 +5,15 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI_SDK-v7-black?style=flat-square&logo=vercel&logoColor=white)](https://sdk.vercel.ai/)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.6_Flash-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg?style=flat-square)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg?style=flat-square)](./LICENSE)
 
-> **GitSOS** es una plataforma interactiva y asistente inteligente diseñada para transformar la curva de aprendizaje de Git y GitHub en una experiencia clara, empática y libre de frustraciones para desarrolladores junior y estudiantes.
+> **GitSOS** es una plataforma interactiva y asistente inteligente diseñada para transformar la curva de aprendizaje de Git y GitHub en una experiencia visual, clara y libre de frustraciones para desarrolladores junior y estudiantes de tecnología.
+
+---
+
+<p align="center">
+  <img src="./public/preview.jpg" alt="GitSOS Dashboard y Asistente de Rescate IA" width="100%" style="border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
+</p>
 
 ---
 
@@ -18,8 +24,8 @@
 - [🛠️ Stack Tecnológico](#️-stack-tecnológico)
 - [🏛️ Arquitectura del Sistema](#️-arquitectura-del-sistema)
 - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
+- [🧭 Módulos de Aprendizaje (8 Rutas Anti-Frustración)](#-módulos-de-aprendizaje-8-rutas-anti-frustración)
 - [⚡ Instalación y Uso Local](#-instalación-y-uso-local)
-- [🧭 Rutas Anti-Frustración (Contenido)](#-rutas-anti-frustración-contenido)
 - [👩‍💻 Autora](#-autora)
 - [📄 Licencia](#-licencia)
 
@@ -30,7 +36,7 @@
 El control de versiones es una de las competencias más críticas del desarrollo de software moderno, pero también representa una de las mayores fuentes de ansiedad para quienes dan sus primeros pasos en la industria. Conceptos abstractos como el árbol de commits, la disociación entre local y remoto o los temidos *merge conflicts* suelen generar bloqueos y pérdida accidental de trabajo.
 
 **GitSOS** aborda este desafío desde dos frentes complementarios:
-1. **Didáctica Visual Basada en Casos Reales:** Documentación modular estructurada en "Rutas Anti-Frustración", enriquecida con diagramas interactivos de las zonas de Git y explicaciones respaldadas por los estándares de [git-scm.com](https://git-scm.com).
+1. **Didáctica Visual Basada en Casos Reales:** Documentación modular estructurada en 8 rutas de aprendizaje paso a paso, enriquecida con diagramas interactivos de las zonas de Git y explicaciones respaldadas por los estándares oficiales de [git-scm.com](https://git-scm.com).
 2. **Asistencia en Tiempo Real (Senior AI Companion):** Un chatbot contextual alimentado por Google Gemini que diagnostica errores, entrega comandos precisos y ofrece contención técnica paso a paso ante cualquier emergencia en la terminal.
 
 ---
@@ -118,22 +124,30 @@ El control de versiones es una de las competencias más críticas del desarrollo
 
 ```text
 GitSOS/
-├── .env.example                 # Plantilla de variables de entorno requeridas
-├── astro.config.mjs             # Configuración de Astro, Tailwind (Vite), React y Vercel
-├── package.json                 # Dependencias y scripts de ejecución
-├── tsconfig.json                # Configuración de TypeScript
+├── .env.example                  # Plantilla de variables de entorno requeridas
+├── AGENTS.md                     # Directrices operativas de desarrollo para agentes IA
+├── astro.config.mjs              # Configuración de Astro, Tailwind (Vite), React y Vercel
+├── LICENSE                       # Licencia MIT oficial
+├── package.json                  # Metadatos del proyecto, scripts y dependencias
+├── tsconfig.json                 # Configuración de compilación TypeScript
 │
-├── public/                      # Recursos estáticos servidos directamente
-│   └── favicon.svg              # Isotipo oficial de GitSOS
+├── docs/                         # Documentación técnica interna y especificaciones
+│   ├── arquitectura-asistente.md # Diseño técnico del pipeline del chatbot y prompts
+│   ├── especificacion-proyecto.md# Especificación funcional, modelo mental y roadmap
+│   └── preview.jpg               # Captura de pantalla de la interfaz para documentación
+│
+├── public/                       # Recursos estáticos servidos directamente
+│   ├── favicon.svg               # Isotipo vectorial de GitSOS
+│   └── preview.jpg               # Previsualización en alta resolución de la UI
 │
 └── src/
-    ├── components/              # Componentes de UI e Islas de React
-    │   ├── GitSOSInterface.tsx  # Layout principal interactivo: Sidebar, Header y Chatbot IA
-    │   ├── GitZonesDiagram.tsx  # Diagrama interactivo de las 3 Zonas de Git para MDX
-    │   └── Sidebar.astro        # Componente auxiliar de navegación
+    ├── components/               # Componentes de UI e Islas de React
+    │   ├── GitSOSInterface.tsx   # Layout principal interactivo: Sidebar, Header y Chatbot IA
+    │   ├── GitZonesDiagram.tsx   # Diagrama interactivo de las 3 Zonas de Git para MDX
+    │   └── Sidebar.astro         # Componente auxiliar de navegación
     │
-    ├── content/                 # Colecciones de contenido y documentación técnica
-    │   └── docs/                # Artículos en formato MDX estructurados por módulos
+    ├── content/                  # Colecciones de contenido y documentación técnica
+    │   └── docs/                 # Los 8 módulos pedagógicos en formato MDX
     │       ├── modelo-mental.mdx
     │       ├── flujo-diario.mdx
     │       ├── colaboracion-remota.mdx
@@ -143,21 +157,35 @@ GitSOS/
     │       ├── sala-emergencias.mdx
     │       └── glosario-bibliografia.mdx
     │
-    ├── content.config.ts        # Definición de colecciones y validación de esquemas (Zod)
-    │
-    ├── layouts/                 # Plantillas de envoltura para páginas
-    │   └── DocLayout.astro      # Layout base para la renderización de artículos MDX
-    │
-    ├── pages/                   # Enrutamiento de la aplicación
+    ├── content.config.ts         # Definición de colecciones y validación de esquemas (Zod)
+    ├── layouts/                  # Plantillas de envoltura para páginas
+    │   └── DocLayout.astro       # Layout base para la renderización de artículos MDX
+    ├── pages/                    # Enrutamiento de la aplicación (SSR + SSG)
     │   ├── api/
-    │   │   └── chat.ts          # Endpoint SSR para streaming de chat con Gemini
+    │   │   └── chat.ts           # Endpoint SSR para streaming con Google Gemini
     │   ├── docs/
-    │   │   └── [...slug].astro  # Ruta dinámica SSG para servir la documentación MDX
-    │   └── index.astro          # Landing page principal con Bento Grid
-    │
-    └── styles/                  # Estilos globales de la aplicación
-        └── global.css           # Directivas y extensiones de Tailwind CSS v4
+    │   │   └── [...slug].astro   # Ruta dinámica SSG para los 8 módulos MDX
+    │   └── index.astro           # Landing page principal con Bento Grid
+    └── styles/                   # Estilos globales de la aplicación
+        └── global.css            # Directivas y extensiones de Tailwind CSS v4
 ```
+
+---
+
+## 🧭 Módulos de Aprendizaje (8 Rutas Anti-Frustración)
+
+El plan formativo de **GitSOS** está organizado en 8 módulos exhaustivos diseñados para construir un modelo mental robusto y eliminar el temor a la terminal:
+
+| # | Módulo | Ruta | Conceptos Clave Tratados |
+| :-: | :--- | :--- | :--- |
+| **01** | **El Modelo Mental de Git** | [`/docs/modelo-mental`](src/content/docs/modelo-mental.mdx) | Arquitectura de *snapshots*, Git local vs. plataformas en la nube, y dominio de las tres zonas (*Working Directory*, *Staging Area*, *Local Repository*). |
+| **02** | **El Flujo Diario de Trabajo** | [`/docs/flujo-diario`](src/content/docs/flujo-diario.mdx) | Inicialización con `git init`, ciclo de vida local, `git status`, confirmaciones atómicas y estándares de *Conventional Commits*. |
+| **03** | **Colaboración Remota** | [`/docs/colaboracion-remota`](src/content/docs/colaboracion-remota.mdx) | Conexión con GitHub y GitLab, gestión de claves SSH y tokens de acceso personal (PAT), comandos `git remote`, `git push` y `git pull`. |
+| **04** | **Flujo de Ramas en la Nube** | [`/docs/flujo-ramas-nube`](src/content/docs/flujo-ramas-nube.mdx) | Flujos colaborativos en equipo, bifurcación de repositorios (*forks*), apertura y revisión de *Pull Requests* y *Merge Requests*. |
+| **05** | **Multiverso y Despliegues** | [`/docs/multiverso-despliegues`](src/content/docs/multiverso-despliegues.mdx) | Creación y alternancia de ramas ligeras (`git branch`, `git switch`), fusiones con `git merge` y aislamiento de nuevas funcionalidades. |
+| **06** | **Introducción a CI/CD** | [`/docs/introduccion-cicd`](src/content/docs/introduccion-cicd.mdx) | Fundamentos de integración y despliegue continuo, pipelines automatizados con GitHub Actions y GitLab CI/CD para ingenieros junior. |
+| **07** | **La Sala de Emergencias** | [`/docs/sala-emergencias`](src/content/docs/sala-emergencias.mdx) | Primeros auxilios técnicos: corregir mensajes con `git commit --amend`, mover commits con `cherry-pick`, uso de `git stash`, recuperar variables `.env` y resolución guiada de *Merge Conflicts*. |
+| **08** | **Glosario & Bibliografía Oficial** | [`/docs/glosario-bibliografia`](src/content/docs/glosario-bibliografia.mdx) | Diccionario de terminología técnica en español e inglés, definiciones oficiales y bibliografía académica respaldada en *git-scm.com*. |
 
 ---
 
@@ -166,9 +194,9 @@ GitSOS/
 Sigue estos pasos para clonar y ejecutar GitSOS en tu entorno de desarrollo local:
 
 ### 1. Prerrequisitos
-- **Node.js:** Versión `>= 22.12.0` recomendada.
+- **Node.js:** Versión `>= 22.12.0` (indicada en `package.json`).
 - **Gestor de paquetes:** `npm` (incluido con Node) o `pnpm`.
-- **API Key de Google Gemini:** Puedes obtener una clave gratuita en [Google AI Studio](https://aistudio.google.com/).
+- **API Key de Google Gemini:** Clave gratuita obtenible en [Google AI Studio](https://aistudio.google.com/).
 
 ### 2. Clonar el Repositorio
 ```bash
@@ -182,7 +210,7 @@ npm install
 ```
 
 ### 4. Configurar Variables de Entorno
-Crea un archivo `.env` en la raíz del proyecto tomando como base `.env.example`:
+Copia la plantilla de variables de entorno:
 
 ```bash
 cp .env.example .env
@@ -217,33 +245,6 @@ La aplicación estará disponible de inmediato en [http://localhost:4321](http:/
 
 ---
 
-## 🧭 Rutas Anti-Frustración (Contenido)
-
-El plan de estudios de GitSOS está estructurado de manera pragmática en 4 módulos progresivos:
-
-1. **El Modelo Mental (`/docs/modelo-mental`):**
-   - Diferencia fundamental entre Git (motor local) y GitHub (alojamiento en la nube).
-   - Las tres zonas operativas: *Working Directory*, *Staging Area* y *Local Repository*.
-   - Configuración inicial de identidad (`user.name` y `user.email`).
-2. **El Flujo Diario (`/docs/flujo-diario`):**
-   - Diagnóstico continuo con `git status`.
-   - Preparación atómica de cambios con `git add`.
-   - Buenas prácticas para mensajes de commit profesionales (convenciones *Conventional Commits*).
-   - Exploración del historial con `git log`.
-3. **Multiverso y Despliegues (`/docs/multiverso-despliegues` & `/docs/flujo-ramas-nube`):**
-   - Ciclo de vida de ramas (`git branch`, `git switch`).
-   - Sincronización remota segura (`git push`, `git pull`, `git fetch`).
-   - Estrategias de integración con `git merge` y flujo de *Pull Requests*.
-4. **La Sala de Emergencias (`/docs/sala-emergencias`):**
-   - Corrección de commits recientes con `git commit --amend`.
-   - Reubicación de cambios y cherry-picking.
-   - Resguardo temporal de tareas con `git stash` y `git stash pop`.
-   - Protección de credenciales y desindexación con `.gitignore` y `git rm --cached`.
-   - Anatomía y resolución guiada de *Merge Conflicts*.
-   - El viaje en el tiempo: cuándo usar `git revert` vs. `git reset`.
-
----
-
 ## 👩‍💻 Autora
 
 **Katherine Gomez**  
@@ -254,7 +255,7 @@ El plan de estudios de GitSOS está estructurado de manera pragmática en 4 mód
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Este proyecto está distribuido bajo la **Licencia MIT**. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
 
 ---
 
