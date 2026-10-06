@@ -260,7 +260,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
                     className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {m.role !== 'user' && (
-                      <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-500 to-sky-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
                         🩺
                       </div>
                     )}
@@ -324,8 +324,8 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
               })}
               {isLoading && (
                 <div className="flex gap-2.5 justify-start">
-                  <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5">
-                    <LifeBuoy size={15} />
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-500 to-sky-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
+                    🩺
                   </div>
                   <div className="bg-slate-800 text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-700 text-sm flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce"></span>
@@ -392,11 +392,11 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
         {!chatOpen && (
           <button 
             onClick={() => setChatOpen(true)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white p-3.5 rounded-full shadow-lg shadow-indigo-900/50 transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer group relative"
+            className="bg-gradient-to-tr from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 text-white p-3.5 rounded-full shadow-lg shadow-cyan-950/60 hover:shadow-cyan-500/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer group relative ring-2 ring-cyan-400/40"
             aria-label="Abrir asistente GitMedic"
             title="🩺 GitMedic: ¿Qué rompimos hoy? Tranquilo, vamos paso a paso."
           >
-            <span className="text-2xl select-none group-hover:scale-110 transition-transform">🩺</span>
+            <span className="text-2xl select-none group-hover:scale-110 transition-transform filter drop-shadow-sm">🩺</span>
           </button>
         )}
       </div>
