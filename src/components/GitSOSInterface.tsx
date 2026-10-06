@@ -210,13 +210,21 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
           <div className="bg-slate-900 rounded-2xl shadow-2xl w-80 sm:w-96 border border-slate-700 overflow-hidden flex flex-col mb-4 transform transition-all duration-300 ease-in-out">
             {/* Chat Header */}
             <div className="bg-slate-800/80 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span className="font-medium text-slate-200">Asistente GitSOS</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl select-none" role="img" aria-label="GitMedic">🩺</span>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-slate-100 text-sm tracking-tight">GitMedic</span>
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse inline-block" title="Online"></span>
+                  </div>
+                  <span className="text-[11px] text-slate-400 leading-tight">
+                    ¿Qué rompimos hoy? Tranquilo, vamos paso a paso.
+                  </span>
+                </div>
               </div>
               <button 
                 onClick={() => setChatOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors p-1 rounded-md hover:bg-slate-700"
+                className="text-slate-400 hover:text-white transition-colors p-1.5 rounded-md hover:bg-slate-700 cursor-pointer"
                 aria-label="Cerrar chat"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -225,6 +233,20 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
             
             {/* Chat Body con Scroll Vertical */}
             <div className="p-4 pr-2 flex-1 h-80 sm:h-96 max-h-[420px] overflow-y-auto scrollbar-chat bg-slate-900/50 flex flex-col gap-4 scroll-smooth">
+              {messages.length === 0 && (
+                <div className="flex flex-col items-center justify-center text-center p-4 my-auto">
+                  <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl mb-3 shadow-inner">
+                    🩺
+                  </div>
+                  <h3 className="font-semibold text-slate-100 text-sm mb-1">GitMedic</h3>
+                  <p className="text-xs text-indigo-300 font-medium mb-2">
+                    ¿Qué rompimos hoy? Tranquilo, vamos paso a paso.
+                  </p>
+                  <p className="text-[11px] text-slate-400 max-w-[240px] leading-relaxed">
+                    Escribe tu emergencia o selecciona una de las consultas rápidas de abajo.
+                  </p>
+                </div>
+              )}
               {messages.map((m: any) => {
                 const messageText = typeof m.content === 'string' 
                   ? m.content 
@@ -238,8 +260,8 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
                     className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {m.role !== 'user' && (
-                      <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5">
-                        <LifeBuoy size={15} />
+                      <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
+                        🩺
                       </div>
                     )}
                     
@@ -350,7 +372,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
                     type="text" 
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
-                    placeholder="Escribe tu emergencia aquí..." 
+                    placeholder="¿Qué rompimos hoy? Tranquilo, escribe aquí..." 
                     className="flex-1 bg-slate-900 text-slate-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 border border-slate-700 placeholder-slate-500 text-sm transition-all"
                   />
                   <button 
@@ -370,10 +392,11 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
         {!chatOpen && (
           <button 
             onClick={() => setChatOpen(true)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white p-4 rounded-full shadow-lg shadow-indigo-900/50 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
-            aria-label="Abrir asistente"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white p-3.5 rounded-full shadow-lg shadow-indigo-900/50 transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer group relative"
+            aria-label="Abrir asistente GitMedic"
+            title="🩺 GitMedic: ¿Qué rompimos hoy? Tranquilo, vamos paso a paso."
           >
-            <MessageCircle size={26} />
+            <span className="text-2xl select-none group-hover:scale-110 transition-transform">🩺</span>
           </button>
         )}
       </div>
