@@ -260,7 +260,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
                     className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {m.role !== 'user' && (
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-600 via-purple-600 to-purple-700 ring-1 ring-emerald-400/70 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
+                      <div className="w-7 h-7 rounded-full bg-[#14082e] border border-violet-500/60 shadow-sm flex items-center justify-center flex-shrink-0 text-white mt-0.5 text-xs select-none">
                         🩺
                       </div>
                     )}
@@ -324,7 +324,7 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
               })}
               {isLoading && (
                 <div className="flex gap-2.5 justify-start">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-600 via-purple-600 to-purple-700 ring-1 ring-emerald-400/70 flex items-center justify-center flex-shrink-0 text-white shadow-md mt-0.5 text-xs select-none">
+                  <div className="w-7 h-7 rounded-full bg-[#14082e] border border-violet-500/60 shadow-sm flex items-center justify-center flex-shrink-0 text-white mt-0.5 text-xs select-none">
                     🩺
                   </div>
                   <div className="bg-slate-800 text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-700 text-sm flex items-center gap-1.5">
@@ -391,11 +391,11 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
         {/* Chat Toggle Button con Efecto de Latido Cardíaco */}
         {!chatOpen && (
           <div className="relative flex items-center justify-center group">
-            {/* 1. Onda expansiva de pulso médico (ECG) */}
-            <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-40 animate-ping pointer-events-none duration-1000"></span>
+            {/* 1. Onda expansiva de pulso eléctrico */}
+            <span className="absolute inset-0 rounded-full bg-violet-500 opacity-35 animate-ping pointer-events-none duration-1000"></span>
             
-            {/* 2. Resplandor difuminado neón */}
-            <span className="absolute -inset-1 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-emerald-400 opacity-50 blur-sm animate-pulse pointer-events-none"></span>
+            {/* 2. Resplandor difuminado neón eléctrico */}
+            <span className="absolute -inset-1 rounded-full bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-indigo-500 opacity-40 blur-md animate-pulse pointer-events-none"></span>
 
             {/* Estilos para el doble latido ("lub-dub") */}
             <style>{`
@@ -413,17 +413,23 @@ const GitSOSInterface: React.FC<GitSOSInterfaceProps> = ({ children, docs }) => 
               }
             `}</style>
 
-            {/* 3. Botón principal: Violeta Neón con aro esmeralda */}
-            <button 
-              onClick={() => setChatOpen(true)}
-              className="relative bg-gradient-to-tr from-indigo-600 via-purple-600 to-purple-700 hover:from-indigo-500 hover:to-purple-600 text-white p-3.5 rounded-full shadow-xl shadow-indigo-950/70 hover:shadow-purple-500/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer ring-2 ring-emerald-400/80 ring-offset-2 ring-offset-slate-950"
-              aria-label="Abrir asistente GitMedic"
-              title="🩺 GitMedic: ¿Qué rompimos hoy? Tranquilo, vamos paso a paso."
-            >
-              <span className="text-2xl select-none filter drop-shadow animate-heartbeat">
-                🩺
-              </span>
-            </button>
+            {/* 3. Borde fino con degradado de violeta eléctrico */}
+            <div className="relative p-[1.5px] rounded-full bg-gradient-to-tr from-violet-500 via-fuchsia-500 to-indigo-500 shadow-xl shadow-purple-950/80 transition-all group-hover:shadow-violet-500/40">
+              {/* Botón principal: Fondo violeta oscuro profundo */}
+              <button 
+                onClick={() => setChatOpen(true)}
+                className="relative bg-gradient-to-b from-[#1a0b36] to-[#0c041c] hover:from-[#240e4c] hover:to-[#120627] text-white p-3.5 rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer overflow-hidden"
+                aria-label="Abrir asistente GitMedic"
+                title="🩺 GitMedic: ¿Qué rompimos hoy? Tranquilo, vamos paso a paso."
+              >
+                {/* Iluminación sutil interna para dar volumen */}
+                <div className="absolute inset-0 bg-radial from-violet-500/15 via-transparent to-transparent pointer-events-none"></div>
+                
+                <span className="relative text-2xl select-none filter drop-shadow-[0_2px_8px_rgba(168,85,247,0.45)] animate-heartbeat">
+                  🩺
+                </span>
+              </button>
+            </div>
           </div>
         )}
       </div>
