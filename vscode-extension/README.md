@@ -32,7 +32,7 @@
 
 ---
 
-## Situaciones incluidas (18 en v0.2.1)
+## Situaciones incluidas (18 en v0.2.2)
 
 | Categoría | Situación | Comando Git | Acción delicada |
 | :--- | :--- | :--- | :---: |
@@ -60,8 +60,8 @@
 ## Instalación
 
 ### Desde un archivo `.vsix` local
-1. Descargá o generá el archivo `gitsos-0.2.1.vsix`.
-2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.2.1.vsix`).
+1. Descargá o generá el archivo `gitsos-0.2.2.vsix`.
+2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.2.2.vsix`).
 
 *(Una vez publicada en Visual Studio Marketplace y Open VSX Registry, también se podrá instalar buscando **GitSOS** directamente desde VS Code).*
 
@@ -119,7 +119,7 @@ GitSOS arma el mensaje completo y ejecuta el commit. Si algo no sigue las buenas
 
 ---
 
-## Alcance de esta versión (v0.2.1 — MVP)
+## Alcance de esta versión (v0.2.2 — MVP)
 
 - **Costo cero y 100% offline:** todo el contenido y la interfaz viven dentro de la extensión, sin servidores propios ni cuentas externas.
 - **Sin IA en esta versión:** el MVP no incluye chatbot ni llamadas a modelos de lenguaje. En futuras versiones se sumará detección automática del estado del repositorio (`vscode.git`) y asistencia conversacional opcional (`vscode.lm`).

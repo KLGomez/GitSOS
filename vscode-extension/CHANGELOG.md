@@ -2,6 +2,12 @@
 
 Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documentan en este archivo siguiendo el formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [0.2.2] - 2026-11-20
+
+### Mejorado
+- Diferenciación visual de la paleta por categoría en `media/guide.css`: **Emergencias** pasa a usar `--vscode-charts-yellow` (en lugar de cian) para distinguirse claramente de **Flujo diario** (`--vscode-charts-blue`), manteniendo **Ramas** (`--vscode-charts-purple`), **Remoto** (`--vscode-charts-green`) y reservando rojo/naranja exclusivamente para acciones destructivas.
+- Pruebas ampliadas para validar que las 4 categorías usan definiciones CSS distintas y 4 íconos SVG diferenciados con `aria-hidden="true"` junto al texto visible.
+
 ## [0.2.1] - 2026-11-20
 
 ### Mejorado

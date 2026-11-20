@@ -84,6 +84,29 @@ describe('Webview de la guía lateral (Fase 3)', () => {
     expect(html).toContain(`<span>${messages.categoryRemoto}</span>`);
     expect(html).toContain('data-destructive="true"');
     expect(html).toContain('data-destructive="false"');
+
+    const badgeMatches = [
+      ...html.matchAll(
+        /<span class="category-badge">(<svg[^>]*aria-hidden="true"[^>]*>.*?<\/svg>)<span>([^<]+)<\/span><\/span>/g
+      ),
+    ];
+    expect(badgeMatches).toHaveLength(cardCount);
+
+    const iconByLabel = new Map<string, string>();
+    for (const match of badgeMatches) {
+      const svg = match[1];
+      const label = match[2];
+      if (svg && label) {
+        if (iconByLabel.has(label)) {
+          expect(iconByLabel.get(label)).toBe(svg);
+        } else {
+          iconByLabel.set(label, svg);
+        }
+      }
+    }
+
+    expect(iconByLabel.size).toBe(4);
+    expect(new Set(iconByLabel.values()).size).toBe(4);
   });
 
   it('escapa contenido dinámico para prevenir XSS', () => {
@@ -127,8 +150,20 @@ describe('Webview de la guía lateral (Fase 3)', () => {
     expect(css).toContain('--gitsos-cat-ramas');
     expect(css).toContain('--gitsos-cat-remoto');
     expect(css).toContain('--gitsos-cat-emergencias');
+    expect(css).toContain('--vscode-charts-blue');
+    expect(css).toContain('--vscode-charts-purple');
+    expect(css).toContain('--vscode-charts-green');
+    expect(css).toContain('--vscode-charts-yellow');
     expect(css).toContain('--gitsos-destructive-accent');
     expect(css).toContain('border-left: 4px solid var(--card-accent);');
+    expect(css).toMatch(/\.category-badge\s*\{[^}]*color:\s*var\(--vscode-foreground\)/);
+
+    const categoryVars = [...css.matchAll(/(--gitsos-cat-[a-z-]+)\s*:\s*([^;]+);/g)].map((match) =>
+      match[2]?.replace(/\s+/g, ' ').trim()
+    );
+    expect(categoryVars).toHaveLength(4);
+    expect(new Set(categoryVars).size).toBe(4);
+
     expect(css).not.toMatch(/--gitsos-cat-[^;]*(editorError|charts-red|charts-orange)/);
     expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
     expect(css).not.toMatch(/\brgba?\s*\(/i);

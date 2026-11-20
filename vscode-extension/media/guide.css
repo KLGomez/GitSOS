@@ -23,8 +23,8 @@
     var(--vscode-terminal-ansiGreen, var(--vscode-textLink-foreground))
   );
   --gitsos-cat-emergencias: var(
-    --vscode-terminal-ansiCyan,
-    var(--vscode-charts-lines, var(--vscode-textLink-foreground))
+    --vscode-charts-yellow,
+    var(--vscode-terminal-ansiYellow, var(--vscode-textLink-foreground))
   );
   --gitsos-destructive-accent: var(
     --vscode-editorError-foreground,
