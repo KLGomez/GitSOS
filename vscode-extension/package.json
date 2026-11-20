@@ -102,7 +102,7 @@
     "format": "prettier --write \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs package.json",
     "format:check": "prettier --check \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs",
     "test": "vitest run",
-    "package": "vsce package --no-dependencies"
+    "package": "vsce package --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension"
   },
   "devDependencies": {
     "@types/node": "24.x",

@@ -25,15 +25,23 @@ Esta guía documenta paso a paso cómo publicar **`klgomez.gitsos`** en **Visual
 
 ## 2. Empaquetado local del `.vsix` (con `pnpm` + `esbuild`)
 
-Como la extensión usa `pnpm` y empaquetado con `esbuild` (sin incluir `node_modules` dentro del `.vsix`), `vsce` requiere el flag `--no-dependencies`:
+Como la extensión usa `pnpm` y empaquetado con `esbuild` (sin incluir `node_modules` dentro del `.vsix`), `vsce` requiere el flag `--no-dependencies`. Además, como `vscode-extension/` vive dentro de un monorepo (`repository.directory`), `vsce` necesita `--baseContentUrl` y `--baseImagesUrl` apuntando explícitamente a `main/vscode-extension` para que las rutas relativas de `README.md` (ícono, capturas y enlaces como `LICENSE`) no devuelvan `404` en el Marketplace ni en Open VSX.
+
+El script `"package"` en [`package.json`](../package.json) ya incluye ambos parámetros:
 
 ```bash
 cd vscode-extension
 pnpm exec vsce ls --no-dependencies
-pnpm exec vsce package --no-dependencies
+pnpm run package
 ```
 
-Esto genera el archivo `gitsos-0.2.2.vsix` (sin ningún archivo `.svg` dentro del paquete).
+Equivalente explícito con `vsce`:
+
+```bash
+pnpm exec vsce package --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension
+```
+
+Esto genera el archivo `gitsos-0.2.2.vsix` (sin ningún archivo `.svg` dentro del paquete y con las URLs de `README.md` reescritas correctamente para el monorepo).
 
 ### Prueba en una instalación limpia de VS Code
 Podés probar el `.vsix` sin afectar tus extensiones ni configuración actual usando carpetas temporales:
@@ -67,15 +75,18 @@ code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extension
    - **ID:** `klgomez` *(debe coincidir exactamente con `"publisher"` en `vscode-extension/package.json`)*
 
 ### 3.3 Publicar con `vsce`
-Autenticate y publicá desde `vscode-extension/`:
+Se recomienda empaquetar primero con `pnpm run package` (para que `gitsos-0.2.2.vsix` ya incluya `--baseContentUrl` y `--baseImagesUrl` aplicados al `README.md`) y luego publicar ese artefacto verificado con `--packagePath`:
 
 ```bash
 cd vscode-extension
+pnpm run package
 pnpm exec vsce login klgomez
-pnpm exec vsce publish --no-dependencies
+pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix
 ```
 
-*(Alternativa sin login interactivo: definir `VSCE_PAT` como variable de entorno y ejecutar `pnpm exec vsce publish --no-dependencies -p $VSCE_PAT`, o `pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix`).*
+*(Alternativas sin login interactivo definiendo `VSCE_PAT` como variable de entorno:*
+- *Publicar el `.vsix` ya empaquetado con `pnpm run package`: `pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix -p $VSCE_PAT`*
+- *O empaquetar y publicar en un paso pasando ambos flags del monorepo: `pnpm exec vsce publish --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension -p $VSCE_PAT`.)*
 
 ---
 
