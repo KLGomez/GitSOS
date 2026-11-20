@@ -1,4 +1,5 @@
 import type { GitCommandSpec, GitSosCommandEntry, InputValidationType } from '../content/types.js';
+import { escapeDoubleQuotes, validateConventionalDescription } from './conventionalCommit.js';
 
 const PLACEHOLDER_REGEX = /\{\{([a-zA-Z0-9_]+)\}\}/g;
 const BRANCH_ALLOWED_REGEX = /^[A-Za-z0-9._/-]+$/;
@@ -87,6 +88,9 @@ export function validateInput(
       }
       return undefined;
     }
+    case 'conventionalCommit': {
+      return validateConventionalDescription(value);
+    }
     case 'filePath': {
       if (value.startsWith('-')) {
         return 'La ruta del archivo no puede empezar con guion (-).';
@@ -142,8 +146,13 @@ export function buildGitCommandSteps(
     }
 
     const trimmed = rawValue.trim();
-    formattedValues[spec.key] =
-      spec.validation === 'filePath' && /\s/.test(trimmed) ? `"${trimmed}"` : trimmed;
+    if (spec.validation === 'filePath' && /\s/.test(trimmed)) {
+      formattedValues[spec.key] = `"${trimmed}"`;
+    } else if (spec.validation === 'conventionalCommit') {
+      formattedValues[spec.key] = escapeDoubleQuotes(trimmed);
+    } else {
+      formattedValues[spec.key] = trimmed;
+    }
   }
 
   const steps = getCommandSteps(entry.comandoGit).map((stepTemplate) => {

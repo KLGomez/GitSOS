@@ -20,6 +20,7 @@ const VALID_CATEGORIES = new Set<CommandCategory>([
 const VALID_INPUT_VALIDATIONS = new Set<InputValidationType>([
   'branch',
   'message',
+  'conventionalCommit',
   'filePath',
   'repoUrl',
   'nonEmpty',

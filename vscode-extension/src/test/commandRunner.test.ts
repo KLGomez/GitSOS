@@ -31,6 +31,11 @@ const {
 }));
 
 vi.mock('vscode', () => ({
+  InputBoxValidationSeverity: {
+    Info: 1,
+    Warning: 2,
+    Error: 3,
+  },
   commands: {
     registerCommand: registerCommandMock,
   },
@@ -310,7 +315,8 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
     vi.clearAllMocks();
 
     showInformationMessageMock.mockResolvedValueOnce(messages.runInTerminalButton);
-    showInputBoxMock.mockResolvedValueOnce('feat: primer commit');
+    showQuickPickMock.mockResolvedValueOnce({ label: 'feat', commitType: 'feat' });
+    showInputBoxMock.mockResolvedValueOnce('').mockResolvedValueOnce('primer commit');
     const executed = await runGitSosEntry(saveChangesEntry);
     expect(executed).toBe(true);
     expect(showWarningMessageMock).not.toHaveBeenCalled();
@@ -327,6 +333,14 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
       ...saveChangesEntry,
       id: 'destructivo-multipaso',
       esDestructivo: true,
+      inputs: [
+        {
+          key: 'mensaje',
+          prompt: 'Mensaje',
+          placeholder: 'fix: prueba delicada',
+          validation: 'message' as const,
+        },
+      ],
     };
     showInputBoxMock.mockResolvedValueOnce('fix: prueba delicada');
     showWarningMessageMock.mockResolvedValueOnce(undefined);
@@ -356,5 +370,95 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
       'git commit -m "fix: prueba delicada"',
       true
     );
+  });
+
+  it('arma Conventional Commits con y sin scope, escapa comillas, avisa sin bloquear y cancela con Escape', async () => {
+    const commitEntry = getCommandById('hacer-commit', 'es');
+    const saveChangesEntry = getCommandById('guardar-cambios', 'es');
+    const prepareEntry = getCommandById('preparar-cambios', 'es');
+    expect(commitEntry).toBeDefined();
+    expect(saveChangesEntry).toBeDefined();
+    expect(prepareEntry).toBeDefined();
+    if (!commitEntry || !saveChangesEntry || !prepareEntry) {
+      return;
+    }
+
+    const fakeTerminal = {
+      name: 'GitSOS',
+      exitStatus: undefined,
+      show: vi.fn(),
+      sendText: vi.fn(),
+    };
+    createTerminalMock.mockReturnValue(fakeTerminal);
+
+    expect(await runGitSosEntry(prepareEntry, { skipExplanationModal: true })).toBe(true);
+    expect(fakeTerminal.sendText).toHaveBeenCalledWith('git add .', true);
+
+    vi.clearAllMocks();
+
+    // Con scope y comillas dobles escapadas
+    showQuickPickMock.mockResolvedValueOnce({ label: 'feat', commitType: 'feat' });
+    showInputBoxMock.mockResolvedValueOnce('ui').mockResolvedValueOnce('agregar botón "Entrar"');
+    const withScopeOk = await runGitSosEntry(commitEntry, { skipExplanationModal: true });
+    expect(withScopeOk).toBe(true);
+    expect(showWarningMessageMock).not.toHaveBeenCalled();
+    expect(fakeTerminal.sendText).toHaveBeenCalledWith(
+      'git commit -m "feat(ui): agregar botón \\"Entrar\\""',
+      true
+    );
+
+    vi.clearAllMocks();
+
+    // Sin scope y con advertencias de estilo (mayúscula, punto final y >72 chars) sin bloquear
+    showQuickPickMock.mockResolvedValueOnce({ label: 'fix', commitType: 'fix' });
+    showInputBoxMock
+      .mockResolvedValueOnce('')
+      .mockResolvedValueOnce(
+        'Corregir texto demasiado largo para probar que avisa sin bloquear cuando supera el límite.'
+      );
+    const withWarningsOk = await runGitSosEntry(saveChangesEntry, { skipExplanationModal: true });
+    expect(withWarningsOk).toBe(true);
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(1, 'git add .', true);
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(
+      2,
+      'git commit -m "fix: Corregir texto demasiado largo para probar que avisa sin bloquear cuando supera el límite."',
+      true
+    );
+    expect(showWarningMessageMock).toHaveBeenCalledWith(
+      expect.stringContaining(messages.commitStyleWarningPrefix)
+    );
+
+    // Validación en vivo del InputBox devuelve Warning sin bloquear
+    const descInputOpts = showInputBoxMock.mock.calls[1]?.[0] as {
+      validateInput: (val: string) => unknown;
+    };
+    expect(descInputOpts.validateInput('Corregir.')).toEqual({
+      message: expect.stringContaining('mayúscula'),
+      severity: 2,
+    });
+
+    vi.clearAllMocks();
+
+    // Cancelación en paso 1 (tipo)
+    showQuickPickMock.mockResolvedValueOnce(undefined);
+    expect(await runGitSosEntry(commitEntry, { skipExplanationModal: true })).toBe(false);
+    expect(showInputBoxMock).not.toHaveBeenCalled();
+    expect(fakeTerminal.sendText).not.toHaveBeenCalled();
+
+    // Cancelación en paso 2 (scope)
+    showQuickPickMock.mockResolvedValueOnce({ label: 'docs', commitType: 'docs' });
+    showInputBoxMock.mockResolvedValueOnce(undefined);
+    expect(await runGitSosEntry(commitEntry, { skipExplanationModal: true })).toBe(false);
+    expect(showInputBoxMock).toHaveBeenCalledTimes(1);
+    expect(fakeTerminal.sendText).not.toHaveBeenCalled();
+
+    vi.clearAllMocks();
+
+    // Cancelación en paso 3 (descripción)
+    showQuickPickMock.mockResolvedValueOnce({ label: 'chore', commitType: 'chore' });
+    showInputBoxMock.mockResolvedValueOnce('deps').mockResolvedValueOnce(undefined);
+    expect(await runGitSosEntry(saveChangesEntry, { skipExplanationModal: true })).toBe(false);
+    expect(showInputBoxMock).toHaveBeenCalledTimes(2);
+    expect(fakeTerminal.sendText).not.toHaveBeenCalled();
   });
 });

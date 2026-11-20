@@ -69,13 +69,15 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
       expect(inputKeys.sort()).toEqual([...placeholders].sort());
     }
 
+    expect(getCommandById('preparar-cambios', 'es')?.comandoGit).toBe('git add .');
+    expect(getCommandById('hacer-commit', 'es')?.comandoGit).toBe('git commit -m "{{mensaje}}"');
     expect(getCommandById('guardar-cambios', 'es')?.comandoGit).toEqual([
       'git add .',
       'git commit -m "{{mensaje}}"',
     ]);
 
     expect(seenCategories).toEqual(new Set(['emergencias', 'ramas', 'flujo-diario', 'remoto']));
-    expect(all).toHaveLength(16);
+    expect(all).toHaveLength(18);
 
     const byCategory = {
       emergencias: all.filter((entry) => entry.categoria === 'emergencias'),
@@ -84,7 +86,7 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
       remoto: all.filter((entry) => entry.categoria === 'remoto'),
     };
     expect(byCategory.emergencias).toHaveLength(5);
-    expect(byCategory['flujo-diario']).toHaveLength(6);
+    expect(byCategory['flujo-diario']).toHaveLength(8);
     expect(byCategory.ramas).toHaveLength(2);
     expect(byCategory.remoto).toHaveLength(3);
 
@@ -100,6 +102,8 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
     ]);
 
     for (const newId of [
+      'preparar-cambios',
+      'hacer-commit',
       'guardar-cambios',
       'subir-cambios-remoto',
       'clonar-repositorio',

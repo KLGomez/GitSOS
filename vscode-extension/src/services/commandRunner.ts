@@ -8,9 +8,104 @@ import {
   getCommandSteps,
   validateInput,
 } from './commandBuilder.js';
+import {
+  CONVENTIONAL_COMMIT_TYPES,
+  buildConventionalCommitMessage,
+  validateConventionalDescription,
+  validateConventionalScope,
+  type ConventionalCommitType,
+} from './conventionalCommit.js';
 
 interface SituationQuickPickItem extends vscode.QuickPickItem {
   readonly entry: GitSosCommandEntry;
+}
+
+interface CommitTypeQuickPickItem extends vscode.QuickPickItem {
+  readonly commitType: ConventionalCommitType;
+}
+
+/**
+ * Guía al usuario paso a paso para armar un mensaje Conventional Commit en español.
+ * Devuelve `undefined` si cancela con Escape en cualquiera de los 3 pasos.
+ */
+export async function collectConventionalCommitMessage(
+  entryTitle: string
+): Promise<{ readonly message: string; readonly warnings: readonly string[] } | undefined> {
+  const messages = getMessages('es');
+
+  const typeItems: CommitTypeQuickPickItem[] = CONVENTIONAL_COMMIT_TYPES.map((option) => ({
+    label: option.type,
+    description: option.description,
+    commitType: option.type,
+  }));
+
+  const selectedType = await vscode.window.showQuickPick(typeItems, {
+    title: `${entryTitle} — ${messages.commitTypeTitle}`,
+    placeHolder: messages.commitTypePlaceholder,
+    ignoreFocusOut: true,
+    matchOnDescription: true,
+  });
+
+  if (!selectedType) {
+    return undefined;
+  }
+
+  const scopeValue = await vscode.window.showInputBox({
+    title: `GitSOS — ${entryTitle}`,
+    prompt: messages.commitScopePrompt,
+    placeHolder: messages.commitScopePlaceholder,
+    ignoreFocusOut: true,
+    validateInput: (candidate) => validateConventionalScope(candidate),
+  });
+
+  if (scopeValue === undefined) {
+    return undefined;
+  }
+
+  const descriptionValue = await vscode.window.showInputBox({
+    title: `GitSOS — ${entryTitle}`,
+    prompt: messages.commitDescriptionPrompt,
+    placeHolder: messages.commitDescriptionPlaceholder,
+    ignoreFocusOut: true,
+    validateInput: (candidate) => {
+      const error = validateConventionalDescription(candidate);
+      if (error) {
+        return error;
+      }
+
+      const preview = buildConventionalCommitMessage({
+        type: selectedType.commitType,
+        scope: scopeValue,
+        description: candidate,
+      });
+
+      if (preview.warnings.length > 0) {
+        const warningSeverity: vscode.InputBoxValidationSeverity =
+          vscode.InputBoxValidationSeverity?.Warning ?? 2;
+        return {
+          message: `Sugerencia (podés continuar igual): ${preview.warnings.join('; ')}.`,
+          severity: warningSeverity,
+        };
+      }
+
+      return undefined;
+    },
+  });
+
+  if (descriptionValue === undefined) {
+    return undefined;
+  }
+
+  const built = buildConventionalCommitMessage({
+    type: selectedType.commitType,
+    scope: scopeValue,
+    description: descriptionValue,
+  });
+
+  return {
+    message: built.raw,
+    warnings: built.warnings,
+  };
 }
 
 /**
@@ -119,7 +214,18 @@ export async function runGitSosEntry(
   }
 
   const collectedValues: Record<string, string> = {};
+  const styleWarnings: string[] = [];
   for (const spec of entry.inputs ?? []) {
+    if (spec.validation === 'conventionalCommit') {
+      const commitResult = await collectConventionalCommitMessage(entry.titulo);
+      if (!commitResult) {
+        return false;
+      }
+      collectedValues[spec.key] = commitResult.message;
+      styleWarnings.push(...commitResult.warnings);
+      continue;
+    }
+
     const value = await vscode.window.showInputBox({
       title: `GitSOS — ${entry.titulo}`,
       prompt: spec.prompt,
@@ -157,6 +263,13 @@ export async function runGitSosEntry(
   for (const step of finalSteps) {
     terminal.sendText(step, true);
   }
+
+  if (styleWarnings.length > 0) {
+    void vscode.window.showWarningMessage(
+      `${messages.commitStyleWarningPrefix} ${styleWarnings.join('; ')}.`
+    );
+  }
+
   return true;
 }
 

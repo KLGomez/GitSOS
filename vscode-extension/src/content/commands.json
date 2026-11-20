@@ -107,15 +107,60 @@
       "categoria": "flujo-diario"
     },
     {
+      "id": "preparar-cambios",
+      "titulo": "Preparar mis cambios (add)",
+      "situacion": "Terminé o avancé con unos archivos y quiero prepararlos antes de hacer commit",
+      "explicacionSimple": "Pasa todos los archivos modificados o nuevos al área de preparación (Staging Area) para que queden listos para tu próximo commit sin guardar todavía en el historial.",
+      "comandoGit": "git add .",
+      "pasosGuia": [
+        "1. Ejecutá git status antes para revisar qué archivos vas a incluir.",
+        "2. Ejecutá git add . para preparar los cambios.",
+        "3. Después usá 'Hacer commit (Conventional Commits)' para guardar la foto en el historial."
+      ],
+      "advertencias": [
+        "Asegurate de que archivos privados como .env o carpetas como node_modules estén en .gitignore antes de usar git add .",
+        "Si preparaste un archivo por error, podés sacarlo del área de preparación con git restore --staged <archivo>."
+      ],
+      "esDestructivo": false,
+      "categoria": "flujo-diario"
+    },
+    {
+      "id": "hacer-commit",
+      "titulo": "Hacer commit (Conventional Commits)",
+      "situacion": "Ya preparé mis archivos con git add y quiero guardar el commit con un mensaje claro",
+      "explicacionSimple": "Guarda en el historial local los cambios que ya preparaste, guiándote paso a paso para armar un mensaje ordenado con Conventional Commits en español (tipo, alcance opcional y descripción).",
+      "comandoGit": "git commit -m \"{{mensaje}}\"",
+      "pasosGuia": [
+        "1. Asegurate de haber preparado los archivos antes (por ejemplo con 'Preparar mis cambios (add)').",
+        "2. Elegí el tipo de cambio (feat, fix, docs, etc.), un alcance opcional y escribí solo la descripción.",
+        "3. Si todavía querés compartirlo en GitHub o GitLab, después ejecutá git push."
+      ],
+      "advertencias": [
+        "Si todavía no ejecutaste git add, este comando no tendrá cambios preparados para guardar (podés usar el atajo add + commit).",
+        "GitSOS te avisa si el mensaje empieza con mayúscula, termina en punto o supera 72 caracteres, sin bloquear tu commit."
+      ],
+      "esDestructivo": false,
+      "categoria": "flujo-diario",
+      "inputs": [
+        {
+          "key": "mensaje",
+          "prompt": "Describí brevemente qué cambiaste en español",
+          "placeholder": "agregar botón de inicio de sesión",
+          "validation": "conventionalCommit"
+        }
+      ]
+    },
+    {
       "id": "guardar-cambios",
-      "titulo": "Guardar mis cambios (add y commit)",
-      "situacion": "Ya terminé una parte del trabajo y quiero guardarla en el historial de Git",
-      "explicacionSimple": "Prepara todos los archivos modificados o nuevos de tu carpeta y los guarda juntos como un commit con un mensaje claro en tu historial local.",
+      "titulo": "Guardar mis cambios (atajo add + commit)",
+      "situacion": "Ya terminé una parte del trabajo y quiero preparar todo y hacer commit en un solo flujo",
+      "explicacionSimple": "Atajo práctico: primero prepara todos tus cambios (git add .) y luego guarda el commit guiándote con Conventional Commits en español (tipo, alcance opcional y descripción).",
       "comandoGit": ["git add .", "git commit -m \"{{mensaje}}\""],
       "pasosGuia": [
         "1. Antes de guardar, revisá con git status que no estés incluyendo archivos privados como .env.",
-        "2. GitSOS ejecutará ambos pasos en orden (primero git add . y luego git commit) para guardar tu descripción.",
-        "3. Si todavía querés compartirlo en GitHub o GitLab, después ejecutá git push."
+        "2. Elegí el tipo de cambio, el alcance opcional y la descripción corta en español.",
+        "3. GitSOS ejecutará primero git add . y luego git commit en líneas separadas.",
+        "4. Si querés subirlo a GitHub o GitLab, después ejecutá git push."
       ],
       "advertencias": [
         "Asegurate de que tu archivo .env o contraseñas estén en .gitignore antes de usar git add .",
@@ -126,9 +171,9 @@
       "inputs": [
         {
           "key": "mensaje",
-          "prompt": "Describí brevemente qué cambiaste (ej. feat: agregar boton)",
-          "placeholder": "feat: agregar nueva seccion",
-          "validation": "message"
+          "prompt": "Describí brevemente qué cambiaste en español",
+          "placeholder": "agregar nueva sección",
+          "validation": "conventionalCommit"
         }
       ]
     },

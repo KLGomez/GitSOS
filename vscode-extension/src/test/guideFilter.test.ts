@@ -44,10 +44,12 @@ describe('Buscador y filtro por categoría del panel (Fase 3)', () => {
     expect(branches.every((entry) => entry.categoria === 'ramas')).toBe(true);
 
     const daily = filterCommands(allCommands, '', 'flujo-diario');
-    expect(daily.length).toBe(6);
+    expect(daily.length).toBe(8);
     expect(daily.every((entry) => entry.categoria === 'flujo-diario')).toBe(true);
     expect(daily.map((entry) => entry.id)).toEqual(
       expect.arrayContaining([
+        'preparar-cambios',
+        'hacer-commit',
         'guardar-stash',
         'recuperar-stash',
         'guardar-cambios',

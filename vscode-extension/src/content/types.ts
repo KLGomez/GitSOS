@@ -2,7 +2,8 @@ import type { SupportedLocale } from '../i18n/index.js';
 
 export type CommandCategory = 'emergencias' | 'ramas' | 'flujo-diario' | 'remoto';
 
-export type InputValidationType = 'branch' | 'message' | 'filePath' | 'repoUrl' | 'nonEmpty';
+export type InputValidationType =
+  'branch' | 'message' | 'conventionalCommit' | 'filePath' | 'repoUrl' | 'nonEmpty';
 
 export type GitCommandSpec = string | readonly string[];
 

@@ -107,14 +107,33 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
           {
             key: 'mensaje',
             prompt: 'Mensaje',
-            placeholder: 'feat: nueva seccion',
-            validation: 'message',
+            placeholder: 'agregar botón',
+            validation: 'conventionalCommit',
           },
         ],
       },
-      { mensaje: 'feat: sumar pruebas' }
+      { mensaje: 'feat(ui): agregar botón "Entrar"' }
     );
-    expect(commitSteps).toEqual(['git add .', 'git commit -m "feat: sumar pruebas"']);
+    expect(commitSteps).toEqual([
+      'git add .',
+      'git commit -m "feat(ui): agregar botón \\"Entrar\\""',
+    ]);
+
+    const singleCommitSteps = buildGitCommandSteps(
+      {
+        comandoGit: 'git commit -m "{{mensaje}}"',
+        inputs: [
+          {
+            key: 'mensaje',
+            prompt: 'Mensaje',
+            placeholder: 'corregir ruta',
+            validation: 'conventionalCommit',
+          },
+        ],
+      },
+      { mensaje: 'fix: corregir "error"' }
+    );
+    expect(singleCommitSteps).toEqual(['git commit -m "fix: corregir \\"error\\""']);
 
     const commitCommand = buildGitCommand(
       {
@@ -123,8 +142,8 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
           {
             key: 'mensaje',
             prompt: 'Mensaje',
-            placeholder: 'feat: nueva seccion',
-            validation: 'message',
+            placeholder: 'agregar nueva sección',
+            validation: 'conventionalCommit',
           },
         ],
       },
