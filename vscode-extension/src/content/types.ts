@@ -2,7 +2,7 @@ import type { SupportedLocale } from '../i18n/index.js';
 
 export type CommandCategory = 'emergencias' | 'ramas' | 'flujo-diario' | 'remoto';
 
-export type InputValidationType = 'branch' | 'message' | 'filePath' | 'nonEmpty';
+export type InputValidationType = 'branch' | 'message' | 'filePath' | 'repoUrl' | 'nonEmpty';
 
 export interface CommandInputSpec {
   readonly key: string;

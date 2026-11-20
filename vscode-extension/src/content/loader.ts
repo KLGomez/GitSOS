@@ -20,6 +20,7 @@ const VALID_INPUT_VALIDATIONS = new Set<InputValidationType>([
   'branch',
   'message',
   'filePath',
+  'repoUrl',
   'nonEmpty',
 ]);
 

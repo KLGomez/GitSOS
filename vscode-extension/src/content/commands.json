@@ -10,7 +10,7 @@
       "comandoGit": "git reset --soft HEAD~1",
       "advertencias": [
         "Usalo solo si todavía NO subiste este commit a GitHub o GitLab (antes de hacer git push).",
-        "Si ya hiciste push en una rama compartida, usá git revert en su lugar para no romper el historial del equipo."
+        "Si ya lo subiste en una rama compartida, usá git revert en su lugar para no romper el historial del equipo."
       ],
       "esDestructivo": true,
       "categoria": "emergencias",
@@ -70,7 +70,7 @@
         "Cuando quieras recuperar lo que guardaste, usá git stash pop."
       ],
       "esDestructivo": false,
-      "categoria": "emergencias",
+      "categoria": "flujo-diario",
       "paletteCommandId": "gitsos.guardarStash"
     },
     {
@@ -104,7 +104,123 @@
         "Si editaste las mismas líneas mientras tanto, pueden aparecer conflictos fáciles de revisar en VS Code."
       ],
       "esDestructivo": false,
-      "categoria": "emergencias"
+      "categoria": "flujo-diario"
+    },
+    {
+      "id": "guardar-cambios",
+      "titulo": "Guardar mis cambios (add y commit)",
+      "situacion": "Ya terminé una parte del trabajo y quiero guardarla en el historial de Git",
+      "explicacionSimple": "Prepara todos los archivos modificados o nuevos de tu carpeta y los guarda juntos como un commit con un mensaje claro en tu historial local.",
+      "comandoGit": "git add . && git commit -m \"{{mensaje}}\"",
+      "pasosGuia": [
+        "1. Antes de guardar, revisá con git status que no estés incluyendo archivos privados como .env.",
+        "2. Ejecutá este comando para preparar los cambios y crear el commit con tu descripción.",
+        "3. Si todavía querés compartirlo en GitHub o GitLab, después ejecutá git push."
+      ],
+      "advertencias": [
+        "Asegurate de que tu archivo .env o contraseñas estén en .gitignore antes de usar git add .",
+        "Si usás una versión antigua de Windows PowerShell (5.1) que no acepta &&, ejecutá primero git add . y luego git commit -m \"tu mensaje\"."
+      ],
+      "esDestructivo": false,
+      "categoria": "flujo-diario",
+      "inputs": [
+        {
+          "key": "mensaje",
+          "prompt": "Describí brevemente qué cambiaste (ej. feat: agregar boton)",
+          "placeholder": "feat: agregar nueva seccion",
+          "validation": "message"
+        }
+      ]
+    },
+    {
+      "id": "ver-estado-actual",
+      "titulo": "Ver qué está pasando ahora (status)",
+      "situacion": "No sé en qué rama estoy ni qué archivos modifiqué o tengo listos para commit",
+      "explicacionSimple": "Muestra un resumen claro de tu rama actual, qué archivos cambiaste, cuáles están preparados para el próximo commit y cuáles son nuevos.",
+      "comandoGit": "git status",
+      "advertencias": ["Es un comando de solo lectura: nunca modifica ni borra tus archivos."],
+      "esDestructivo": false,
+      "categoria": "flujo-diario"
+    },
+    {
+      "id": "ver-diferencias",
+      "titulo": "Ver diferencias antes de guardar (diff)",
+      "situacion": "Quiero revisar exactamente qué líneas cambié antes de preparar mis archivos",
+      "explicacionSimple": "Muestra línea por línea qué agregaste (en verde con +) y qué quitaste (en rojo con -) en tus archivos modificados antes de hacer git add.",
+      "comandoGit": "git diff",
+      "advertencias": [
+        "Es solo lectura y no cambia ningún archivo. Si el texto ocupa toda la terminal, presioná la tecla q para salir.",
+        "Si ya ejecutaste git add y querés ver esos cambios preparados, usá git diff --staged."
+      ],
+      "esDestructivo": false,
+      "categoria": "flujo-diario"
+    },
+    {
+      "id": "ver-historial-commits",
+      "titulo": "Ver el historial de commits (log)",
+      "situacion": "Quiero ver la lista de commits guardados recientemente en esta rama",
+      "explicacionSimple": "Muestra un resumen compacto de los commits hechos en tu rama actual, con un código identificador corto y el mensaje de cada guardado.",
+      "comandoGit": "git log --oneline",
+      "advertencias": [
+        "Es un comando seguro de solo lectura: si la lista es larga, podés moverte con las flechas y presionar la tecla q para salir."
+      ],
+      "esDestructivo": false,
+      "categoria": "flujo-diario"
+    },
+    {
+      "id": "subir-cambios-remoto",
+      "titulo": "Subir mis cambios a la nube (push)",
+      "situacion": "Ya hice uno o más commits en mi computadora y quiero subirlos a GitHub o GitLab",
+      "explicacionSimple": "Envía los commits que guardaste localmente hacia el repositorio remoto para respaldar tu trabajo o compartirlo con tu equipo.",
+      "comandoGit": "git push",
+      "pasosGuia": [
+        "1. Verificá que ya guardaste tus cambios con un commit (git status no debe mostrar cambios pendientes).",
+        "2. Ejecutá git push para subir tus commits a la rama conectada en la nube."
+      ],
+      "advertencias": [
+        "Si es una rama nueva que recién creaste y nunca subiste antes, usá git push -u origin <nombre-de-tu-rama>.",
+        "Si Git rechaza el envío porque alguien más subió commits antes que vos, ejecutá primero git pull."
+      ],
+      "esDestructivo": false,
+      "categoria": "remoto"
+    },
+    {
+      "id": "traer-cambios-remotos",
+      "titulo": "Traer cambios de la nube (pull)",
+      "situacion": "Mi equipo subió cambios a GitHub o GitLab y quiero actualizar mi copia local",
+      "explicacionSimple": "Descarga los últimos commits del repositorio remoto y los integra en la rama en la que estás trabajando.",
+      "comandoGit": "git pull",
+      "advertencias": [
+        "Guardá o hacé stash de tus cambios locales antes de hacer pull para evitar conflictos inesperados."
+      ],
+      "esDestructivo": false,
+      "categoria": "remoto"
+    },
+    {
+      "id": "clonar-repositorio",
+      "titulo": "Clonar un repositorio (clone)",
+      "situacion": "Quiero descargar por primera vez un proyecto desde GitHub o GitLab a mi computadora",
+      "explicacionSimple": "Descarga una copia completa del proyecto remoto con todo su historial y crea automáticamente una carpeta nueva lista para trabajar con Git.",
+      "comandoGit": "git clone {{url}}",
+      "pasosGuia": [
+        "1. Abrí en VS Code la carpeta padre donde querés que se guarde el proyecto.",
+        "2. Pegá la URL HTTPS o SSH del repositorio cuando GitSOS te la pida.",
+        "3. Al terminar, abrí la carpeta recién creada desde Archivo > Abrir carpeta."
+      ],
+      "advertencias": [
+        "El comando crea una subcarpeta nueva con el nombre del repositorio dentro de la carpeta actual.",
+        "Si el repositorio es privado, Git te pedirá iniciar sesión o tener tu clave SSH/token configurado."
+      ],
+      "esDestructivo": false,
+      "categoria": "remoto",
+      "inputs": [
+        {
+          "key": "url",
+          "prompt": "Pegá la URL del repositorio (HTTPS o SSH)",
+          "placeholder": "https://github.com/KLGomez/GitSOS.git",
+          "validation": "repoUrl"
+        }
+      ]
     },
     {
       "id": "corregir-mensaje-commit",
@@ -173,28 +289,6 @@
           "validation": "filePath"
         }
       ]
-    },
-    {
-      "id": "traer-cambios-remotos",
-      "titulo": "Traer cambios de la nube (pull)",
-      "situacion": "Mi equipo subió cambios a GitHub o GitLab y quiero actualizar mi copia local",
-      "explicacionSimple": "Descarga los últimos commits del repositorio remoto y los integra en la rama en la que estás trabajando.",
-      "comandoGit": "git pull",
-      "advertencias": [
-        "Guardá o hacé stash de tus cambios locales antes de hacer pull para evitar conflictos inesperados."
-      ],
-      "esDestructivo": false,
-      "categoria": "remoto"
-    },
-    {
-      "id": "ver-estado-actual",
-      "titulo": "Ver qué está pasando ahora (status)",
-      "situacion": "No sé en qué rama estoy ni qué archivos modifiqué o tengo listos para commit",
-      "explicacionSimple": "Muestra un resumen claro de tu rama actual, qué archivos cambiaste, cuáles están listos para el próximo commit y cuáles son nuevos.",
-      "comandoGit": "git status",
-      "advertencias": ["Es un comando de solo lectura: nunca modifica ni borra tus archivos."],
-      "esDestructivo": false,
-      "categoria": "flujo-diario"
     }
   ]
 }

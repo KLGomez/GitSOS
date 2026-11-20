@@ -52,6 +52,41 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
     }
 
     expect(seenCategories).toEqual(new Set(['emergencias', 'ramas', 'flujo-diario', 'remoto']));
+    expect(all).toHaveLength(16);
+
+    const byCategory = {
+      emergencias: all.filter((entry) => entry.categoria === 'emergencias'),
+      'flujo-diario': all.filter((entry) => entry.categoria === 'flujo-diario'),
+      ramas: all.filter((entry) => entry.categoria === 'ramas'),
+      remoto: all.filter((entry) => entry.categoria === 'remoto'),
+    };
+    expect(byCategory.emergencias).toHaveLength(5);
+    expect(byCategory['flujo-diario']).toHaveLength(6);
+    expect(byCategory.ramas).toHaveLength(2);
+    expect(byCategory.remoto).toHaveLength(3);
+
+    const destructiveIds = all
+      .filter((entry) => entry.esDestructivo)
+      .map((entry) => entry.id)
+      .sort();
+    expect(destructiveIds).toEqual([
+      'corregir-mensaje-commit',
+      'dejar-de-rastrear-archivo',
+      'descartar-cambios-archivo',
+      'deshacer-ultimo-commit',
+    ]);
+
+    for (const newId of [
+      'guardar-cambios',
+      'subir-cambios-remoto',
+      'clonar-repositorio',
+      'ver-historial-commits',
+      'ver-diferencias',
+    ]) {
+      const entry = getCommandById(newId, 'es');
+      expect(entry).toBeDefined();
+      expect(entry?.esDestructivo).toBe(false);
+    }
   });
 
   it('incluye las 5 situaciones clave, declara vista lateral y elimina gitsos.hola de package.json', () => {

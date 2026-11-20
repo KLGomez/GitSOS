@@ -4,6 +4,9 @@ const PLACEHOLDER_REGEX = /\{\{([a-zA-Z0-9_]+)\}\}/g;
 const BRANCH_ALLOWED_REGEX = /^[A-Za-z0-9._/-]+$/;
 const MESSAGE_FORBIDDEN_REGEX = /["`$\\;|&<>]/;
 const FILE_PATH_FORBIDDEN_REGEX = /[;&|$`"'<>()*?]/;
+const REPO_URL_FORBIDDEN_REGEX = /[;&|$`"'<>()*?\\]/;
+const REPO_URL_HTTP_SSH_REGEX = /^(https?|ssh):\/\/[A-Za-z0-9._~:@/%+-]+$/i;
+const REPO_URL_SCP_REGEX = /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+:[A-Za-z0-9._/-]+$/;
 const NON_EMPTY_FORBIDDEN_REGEX = /[;&|$`<>]/;
 
 /**
@@ -74,6 +77,21 @@ export function validateInput(
       }
       if (FILE_PATH_FORBIDDEN_REGEX.test(value)) {
         return 'La ruta contiene caracteres no permitidos.';
+      }
+      return undefined;
+    }
+    case 'repoUrl': {
+      if (/\s/.test(value)) {
+        return 'La URL del repositorio no puede tener espacios.';
+      }
+      if (value.startsWith('-')) {
+        return 'La URL del repositorio no puede empezar con guion (-).';
+      }
+      if (REPO_URL_FORBIDDEN_REGEX.test(value)) {
+        return 'La URL contiene caracteres no permitidos.';
+      }
+      if (!REPO_URL_HTTP_SSH_REGEX.test(value) && !REPO_URL_SCP_REGEX.test(value)) {
+        return 'Ingresá una URL de Git válida (ej. https://github.com/usuario/repo.git o git@github.com:usuario/repo.git).';
       }
       return undefined;
     }

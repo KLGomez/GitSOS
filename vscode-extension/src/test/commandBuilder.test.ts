@@ -39,6 +39,18 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
     expect(validateInput('origin|cat', 'nonEmpty')).toBeTruthy();
   });
 
+  it('valida URLs de repositorio para git clone de forma segura', () => {
+    expect(validateInput('https://github.com/KLGomez/GitSOS.git', 'repoUrl')).toBeUndefined();
+    expect(validateInput('ssh://git@github.com/KLGomez/GitSOS.git', 'repoUrl')).toBeUndefined();
+    expect(validateInput('git@github.com:KLGomez/GitSOS.git', 'repoUrl')).toBeUndefined();
+
+    expect(validateInput('', 'repoUrl')).toBeTruthy();
+    expect(validateInput('https://github.com/con espacio/repo.git', 'repoUrl')).toBeTruthy();
+    expect(validateInput('-uhttps://evil.com/repo.git', 'repoUrl')).toBeTruthy();
+    expect(validateInput('file:///etc/passwd', 'repoUrl')).toBeTruthy();
+    expect(validateInput('https://github.com/a/b.git;rm -rf', 'repoUrl')).toBeTruthy();
+  });
+
   it('arma comandos reemplazando valores y entrecomillando rutas con espacios', () => {
     const branchCommand = buildGitCommand(
       {
@@ -71,6 +83,38 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
       { archivo: 'docs/mi archivo.md' }
     );
     expect(spacedPathCommand).toBe('git restore -- "docs/mi archivo.md"');
+
+    const commitCommand = buildGitCommand(
+      {
+        comandoGit: 'git add . && git commit -m "{{mensaje}}"',
+        inputs: [
+          {
+            key: 'mensaje',
+            prompt: 'Mensaje',
+            placeholder: 'feat: nueva seccion',
+            validation: 'message',
+          },
+        ],
+      },
+      { mensaje: 'feat: sumar pruebas' }
+    );
+    expect(commitCommand).toBe('git add . && git commit -m "feat: sumar pruebas"');
+
+    const cloneCommand = buildGitCommand(
+      {
+        comandoGit: 'git clone {{url}}',
+        inputs: [
+          {
+            key: 'url',
+            prompt: 'URL',
+            placeholder: 'https://github.com/KLGomez/GitSOS.git',
+            validation: 'repoUrl',
+          },
+        ],
+      },
+      { url: '  https://github.com/KLGomez/GitSOS.git  ' }
+    );
+    expect(cloneCommand).toBe('git clone https://github.com/KLGomez/GitSOS.git');
 
     expect(() =>
       buildGitCommand(
