@@ -1,7 +1,12 @@
 ---
 import '../styles/global.css';
 import GitSOSInterface from '../components/GitSOSInterface';
+import VsCodeExtensionSection from '../components/VsCodeExtensionSection.astro';
 import { getCollection } from 'astro:content';
+import { getVsCodeMarketplaceUrl, isVsCodeExtensionSectionEnabled } from '../lib/featureFlags';
+
+const showVsCodeExtension = isVsCodeExtensionSectionEnabled();
+const vsCodeMarketplaceUrl = getVsCodeMarketplaceUrl();
 
 const rawDocs = await getCollection('docs');
 const docs = rawDocs
@@ -134,6 +139,8 @@ const docs = rawDocs
             </button>
           </div>
         </div>
+
+        {showVsCodeExtension && <VsCodeExtensionSection marketplaceUrl={vsCodeMarketplaceUrl} />}
       </div>
     </GitSOSInterface>
   </body>
