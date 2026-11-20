@@ -2,6 +2,14 @@
 
 Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documentan en este archivo siguiendo el formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [0.1.1] - 2026-11-20
+
+### Corregido
+- Soporte nativo para comandos de múltiples pasos en `commands.json` (arreglo de líneas ejecutables en orden) evitando operadores dependientes de shell (`&&` y `;`) para asegurar compatibilidad con Windows PowerShell 5.1, CMD, Bash y Zsh.
+- Actualizada la situación **Guardar mis cambios (add y commit)** para enviar primero `git add .` y luego `git commit -m "{{mensaje}}"` como líneas separadas en la terminal integrada.
+- Al copiar un comando de varios pasos (tanto desde el panel lateral como desde el diálogo modal), se copian todos los pasos uno por línea.
+- Validación reforzada en el cargador de `commands.json` y pruebas unitarias para impedir que cualquier comando del catálogo utilice `&&`, `;` o saltos de línea embebidos.
+
 ## [0.1.0] - 2026-11-20
 
 ### Agregado
