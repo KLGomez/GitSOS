@@ -1,71 +1,85 @@
-# gitsos README
+<p align="center">
+  <img src="media/icon.png" alt="Logo de GitSOS" width="96" height="96" />
+</p>
 
-This is the README for your extension "gitsos". After writing up a brief description, we recommend including the following sections.
+# GitSOS — Guía Interactiva de Git y GitHub para Principiantes
 
-## Features
+**GitSOS** es una extensión gratuita, comunitaria y **100% offline** para Visual Studio Code diseñada para personas que recién empiezan con Git y GitHub. Explica qué hace cada comando en español simple, te pide los datos necesarios paso a paso y pide confirmación antes de ejecutar acciones delicadas.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Sitio web y guía completa: [https://git-sos.vercel.app/](https://git-sos.vercel.app/)
+- Código fuente: [https://github.com/KLGomez/GitSOS](https://github.com/KLGomez/GitSOS)
 
 ---
 
-## Following extension guidelines
+## ¿Qué podés hacer con GitSOS?
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- **Panel lateral interactivo (Activity Bar):** buscá situaciones cotidianas o errores por título, descripción o comando, filtrá por categoría (`Emergencias`, `Flujo diario`, `Ramas`, `Remoto`) y consultá el diagrama visual de **Las 3 Zonas de Git** (*Working Directory* → *Staging Area* → *Local Repository*) sin conexión a internet.
+- **Selector rápido (`GitSOS: ¿Qué necesito hacer?`):** abrí la Paleta de Comandos (`Ctrl+Shift+P` / `Cmd+Shift+P`) y elegí lo que te pasó en lenguaje cotidiano.
+- **Comandos directos en la paleta:** accesos rápidos para las situaciones clave (deshacer último commit, crear rama, cambiar de rama, stash y resolver conflictos).
+- **Ejecución guiada y segura:** antes de tocar tu repositorio, GitSOS muestra qué hace el comando, pide los datos faltantes (`showInputBox` con validación), exige confirmación modal en acciones delicadas y ejecuta todo en una terminal integrada dedicada (`GitSOS`).
+- **Accesible y adaptable:** compatible con temas claro, oscuro y alto contraste de VS Code, navegable completamente con teclado.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+---
 
-## Working with Markdown
+## Capturas y vista previa
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+> Las capturas se preparan en [`media/capturas/`](media/capturas/README.md) antes de la publicación en Marketplace/Open VSX:
+>
+> - **[Placeholder: `media/capturas/panel-lateral.png`]** — Panel lateral en la Activity Bar con buscador, categorías, tarjetas expandibles y diagrama de las 3 Zonas de Git.
+> - **[Placeholder: `media/capturas/quickpick-ayuda.png`]** — Selector rápido `GitSOS: ¿Qué necesito hacer?` con confirmación segura.
+> - **[Placeholder: `media/capturas/demo-flujo.gif`]** — Flujo completo de búsqueda, ingreso de datos y ejecución en terminal integrada.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+---
 
-## For more information
+## Situaciones incluidas (16 en v0.1.0)
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+| Categoría | Situación | Comando Git | Acción delicada |
+| :--- | :--- | :--- | :---: |
+| **Emergencias** | Deshacer último commit | `git reset --soft HEAD~1` | Sí |
+| **Emergencias** | Corregir mensaje del último commit | `git commit --amend -m "..."` | Sí |
+| **Emergencias** | Descartar cambios de un archivo | `git restore -- <archivo>` | Sí |
+| **Emergencias** | Dejar de rastrear un archivo (`.env`) | `git rm --cached -- <archivo>` | Sí |
+| **Emergencias** | Resolver conflictos básicos | `git status` *(con guía paso a paso)* | No |
+| **Flujo diario** | Ver qué está pasando ahora | `git status` | No |
+| **Flujo diario** | Ver diferencias antes de guardar | `git diff` | No |
+| **Flujo diario** | Guardar mis cambios (`add` + `commit`) | `git add . && git commit -m "..."` | No |
+| **Flujo diario** | Ver el historial de commits | `git log --oneline` | No |
+| **Flujo diario** | Guardar cambios temporalmente (`stash`) | `git stash` | No |
+| **Flujo diario** | Recuperar cambios del stash | `git stash pop` | No |
+| **Ramas** | Crear rama | `git switch -c <rama>` | No |
+| **Ramas** | Cambiar de rama | `git switch <rama>` | No |
+| **Remoto** | Clonar un repositorio | `git clone <url>` | No |
+| **Remoto** | Traer cambios de la nube | `git pull` | No |
+| **Remoto** | Subir mis cambios a la nube | `git push` | No |
 
-**Enjoy!**
+---
+
+## Instalación
+
+### Desde un archivo `.vsix` local
+1. Descargá o generá el archivo `gitsos-0.1.0.vsix`.
+2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.1.0.vsix`).
+
+*(Una vez publicada en Visual Studio Marketplace y Open VSX Registry, también se podrá instalar buscando **GitSOS** directamente desde VS Code).*
+
+---
+
+## Uso rápido
+
+1. Hacé clic en el ícono de **GitSOS** en la barra lateral izquierda (Activity Bar) para abrir la **Guía interactiva**.
+2. Usá el buscador o los filtros de categoría para encontrar tu situación, desplegá la tarjeta y elegí **Copiar** o **Ejecutar en terminal**.
+3. También podés abrir la Paleta de Comandos (`Ctrl+Shift+P`) y ejecutar **`GitSOS: ¿Qué necesito hacer?`** o cualquiera de los comandos individuales de GitSOS.
+
+---
+
+## Alcance de esta versión (v0.1.0 — MVP)
+
+- **Costo cero y 100% offline:** todo el contenido y la interfaz viven dentro de la extensión, sin servidores propios ni cuentas externas.
+- **Sin IA en esta versión:** el MVP no incluye chatbot ni llamadas a modelos de lenguaje. En futuras versiones se sumará detección automática del estado del repositorio (`vscode.git`) y asistencia conversacional opcional (`vscode.lm`).
+
+---
+
+## Contribuir, soporte y licencia
+
+- Reportá errores o sugerí nuevas situaciones en [GitHub Issues](https://github.com/KLGomez/GitSOS/issues).
+- Distribuido bajo licencia **MIT** — ver [LICENSE](LICENSE).

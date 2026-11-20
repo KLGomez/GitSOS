@@ -12,6 +12,18 @@ import type { CommandCategory } from '../content/types.js';
 import { extractPlaceholders } from '../services/commandBuilder.js';
 
 interface PackageManifest {
+  publisher?: string;
+  displayName?: string;
+  description?: string;
+  version?: string;
+  license?: string;
+  icon?: string;
+  galleryBanner?: { color?: string; theme?: string };
+  categories?: string[];
+  keywords?: string[];
+  repository?: { type?: string; url?: string; directory?: string };
+  bugs?: { url?: string };
+  homepage?: string;
   contributes?: {
     commands?: Array<{ command: string; title: string; category?: string }>;
     viewsContainers?: {
@@ -138,6 +150,18 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
         id: 'gitsos.guideView',
       })
     );
+
+    expect(manifest.publisher).toBe('gitsos-local');
+    expect(manifest.displayName).toBeTruthy();
+    expect(manifest.description).toBeTruthy();
+    expect(manifest.version).toBe('0.1.0');
+    expect(manifest.license).toBe('MIT');
+    expect(manifest.icon).toBe('media/icon.png');
+    expect(fs.existsSync(path.resolve(__dirname, '../../', manifest.icon ?? ''))).toBe(true);
+    expect(manifest.galleryBanner).toEqual({ color: '#0f172a', theme: 'dark' });
+    expect(manifest.repository?.url).toBe('https://github.com/KLGomez/GitSOS.git');
+    expect(manifest.bugs?.url).toBe('https://github.com/KLGomez/GitSOS/issues');
+    expect(manifest.homepage).toBe('https://git-sos.vercel.app/');
   });
 
   it('rechaza catálogos con errores de esquema o inconsistencias', () => {

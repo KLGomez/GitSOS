@@ -1,17 +1,43 @@
 {
   "name": "gitsos",
-  "displayName": "GitSOS",
-  "description": "Guía interactiva de Git y GitHub para principiantes en VS Code",
+  "displayName": "GitSOS — Guía Interactiva de Git",
+  "description": "Guía interactiva de Git y GitHub en español para principiantes, 100% offline, con comandos guiados y confirmación segura.",
   "version": "0.1.0",
   "publisher": "gitsos-local",
+  "author": {
+    "name": "Katherine Gomez",
+    "url": "https://github.com/KLGomez"
+  },
   "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0f172a",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.93.0"
   },
   "categories": [
     "Education",
+    "SCM Providers",
     "Other"
   ],
+  "keywords": [
+    "git",
+    "github",
+    "principiantes",
+    "español",
+    "gitsos"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KLGomez/GitSOS.git",
+    "directory": "vscode-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/KLGomez/GitSOS/issues"
+  },
+  "homepage": "https://git-sos.vercel.app/",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
