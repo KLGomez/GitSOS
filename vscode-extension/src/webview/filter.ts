@@ -1,4 +1,5 @@
 import type { GitSosCommandEntry } from '../content/types.js';
+import { formatCommandForDisplay } from '../services/commandBuilder.js';
 import type { CategoryFilter } from './protocol.js';
 
 /**
@@ -31,7 +32,7 @@ export function filterCommands(
       return true;
     }
 
-    const haystack = [entry.titulo, entry.situacion, entry.comandoGit]
+    const haystack = [entry.titulo, entry.situacion, formatCommandForDisplay(entry.comandoGit, ' ')]
       .map(normalizeSearchText)
       .join(' ');
 

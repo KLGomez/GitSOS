@@ -4,6 +4,8 @@ export type CommandCategory = 'emergencias' | 'ramas' | 'flujo-diario' | 'remoto
 
 export type InputValidationType = 'branch' | 'message' | 'filePath' | 'repoUrl' | 'nonEmpty';
 
+export type GitCommandSpec = string | readonly string[];
+
 export interface CommandInputSpec {
   readonly key: string;
   readonly prompt: string;
@@ -16,7 +18,7 @@ export interface GitSosCommandEntry {
   readonly titulo: string;
   readonly situacion: string;
   readonly explicacionSimple: string;
-  readonly comandoGit: string;
+  readonly comandoGit: GitCommandSpec;
   readonly advertencias: readonly string[];
   readonly esDestructivo: boolean;
   readonly categoria: CommandCategory;

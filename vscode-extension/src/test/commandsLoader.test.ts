@@ -9,7 +9,7 @@ import {
   validateCommandsCatalog,
 } from '../content/loader.js';
 import type { CommandCategory } from '../content/types.js';
-import { extractPlaceholders } from '../services/commandBuilder.js';
+import { extractPlaceholders, getCommandSteps } from '../services/commandBuilder.js';
 
 interface PackageManifest {
   publisher?: string;
@@ -54,14 +54,25 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
       expect(entry.titulo.trim().length).toBeGreaterThan(0);
       expect(entry.situacion.trim().length).toBeGreaterThan(0);
       expect(entry.explicacionSimple.trim().length).toBeGreaterThan(0);
-      expect(entry.comandoGit.trim().length).toBeGreaterThan(0);
       expect(Array.isArray(entry.advertencias)).toBe(true);
       expect(typeof entry.esDestructivo).toBe('boolean');
+      const steps = getCommandSteps(entry.comandoGit);
+      expect(steps.length).toBeGreaterThan(0);
+      for (const step of steps) {
+        expect(step.trim().length).toBeGreaterThan(0);
+        expect(step).not.toContain('&&');
+        expect(step).not.toContain(';');
+      }
 
       const placeholders = extractPlaceholders(entry.comandoGit);
       const inputKeys = (entry.inputs ?? []).map((item) => item.key);
       expect(inputKeys.sort()).toEqual([...placeholders].sort());
     }
+
+    expect(getCommandById('guardar-cambios', 'es')?.comandoGit).toEqual([
+      'git add .',
+      'git commit -m "{{mensaje}}"',
+    ]);
 
     expect(seenCategories).toEqual(new Set(['emergencias', 'ramas', 'flujo-diario', 'remoto']));
     expect(all).toHaveLength(16);
@@ -233,5 +244,65 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
         ],
       })
     ).toThrow(/Categoría desconocida/);
+
+    expect(() =>
+      validateCommandsCatalog({
+        ...validSample,
+        commands: [
+          {
+            ...validSample.commands[0],
+            comandoGit: ['git add .', 'git status'],
+          },
+        ],
+      })
+    ).not.toThrow();
+
+    expect(() =>
+      validateCommandsCatalog({
+        ...validSample,
+        commands: [
+          {
+            ...validSample.commands[0],
+            comandoGit: [],
+          },
+        ],
+      })
+    ).toThrow(/al menos un paso/);
+
+    expect(() =>
+      validateCommandsCatalog({
+        ...validSample,
+        commands: [
+          {
+            ...validSample.commands[0],
+            comandoGit: 'git add . && git status',
+          },
+        ],
+      })
+    ).toThrow(/&&/);
+
+    expect(() =>
+      validateCommandsCatalog({
+        ...validSample,
+        commands: [
+          {
+            ...validSample.commands[0],
+            comandoGit: 'git add .; git status',
+          },
+        ],
+      })
+    ).toThrow(/;/);
+
+    expect(() =>
+      validateCommandsCatalog({
+        ...validSample,
+        commands: [
+          {
+            ...validSample.commands[0],
+            comandoGit: 'git add .\ngit status',
+          },
+        ],
+      })
+    ).toThrow(/saltos de línea/);
   });
 });

@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import type { GitSosCommandEntry } from '../content/types.js';
 import type { Messages, SupportedLocale } from '../i18n/index.js';
+import { formatCommandForDisplay } from '../services/commandBuilder.js';
 import type { CategoryFilter } from './protocol.js';
 
 export interface GuideHtmlOptions {
@@ -119,7 +120,7 @@ function renderCommandCard(entry: GitSosCommandEntry, messages: Messages): strin
       ${stepsHtml}
       <div class="card-subsection">
         <h4 class="card-subheading">${escapeHtml(messages.cardCommandHeading)}</h4>
-        <pre class="command-code-block"><code>${escapeHtml(entry.comandoGit)}</code></pre>
+        <pre class="command-code-block"><code>${escapeHtml(formatCommandForDisplay(entry.comandoGit))}</code></pre>
       </div>
       ${warningsHtml}
       <div class="card-actions">

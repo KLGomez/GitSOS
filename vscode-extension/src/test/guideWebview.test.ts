@@ -69,6 +69,10 @@ describe('Webview de la guía lateral (Fase 3)', () => {
     expect(html).toContain('Staging Area');
     expect(html).toContain('Local Repository');
     expect(html).toContain(messages.cardDestructiveBadge);
+    expect(html).toContain(
+      '<pre class="command-code-block"><code>git add .\ngit commit -m &quot;{{mensaje}}&quot;</code></pre>'
+    );
+    expect(html).not.toContain('git add . &amp;&amp;');
   });
 
   it('escapa contenido dinámico para prevenir XSS', () => {

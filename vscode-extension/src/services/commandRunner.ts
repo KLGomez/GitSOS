@@ -2,7 +2,12 @@ import * as vscode from 'vscode';
 import { getAllCommands } from '../content/loader.js';
 import type { GitSosCommandEntry } from '../content/types.js';
 import { getMessages } from '../i18n/index.js';
-import { buildGitCommand, validateInput } from './commandBuilder.js';
+import {
+  buildGitCommandSteps,
+  formatCommandForDisplay,
+  getCommandSteps,
+  validateInput,
+} from './commandBuilder.js';
 
 interface SituationQuickPickItem extends vscode.QuickPickItem {
   readonly entry: GitSosCommandEntry;
@@ -21,7 +26,9 @@ export function formatCommandDetail(entry: GitSosCommandEntry): string {
     sections.push(`Pasos recomendados:\n${entry.pasosGuia.join('\n')}`);
   }
 
-  sections.push(`Comando Git:\n${entry.comandoGit}`);
+  const steps = getCommandSteps(entry.comandoGit);
+  const heading = steps.length > 1 ? 'Comandos Git (en orden):' : 'Comando Git:';
+  sections.push(`${heading}\n${formatCommandForDisplay(entry.comandoGit)}`);
 
   if (entry.advertencias.length > 0) {
     sections.push(
@@ -34,9 +41,9 @@ export function formatCommandDetail(entry: GitSosCommandEntry): string {
 
 function formatDestructiveConfirmationDetail(
   entry: GitSosCommandEntry,
-  finalCommand: string
+  finalSteps: readonly string[]
 ): string {
-  const lines: string[] = [`Se ejecutará en tu terminal:\n${finalCommand}`];
+  const lines: string[] = [`Se ejecutará en tu terminal:\n${finalSteps.join('\n')}`];
 
   if (entry.advertencias.length > 0) {
     lines.push(
@@ -71,7 +78,7 @@ export function getOrCreateGitSosTerminal(cwd: string): vscode.Terminal {
  */
 export async function copyGitSosEntryCommand(entry: GitSosCommandEntry): Promise<void> {
   const messages = getMessages('es');
-  await vscode.env.clipboard.writeText(entry.comandoGit);
+  await vscode.env.clipboard.writeText(formatCommandForDisplay(entry.comandoGit));
   void vscode.window.showInformationMessage(messages.commandCopiedInfo);
 }
 
@@ -128,14 +135,14 @@ export async function runGitSosEntry(
     collectedValues[spec.key] = value;
   }
 
-  const finalCommand = buildGitCommand(entry, collectedValues);
+  const finalSteps = buildGitCommandSteps(entry, collectedValues);
 
   if (entry.esDestructivo) {
     const confirmed = await vscode.window.showWarningMessage(
       messages.confirmDestructiveTitle,
       {
         modal: true,
-        detail: formatDestructiveConfirmationDetail(entry, finalCommand),
+        detail: formatDestructiveConfirmationDetail(entry, finalSteps),
       },
       messages.confirmDestructiveButton
     );
@@ -147,7 +154,9 @@ export async function runGitSosEntry(
 
   const terminal = getOrCreateGitSosTerminal(workspaceFolder.uri.fsPath);
   terminal.show(true);
-  terminal.sendText(finalCommand, true);
+  for (const step of finalSteps) {
+    terminal.sendText(step, true);
+  }
   return true;
 }
 
@@ -160,7 +169,7 @@ export async function openSituationsQuickPick(): Promise<void> {
 
   const items: SituationQuickPickItem[] = entries.map((entry) => ({
     label: `${entry.esDestructivo ? '$(warning)' : '$(terminal)'} ${entry.titulo}`,
-    description: entry.comandoGit,
+    description: formatCommandForDisplay(entry.comandoGit, ' → '),
     detail: entry.situacion,
     entry,
   }));

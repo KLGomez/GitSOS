@@ -23,6 +23,7 @@
     "src/webview/client/**/*",
     "src/webview/protocol.ts",
     "src/webview/filter.ts",
+    "src/services/commandBuilder.ts",
     "src/content/types.ts",
     "src/i18n/**/*"
   ]

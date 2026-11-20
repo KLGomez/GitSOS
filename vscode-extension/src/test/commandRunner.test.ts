@@ -281,4 +281,80 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
     expect(confirmedDestructive).toBe(true);
     expect(fakeTerminal.sendText).toHaveBeenCalledWith('git reset --soft HEAD~1', true);
   });
+
+  it('envía comandos multi-paso línea por línea, los copia uno por línea y mantiene confirmación modal en destructivos', async () => {
+    const saveChangesEntry = getCommandById('guardar-cambios', 'es');
+    expect(saveChangesEntry).toBeDefined();
+    if (!saveChangesEntry) {
+      return;
+    }
+
+    const fakeTerminal = {
+      name: 'GitSOS',
+      exitStatus: undefined,
+      show: vi.fn(),
+      sendText: vi.fn(),
+    };
+    createTerminalMock.mockReturnValue(fakeTerminal);
+
+    await copyGitSosEntryCommand(saveChangesEntry);
+    expect(writeTextMock).toHaveBeenCalledWith('git add .\ngit commit -m "{{mensaje}}"');
+
+    vi.clearAllMocks();
+
+    showInformationMessageMock.mockResolvedValueOnce(messages.copyCommandButton);
+    const copiedFromModal = await runGitSosEntry(saveChangesEntry);
+    expect(copiedFromModal).toBe(false);
+    expect(writeTextMock).toHaveBeenCalledWith('git add .\ngit commit -m "{{mensaje}}"');
+
+    vi.clearAllMocks();
+
+    showInformationMessageMock.mockResolvedValueOnce(messages.runInTerminalButton);
+    showInputBoxMock.mockResolvedValueOnce('feat: primer commit');
+    const executed = await runGitSosEntry(saveChangesEntry);
+    expect(executed).toBe(true);
+    expect(showWarningMessageMock).not.toHaveBeenCalled();
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(1, 'git add .', true);
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(
+      2,
+      'git commit -m "feat: primer commit"',
+      true
+    );
+
+    vi.clearAllMocks();
+
+    const destructiveMultiStep = {
+      ...saveChangesEntry,
+      id: 'destructivo-multipaso',
+      esDestructivo: true,
+    };
+    showInputBoxMock.mockResolvedValueOnce('fix: prueba delicada');
+    showWarningMessageMock.mockResolvedValueOnce(undefined);
+    const cancelledDestructive = await runGitSosEntry(destructiveMultiStep, {
+      skipExplanationModal: true,
+    });
+    expect(cancelledDestructive).toBe(false);
+    expect(showWarningMessageMock).toHaveBeenCalledWith(
+      messages.confirmDestructiveTitle,
+      expect.objectContaining({
+        modal: true,
+        detail: expect.stringContaining('git add .\ngit commit -m "fix: prueba delicada"'),
+      }),
+      messages.confirmDestructiveButton
+    );
+    expect(fakeTerminal.sendText).not.toHaveBeenCalled();
+
+    showInputBoxMock.mockResolvedValueOnce('fix: prueba delicada');
+    showWarningMessageMock.mockResolvedValueOnce(messages.confirmDestructiveButton);
+    const confirmedDestructive = await runGitSosEntry(destructiveMultiStep, {
+      skipExplanationModal: true,
+    });
+    expect(confirmedDestructive).toBe(true);
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(1, 'git add .', true);
+    expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(
+      2,
+      'git commit -m "fix: prueba delicada"',
+      true
+    );
+  });
 });

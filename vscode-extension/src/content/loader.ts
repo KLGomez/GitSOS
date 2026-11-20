@@ -5,6 +5,7 @@ import type {
   CommandCategory,
   CommandInputSpec,
   CommandsCatalog,
+  GitCommandSpec,
   GitSosCommandEntry,
   InputValidationType,
 } from './types.js';
@@ -40,6 +41,40 @@ function assertStringArray(value: unknown, fieldPath: string): string[] {
     throw new Error(`Campo inválido en catálogo GitSOS: "${fieldPath}" debe ser un arreglo.`);
   }
   return value.map((item, index) => assertNonEmptyString(item, `${fieldPath}[${index}]`));
+}
+
+function assertSingleCommandStep(value: unknown, fieldPath: string): string {
+  const step = assertNonEmptyString(value, fieldPath);
+  if (/[\r\n]/.test(step)) {
+    throw new Error(
+      `Campo inválido en catálogo GitSOS: "${fieldPath}" no puede incluir saltos de línea; usá un arreglo de pasos.`
+    );
+  }
+  if (step.includes('&&') || step.includes(';')) {
+    throw new Error(
+      `Campo inválido en catálogo GitSOS: "${fieldPath}" no debe usar "&&" ni ";"; definí cada paso como un elemento separado del arreglo.`
+    );
+  }
+  return step;
+}
+
+function assertGitCommandSpec(value: unknown, fieldPath: string): GitCommandSpec {
+  if (typeof value === 'string') {
+    return assertSingleCommandStep(value, fieldPath);
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      throw new Error(
+        `Campo inválido en catálogo GitSOS: "${fieldPath}" debe incluir al menos un paso.`
+      );
+    }
+    return value.map((item, index) => assertSingleCommandStep(item, `${fieldPath}[${index}]`));
+  }
+
+  throw new Error(
+    `Campo inválido en catálogo GitSOS: "${fieldPath}" debe ser un texto o un arreglo de pasos.`
+  );
 }
 
 function validateInputSpec(rawInput: unknown, fieldPath: string): CommandInputSpec {
@@ -79,7 +114,7 @@ function validateCommandEntry(rawEntry: unknown, index: number): GitSosCommandEn
     rawEntry.explicacionSimple,
     `${prefix}.explicacionSimple`
   );
-  const comandoGit = assertNonEmptyString(rawEntry.comandoGit, `${prefix}.comandoGit`);
+  const comandoGit = assertGitCommandSpec(rawEntry.comandoGit, `${prefix}.comandoGit`);
   const advertencias = assertStringArray(rawEntry.advertencias, `${prefix}.advertencias`);
 
   if (typeof rawEntry.esDestructivo !== 'boolean') {

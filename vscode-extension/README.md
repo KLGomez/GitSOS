@@ -16,7 +16,7 @@
 - **Panel lateral interactivo (Activity Bar):** buscá situaciones cotidianas o errores por título, descripción o comando, filtrá por categoría (`Emergencias`, `Flujo diario`, `Ramas`, `Remoto`) y consultá el diagrama visual de **Las 3 Zonas de Git** (*Working Directory* → *Staging Area* → *Local Repository*) sin conexión a internet.
 - **Selector rápido (`GitSOS: ¿Qué necesito hacer?`):** abrí la Paleta de Comandos (`Ctrl+Shift+P` / `Cmd+Shift+P`) y elegí lo que te pasó en lenguaje cotidiano.
 - **Comandos directos en la paleta:** accesos rápidos para las situaciones clave (deshacer último commit, crear rama, cambiar de rama, stash y resolver conflictos).
-- **Ejecución guiada y segura:** antes de tocar tu repositorio, GitSOS muestra qué hace el comando, pide los datos faltantes (`showInputBox` con validación), exige confirmación modal en acciones delicadas y ejecuta todo en una terminal integrada dedicada (`GitSOS`).
+- **Ejecución guiada y segura:** antes de tocar tu repositorio, GitSOS muestra qué hace el comando, pide los datos faltantes (`showInputBox` con validación), exige confirmación modal en acciones delicadas y ejecuta todo en una terminal integrada dedicada (`GitSOS`). Los flujos con varios pasos (como `add` + `commit`) se envían línea por línea sin operadores dependientes de shell (`&&` / `;`), funcionando igual en PowerShell, CMD, Bash y Zsh.
 - **Accesible y adaptable:** compatible con temas claro, oscuro y alto contraste de VS Code, navegable completamente con teclado.
 
 ---
@@ -42,7 +42,7 @@
 | **Emergencias** | Resolver conflictos básicos | `git status` *(con guía paso a paso)* | No |
 | **Flujo diario** | Ver qué está pasando ahora | `git status` | No |
 | **Flujo diario** | Ver diferencias antes de guardar | `git diff` | No |
-| **Flujo diario** | Guardar mis cambios (`add` + `commit`) | `git add . && git commit -m "..."` | No |
+| **Flujo diario** | Guardar mis cambios (`add` + `commit`) | `git add .` → `git commit -m "..."` | No |
 | **Flujo diario** | Ver el historial de commits | `git log --oneline` | No |
 | **Flujo diario** | Guardar cambios temporalmente (`stash`) | `git stash` | No |
 | **Flujo diario** | Recuperar cambios del stash | `git stash pop` | No |

@@ -1,4 +1,4 @@
-import type { GitSosCommandEntry, InputValidationType } from '../content/types.js';
+import type { GitCommandSpec, GitSosCommandEntry, InputValidationType } from '../content/types.js';
 
 const PLACEHOLDER_REGEX = /\{\{([a-zA-Z0-9_]+)\}\}/g;
 const BRANCH_ALLOWED_REGEX = /^[A-Za-z0-9._/-]+$/;
@@ -10,14 +10,30 @@ const REPO_URL_SCP_REGEX = /^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+:[A-Za-z0-9._/-]+$/;
 const NON_EMPTY_FORBIDDEN_REGEX = /[;&|$`<>]/;
 
 /**
- * Extrae las claves únicas `{{clave}}` declaradas en una plantilla de comando Git.
+ * Normaliza un comando simple o multi-paso a un arreglo ordenado de líneas ejecutables.
  */
-export function extractPlaceholders(commandTemplate: string): string[] {
+export function getCommandSteps(comandoGit: GitCommandSpec): string[] {
+  return typeof comandoGit === 'string' ? [comandoGit] : [...comandoGit];
+}
+
+/**
+ * Formatea un comando simple o multi-paso para mostrarlo o copiarlo en líneas separadas.
+ */
+export function formatCommandForDisplay(comandoGit: GitCommandSpec, separator = '\n'): string {
+  return getCommandSteps(comandoGit).join(separator);
+}
+
+/**
+ * Extrae las claves únicas `{{clave}}` declaradas en una plantilla de comando Git (simple o multi-paso).
+ */
+export function extractPlaceholders(commandTemplate: GitCommandSpec): string[] {
   const keys = new Set<string>();
-  for (const match of commandTemplate.matchAll(PLACEHOLDER_REGEX)) {
-    const key = match[1];
-    if (key) {
-      keys.add(key);
+  for (const step of getCommandSteps(commandTemplate)) {
+    for (const match of step.matchAll(PLACEHOLDER_REGEX)) {
+      const key = match[1];
+      if (key) {
+        keys.add(key);
+      }
     }
   }
   return [...keys];
@@ -105,14 +121,14 @@ export function validateInput(
 }
 
 /**
- * Construye el comando Git final validando cada dato ingresado y evitando metacaracteres peligrosos.
+ * Construye los pasos finales del comando Git validando cada dato ingresado y evitando metacaracteres peligrosos.
  */
-export function buildGitCommand(
+export function buildGitCommandSteps(
   entry: Pick<GitSosCommandEntry, 'comandoGit' | 'inputs'>,
   values: Record<string, string>
-): string {
-  let result = entry.comandoGit;
+): string[] {
   const specs = entry.inputs ?? [];
+  const formattedValues: Record<string, string> = {};
 
   for (const spec of specs) {
     const rawValue = values[spec.key];
@@ -126,16 +142,35 @@ export function buildGitCommand(
     }
 
     const trimmed = rawValue.trim();
-    const formattedValue =
+    formattedValues[spec.key] =
       spec.validation === 'filePath' && /\s/.test(trimmed) ? `"${trimmed}"` : trimmed;
-
-    result = result.replaceAll(`{{${spec.key}}}`, formattedValue);
   }
 
-  const remaining = extractPlaceholders(result);
+  const steps = getCommandSteps(entry.comandoGit).map((stepTemplate) => {
+    let resolved = stepTemplate;
+    for (const spec of specs) {
+      const val = formattedValues[spec.key];
+      if (val !== undefined) {
+        resolved = resolved.replaceAll(`{{${spec.key}}}`, val);
+      }
+    }
+    return resolved;
+  });
+
+  const remaining = extractPlaceholders(steps);
   if (remaining.length > 0) {
     throw new Error(`Quedaron datos sin completar en el comando: ${remaining.join(', ')}.`);
   }
 
-  return result;
+  return steps;
+}
+
+/**
+ * Construye el comando Git final como texto unido por saltos de línea.
+ */
+export function buildGitCommand(
+  entry: Pick<GitSosCommandEntry, 'comandoGit' | 'inputs'>,
+  values: Record<string, string>
+): string {
+  return buildGitCommandSteps(entry, values).join('\n');
 }

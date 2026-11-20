@@ -1,14 +1,30 @@
 import { describe, expect, it } from 'vitest';
-import { buildGitCommand, extractPlaceholders, validateInput } from '../services/commandBuilder.js';
+import {
+  buildGitCommand,
+  buildGitCommandSteps,
+  extractPlaceholders,
+  formatCommandForDisplay,
+  getCommandSteps,
+  validateInput,
+} from '../services/commandBuilder.js';
 
 describe('Constructor y validador de comandos (Fase 2)', () => {
-  it('extrae placeholders únicos de la plantilla', () => {
+  it('extrae placeholders únicos y normaliza comandos simples o multi-paso', () => {
     expect(extractPlaceholders('git status')).toEqual([]);
     expect(extractPlaceholders('git switch -c {{rama}}')).toEqual(['rama']);
     expect(extractPlaceholders('git diff {{rama}} {{rama}} {{archivo}}')).toEqual([
       'rama',
       'archivo',
     ]);
+    expect(extractPlaceholders(['git add .', 'git commit -m "{{mensaje}}"'])).toEqual(['mensaje']);
+    expect(getCommandSteps('git status')).toEqual(['git status']);
+    expect(getCommandSteps(['git add .', 'git commit -m "ok"'])).toEqual([
+      'git add .',
+      'git commit -m "ok"',
+    ]);
+    expect(formatCommandForDisplay(['git add .', 'git commit -m "ok"'])).toBe(
+      'git add .\ngit commit -m "ok"'
+    );
   });
 
   it('valida nombres de rama de forma segura', () => {
@@ -84,9 +100,9 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
     );
     expect(spacedPathCommand).toBe('git restore -- "docs/mi archivo.md"');
 
-    const commitCommand = buildGitCommand(
+    const commitSteps = buildGitCommandSteps(
       {
-        comandoGit: 'git add . && git commit -m "{{mensaje}}"',
+        comandoGit: ['git add .', 'git commit -m "{{mensaje}}"'],
         inputs: [
           {
             key: 'mensaje',
@@ -98,7 +114,23 @@ describe('Constructor y validador de comandos (Fase 2)', () => {
       },
       { mensaje: 'feat: sumar pruebas' }
     );
-    expect(commitCommand).toBe('git add . && git commit -m "feat: sumar pruebas"');
+    expect(commitSteps).toEqual(['git add .', 'git commit -m "feat: sumar pruebas"']);
+
+    const commitCommand = buildGitCommand(
+      {
+        comandoGit: ['git add .', 'git commit -m "{{mensaje}}"'],
+        inputs: [
+          {
+            key: 'mensaje',
+            prompt: 'Mensaje',
+            placeholder: 'feat: nueva seccion',
+            validation: 'message',
+          },
+        ],
+      },
+      { mensaje: 'feat: sumar pruebas' }
+    );
+    expect(commitCommand).toBe('git add .\ngit commit -m "feat: sumar pruebas"');
 
     const cloneCommand = buildGitCommand(
       {

@@ -111,15 +111,15 @@
       "titulo": "Guardar mis cambios (add y commit)",
       "situacion": "Ya terminé una parte del trabajo y quiero guardarla en el historial de Git",
       "explicacionSimple": "Prepara todos los archivos modificados o nuevos de tu carpeta y los guarda juntos como un commit con un mensaje claro en tu historial local.",
-      "comandoGit": "git add . && git commit -m \"{{mensaje}}\"",
+      "comandoGit": ["git add .", "git commit -m \"{{mensaje}}\""],
       "pasosGuia": [
         "1. Antes de guardar, revisá con git status que no estés incluyendo archivos privados como .env.",
-        "2. Ejecutá este comando para preparar los cambios y crear el commit con tu descripción.",
+        "2. GitSOS ejecutará ambos pasos en orden (primero git add . y luego git commit) para guardar tu descripción.",
         "3. Si todavía querés compartirlo en GitHub o GitLab, después ejecutá git push."
       ],
       "advertencias": [
         "Asegurate de que tu archivo .env o contraseñas estén en .gitignore antes de usar git add .",
-        "Si usás una versión antigua de Windows PowerShell (5.1) que no acepta &&, ejecutá primero git add . y luego git commit -m \"tu mensaje\"."
+        "Ambos comandos se envían en orden, uno por línea (compatible con PowerShell, CMD y Bash)."
       ],
       "esDestructivo": false,
       "categoria": "flujo-diario",
