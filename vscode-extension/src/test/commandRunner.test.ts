@@ -59,7 +59,11 @@ vi.mock('vscode', () => ({
 import { AYUDA_COMMAND_ID, registerGitCommands } from '../commands/gitCommands.js';
 import { getCommandById } from '../content/loader.js';
 import { getMessages } from '../i18n/index.js';
-import { openSituationsQuickPick, runGitSosEntry } from '../services/commandRunner.js';
+import {
+  copyGitSosEntryCommand,
+  openSituationsQuickPick,
+  runGitSosEntry,
+} from '../services/commandRunner.js';
 
 describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
   const messages = getMessages('es');
@@ -221,5 +225,60 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
       'gitsos.guardarStash',
       'gitsos.resolverConflictos',
     ]);
+  });
+
+  it('reutiliza runGitSosEntry desde el webview saltando el modal inicial pero exigiendo inputs y confirmación destructiva', async () => {
+    const createBranchEntry = getCommandById('crear-rama', 'es');
+    const undoCommitEntry = getCommandById('deshacer-ultimo-commit', 'es');
+    const stashEntry = getCommandById('guardar-stash', 'es');
+    expect(createBranchEntry).toBeDefined();
+    expect(undoCommitEntry).toBeDefined();
+    expect(stashEntry).toBeDefined();
+    if (!createBranchEntry || !undoCommitEntry || !stashEntry) {
+      return;
+    }
+
+    const fakeTerminal = {
+      name: 'GitSOS',
+      exitStatus: undefined,
+      show: vi.fn(),
+      sendText: vi.fn(),
+    };
+    createTerminalMock.mockReturnValue(fakeTerminal);
+
+    await copyGitSosEntryCommand(stashEntry);
+    expect(writeTextMock).toHaveBeenCalledWith('git stash');
+    expect(showInformationMessageMock).toHaveBeenCalledWith(messages.commandCopiedInfo);
+
+    vi.clearAllMocks();
+
+    showInputBoxMock.mockResolvedValueOnce('feat/panel');
+    const created = await runGitSosEntry(createBranchEntry, { skipExplanationModal: true });
+    expect(created).toBe(true);
+    expect(showInformationMessageMock).not.toHaveBeenCalled();
+    expect(showInputBoxMock).toHaveBeenCalledTimes(1);
+    expect(fakeTerminal.sendText).toHaveBeenCalledWith('git switch -c feat/panel', true);
+
+    vi.clearAllMocks();
+
+    showWarningMessageMock.mockResolvedValueOnce(undefined);
+    const cancelledDestructive = await runGitSosEntry(undoCommitEntry, {
+      skipExplanationModal: true,
+    });
+    expect(cancelledDestructive).toBe(false);
+    expect(showInformationMessageMock).not.toHaveBeenCalled();
+    expect(showWarningMessageMock).toHaveBeenCalledWith(
+      messages.confirmDestructiveTitle,
+      expect.objectContaining({ modal: true }),
+      messages.confirmDestructiveButton
+    );
+    expect(fakeTerminal.sendText).not.toHaveBeenCalled();
+
+    showWarningMessageMock.mockResolvedValueOnce(messages.confirmDestructiveButton);
+    const confirmedDestructive = await runGitSosEntry(undoCommitEntry, {
+      skipExplanationModal: true,
+    });
+    expect(confirmedDestructive).toBe(true);
+    expect(fakeTerminal.sendText).toHaveBeenCalledWith('git reset --soft HEAD~1', true);
   });
 });

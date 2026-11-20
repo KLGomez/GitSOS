@@ -15,12 +15,25 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitsos-sidebar",
+          "title": "%viewsContainer.gitsos.title%",
+          "icon": "media/gitsos-activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "gitsos-sidebar": [
+        {
+          "type": "webview",
+          "id": "gitsos.guideView",
+          "name": "%view.guide.name%"
+        }
+      ]
+    },
     "commands": [
-      {
-        "command": "gitsos.hola",
-        "title": "%command.hola.title%",
-        "category": "GitSOS"
-      },
       {
         "command": "gitsos.ayuda",
         "title": "%command.ayuda.title%",
@@ -58,10 +71,10 @@
     "compile": "pnpm run check-types && node esbuild.js",
     "build": "pnpm run check-types && node esbuild.js --production",
     "watch": "node esbuild.js --watch",
-    "check-types": "tsc --noEmit",
+    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json",
     "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.{ts,json}\" esbuild.js eslint.config.mjs package.json",
-    "format:check": "prettier --check \"src/**/*.{ts,json}\" esbuild.js eslint.config.mjs",
+    "format": "prettier --write \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs package.json",
+    "format:check": "prettier --check \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs",
     "test": "vitest run",
     "package": "vsce package --no-dependencies"
   },

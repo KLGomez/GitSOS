@@ -13,6 +13,7 @@ eslint.config.mjs
 pnpm-lock.yaml
 pnpm-workspace.yaml
 tsconfig.json
+tsconfig.webview.json
 vitest.config.mts
 vsc-extension-quickstart.md
 **/*.map

@@ -1,5 +1,6 @@
 {
-  "command.hola.title": "Hola",
+  "viewsContainer.gitsos.title": "GitSOS",
+  "view.guide.name": "Guía interactiva",
   "command.ayuda.title": "¿Qué necesito hacer?",
   "command.deshacerUltimoCommit.title": "Deshacer último commit",
   "command.crearRama.title": "Crear rama",

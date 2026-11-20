@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": [],
+    "rootDir": "src",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noEmit": true
+  },
+  "include": [
+    "src/webview/client/**/*",
+    "src/webview/protocol.ts",
+    "src/webview/filter.ts",
+    "src/content/types.ts",
+    "src/i18n/**/*"
+  ]
+}

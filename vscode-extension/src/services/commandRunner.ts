@@ -67,28 +67,42 @@ export function getOrCreateGitSosTerminal(cwd: string): vscode.Terminal {
 }
 
 /**
- * Muestra explicación, pide parámetros si faltan, solicita confirmación en acciones
- * destructivas y ejecuta el comando en la terminal integrada.
+ * Copia la plantilla o comando Git de la entrada al portapapeles y notifica al usuario.
  */
-export async function runGitSosEntry(entry: GitSosCommandEntry): Promise<boolean> {
+export async function copyGitSosEntryCommand(entry: GitSosCommandEntry): Promise<void> {
   const messages = getMessages('es');
-  const detail = formatCommandDetail(entry);
+  await vscode.env.clipboard.writeText(entry.comandoGit);
+  void vscode.window.showInformationMessage(messages.commandCopiedInfo);
+}
 
-  const selection = await vscode.window.showInformationMessage(
-    `GitSOS — ${entry.titulo}`,
-    { modal: true, detail },
-    messages.runInTerminalButton,
-    messages.copyCommandButton
-  );
+/**
+ * Muestra explicación (salvo si se invoca desde el panel), pide parámetros si faltan,
+ * solicita confirmación en acciones destructivas y ejecuta el comando en la terminal integrada.
+ */
+export async function runGitSosEntry(
+  entry: GitSosCommandEntry,
+  options?: { skipExplanationModal?: boolean }
+): Promise<boolean> {
+  const messages = getMessages('es');
 
-  if (selection === messages.copyCommandButton) {
-    await vscode.env.clipboard.writeText(entry.comandoGit);
-    void vscode.window.showInformationMessage(messages.commandCopiedInfo);
-    return false;
-  }
+  if (!options?.skipExplanationModal) {
+    const detail = formatCommandDetail(entry);
 
-  if (selection !== messages.runInTerminalButton) {
-    return false;
+    const selection = await vscode.window.showInformationMessage(
+      `GitSOS — ${entry.titulo}`,
+      { modal: true, detail },
+      messages.runInTerminalButton,
+      messages.copyCommandButton
+    );
+
+    if (selection === messages.copyCommandButton) {
+      await copyGitSosEntryCommand(entry);
+      return false;
+    }
+
+    if (selection !== messages.runInTerminalButton) {
+      return false;
+    }
   }
 
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];

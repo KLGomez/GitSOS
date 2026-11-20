@@ -8,16 +8,21 @@ import {
   loadCommandsCatalog,
   validateCommandsCatalog,
 } from '../content/loader.js';
+import type { CommandCategory } from '../content/types.js';
 import { extractPlaceholders } from '../services/commandBuilder.js';
 
 interface PackageManifest {
   contributes?: {
     commands?: Array<{ command: string; title: string; category?: string }>;
+    viewsContainers?: {
+      activitybar?: Array<{ id: string; title: string; icon: string }>;
+    };
+    views?: Record<string, Array<{ type?: string; id: string; name: string }>>;
   };
 }
 
-describe('Catálogo commands.json y loader (Fase 2)', () => {
-  it('carga commands.json con al menos 8 situaciones y estructura válida', () => {
+describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
+  it('carga commands.json con al menos 8 situaciones, las 4 categorías y estructura válida', () => {
     const catalog = loadCommandsCatalog('es');
     expect(catalog.locale).toBe('es');
     expect(catalog.version).toBe(1);
@@ -27,9 +32,12 @@ describe('Catálogo commands.json y loader (Fase 2)', () => {
     expect(all.length).toBe(catalog.commands.length);
 
     const seenIds = new Set<string>();
+    const seenCategories = new Set<CommandCategory>();
+
     for (const entry of all) {
       expect(seenIds.has(entry.id)).toBe(false);
       seenIds.add(entry.id);
+      seenCategories.add(entry.categoria);
 
       expect(entry.titulo.trim().length).toBeGreaterThan(0);
       expect(entry.situacion.trim().length).toBeGreaterThan(0);
@@ -42,9 +50,11 @@ describe('Catálogo commands.json y loader (Fase 2)', () => {
       const inputKeys = (entry.inputs ?? []).map((item) => item.key);
       expect(inputKeys.sort()).toEqual([...placeholders].sort());
     }
+
+    expect(seenCategories).toEqual(new Set(['emergencias', 'ramas', 'flujo-diario', 'remoto']));
   });
 
-  it('incluye las 5 situaciones clave y las alinea con package.json', () => {
+  it('incluye las 5 situaciones clave, declara vista lateral y elimina gitsos.hola de package.json', () => {
     const requiredIds = [
       'deshacer-ultimo-commit',
       'crear-rama',
@@ -67,6 +77,7 @@ describe('Catálogo commands.json y loader (Fase 2)', () => {
       (manifest.contributes?.commands ?? []).map((command) => command.command)
     );
 
+    expect(contributedIds.has('gitsos.hola')).toBe(false);
     expect(contributedIds.has('gitsos.ayuda')).toBe(true);
 
     const paletteCommands = getPaletteCommands('es');
@@ -76,6 +87,22 @@ describe('Catálogo commands.json y loader (Fase 2)', () => {
       expect(entry.paletteCommandId).toBeDefined();
       expect(contributedIds.has(entry.paletteCommandId ?? '')).toBe(true);
     }
+
+    const activityContainers = manifest.contributes?.viewsContainers?.activitybar ?? [];
+    expect(activityContainers).toContainEqual(
+      expect.objectContaining({
+        id: 'gitsos-sidebar',
+        icon: 'media/gitsos-activitybar.svg',
+      })
+    );
+
+    const sidebarViews = manifest.contributes?.views?.['gitsos-sidebar'] ?? [];
+    expect(sidebarViews).toContainEqual(
+      expect.objectContaining({
+        type: 'webview',
+        id: 'gitsos.guideView',
+      })
+    );
   });
 
   it('rechaza catálogos con errores de esquema o inconsistencias', () => {

@@ -1,43 +1,17 @@
-import { describe, expect, it, vi } from 'vitest';
-
-const { registerCommandMock, showInformationMessageMock } = vi.hoisted(() => ({
-  registerCommandMock: vi.fn(),
-  showInformationMessageMock: vi.fn(),
-}));
-
-vi.mock('vscode', () => ({
-  commands: {
-    registerCommand: registerCommandMock,
-  },
-  window: {
-    showInformationMessage: showInformationMessageMock,
-  },
-}));
-
-import { HOLA_COMMAND_ID, getHolaMessage, registerHolaCommand } from '../commands/hola.js';
+import { describe, expect, it } from 'vitest';
 import { getMessages, resolveLocale, type Messages } from '../i18n/index.js';
 import { DisabledAssistantProvider } from '../services/assistant/types.js';
 
-describe('GitSOS Base (Fase 1)', () => {
-  it('mantiene claves completas y no vacías para español e inglés', () => {
+describe('GitSOS Base e i18n', () => {
+  it('mantiene claves completas, equivalentes y no vacías para español e inglés', () => {
     const es = getMessages('es');
     const en = getMessages('en');
-    const expectedKeys: (keyof Messages)[] = [
-      'holaMessage',
-      'holaActionHint',
-      'quickPickTitle',
-      'quickPickPlaceholder',
-      'runInTerminalButton',
-      'copyCommandButton',
-      'confirmDestructiveTitle',
-      'confirmDestructiveButton',
-      'noWorkspaceWarning',
-      'commandCopiedInfo',
-      'commandNotFoundError',
-      'terminalName',
-    ];
 
-    for (const key of expectedKeys) {
+    const esKeys = Object.keys(es).sort();
+    const enKeys = Object.keys(en).sort();
+    expect(esKeys).toEqual(enKeys);
+
+    for (const key of esKeys as (keyof Messages)[]) {
       expect(es[key].trim().length).toBeGreaterThan(0);
       expect(en[key].trim().length).toBeGreaterThan(0);
     }
@@ -48,23 +22,6 @@ describe('GitSOS Base (Fase 1)', () => {
     expect(resolveLocale('en-US', true)).toBe('en');
     expect(resolveLocale('es-AR', true)).toBe('es');
     expect(resolveLocale(undefined, true)).toBe('es');
-  });
-
-  it('expone el identificador y saludo del comando GitSOS: Hola', () => {
-    expect(HOLA_COMMAND_ID).toBe('gitsos.hola');
-    expect(getHolaMessage('es')).toContain('GitSOS');
-
-    const fakeDisposable = { dispose: vi.fn() };
-    registerCommandMock.mockReturnValueOnce(fakeDisposable);
-
-    const disposable = registerHolaCommand();
-    expect(disposable).toBe(fakeDisposable);
-    expect(registerCommandMock).toHaveBeenCalledWith('gitsos.hola', expect.any(Function));
-
-    const handler = registerCommandMock.mock.calls[0]?.[1] as (() => void) | undefined;
-    expect(handler).toBeDefined();
-    handler?.();
-    expect(showInformationMessageMock).toHaveBeenCalledWith(getHolaMessage('es'));
   });
 
   it('mantiene el proveedor de IA deshabilitado en el MVP', async () => {
