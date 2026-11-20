@@ -1,11 +1,16 @@
-# Capturas y GIFs para el README de la extensión
+# Capturas pendientes para el README de la extensión (`klgomez.gitsos`)
 
-Antes de publicar en el Marketplace de VS Code y Open VSX, agregá acá las capturas reales tomadas desde el Extension Development Host (F5):
+Todavía no se incluyeron capturas reales en esta carpeta para no publicar imágenes falsas ni placeholders en el Marketplace. Cuando tomes las capturas reales desde VS Code (con **F5** o el `.vsix` instalado), agregalas acá en formato **PNG**:
 
-1. `panel-lateral.png` (sugerido `420x760` o similar): vista del panel lateral **Guía Interactiva GitSOS** abierto con una tarjeta expandida y el diagrama de **Las 3 Zonas de Git**.
-2. `quickpick-ayuda.png` (sugerido `800x480`): Paleta de comandos mostrando **`GitSOS: ¿Qué necesito hacer?`** con las situaciones filtrables.
-3. `demo-flujo.gif` (opcional, 8–12 segundos, < 2 MB): flujo completo buscando una situación, completando un dato en `showInputBox` y ejecutando el comando en la terminal integrada `GitSOS`.
+1. **`panel-lateral.png`** (sugerido `440×780` px):
+   - Mostrar el panel lateral **Guía Interactiva GitSOS** abierto desde la Activity Bar, con el buscador, los filtros de categoría, al menos una tarjeta expandida mostrando la franja izquierda de color y etiqueta de categoría, y la sección **Las 3 Zonas de Git**.
+2. **`conventional-commits.png`** (sugerido `760×420` px):
+   - Mostrar el asistente guiado de Conventional Commits en español (`showQuickPick` con los tipos `feat`, `fix`, `docs`, etc. o el paso de descripción).
+3. **`quickpick-ayuda.png`** (sugerido `780×460` px):
+   - Mostrar la Paleta de Comandos con **`GitSOS: ¿Qué necesito hacer?`** listando las situaciones disponibles.
+4. **`confirmacion-destructiva.png`** (sugerido `620×360` px):
+   - Mostrar el diálogo modal de confirmación de una acción delicada (`Deshacer último commit`) antes de enviar el comando a la terminal.
 
-## Al sumar las capturas reales
-1. Eliminá o comentá la línea `media/capturas/**` en `vscode-extension/.vscodeignore` (o subilas al repositorio y referencialas por URL HTTPS en `vscode-extension/README.md`).
-2. Reemplazá los bloques de placeholder en `vscode-extension/README.md` por las etiquetas Markdown con las rutas de cada imagen.
+## Al agregar las capturas reales
+1. Verificá que todas sean `.png` (sin `.svg`) y actualizá [`.vscodeignore`](../../.vscodeignore) para incluir `media/capturas/*.png` (o enlazalas con URL absoluta `https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension/media/capturas/...`).
+2. Agregá la sección de capturas en [`README.md`](../../README.md) usando las rutas PNG válidas para el Marketplace.

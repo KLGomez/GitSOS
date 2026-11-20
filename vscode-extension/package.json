@@ -1,9 +1,9 @@
 {
   "name": "gitsos",
   "displayName": "GitSOS — Guía Interactiva de Git",
-  "description": "Guía interactiva de Git y GitHub en español para principiantes, 100% offline, con comandos guiados y confirmación segura.",
+  "description": "Guía interactiva de Git y GitHub en español para principiantes, 100% offline, con Conventional Commits guiados y confirmación segura.",
   "version": "0.2.2",
-  "publisher": "gitsos-local",
+  "publisher": "klgomez",
   "author": {
     "name": "Katherine Gomez",
     "url": "https://github.com/KLGomez"
@@ -26,12 +26,12 @@
     "git",
     "github",
     "principiantes",
-    "español",
-    "gitsos"
+    "conventional commits",
+    "español"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/KLGomez/GitSOS.git",
+    "url": "https://github.com/KLGomez/GitSOS",
     "directory": "vscode-extension"
   },
   "bugs": {
@@ -46,7 +46,7 @@
         {
           "id": "gitsos-sidebar",
           "title": "%viewsContainer.gitsos.title%",
-          "icon": "media/gitsos-activitybar.svg"
+          "icon": "media/gitsos-activitybar.png"
         }
       ]
     },

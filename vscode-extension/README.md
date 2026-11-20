@@ -22,16 +22,6 @@
 
 ---
 
-## Capturas y vista previa
-
-> Las capturas se preparan en [`media/capturas/`](media/capturas/README.md) antes de la publicación en Marketplace/Open VSX:
->
-> - **[Placeholder: `media/capturas/panel-lateral.png`]** — Panel lateral en la Activity Bar con buscador, categorías, tarjetas expandibles y diagrama de las 3 Zonas de Git.
-> - **[Placeholder: `media/capturas/quickpick-ayuda.png`]** — Selector rápido `GitSOS: ¿Qué necesito hacer?` con confirmación segura.
-> - **[Placeholder: `media/capturas/demo-flujo.gif`]** — Flujo completo de búsqueda, ingreso de datos y ejecución en terminal integrada.
-
----
-
 ## Situaciones incluidas (18 en v0.2.2)
 
 | Categoría | Situación | Comando Git | Acción delicada |
@@ -59,11 +49,15 @@
 
 ## Instalación
 
+### Desde Visual Studio Marketplace / Open VSX
+Buscá **GitSOS** (ID: `klgomez.gitsos`) en la vista de Extensiones de VS Code (`Ctrl+Shift+X`), o ejecutá:
+```bash
+code --install-extension klgomez.gitsos
+```
+
 ### Desde un archivo `.vsix` local
 1. Descargá o generá el archivo `gitsos-0.2.2.vsix`.
 2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.2.2.vsix`).
-
-*(Una vez publicada en Visual Studio Marketplace y Open VSX Registry, también se podrá instalar buscando **GitSOS** directamente desde VS Code).*
 
 ---
 

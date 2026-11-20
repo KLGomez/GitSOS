@@ -7,6 +7,7 @@ Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documen
 ### Mejorado
 - Diferenciación visual de la paleta por categoría en `media/guide.css`: **Emergencias** pasa a usar `--vscode-charts-yellow` (en lugar de cian) para distinguirse claramente de **Flujo diario** (`--vscode-charts-blue`), manteniendo **Ramas** (`--vscode-charts-purple`), **Remoto** (`--vscode-charts-green`) y reservando rojo/naranja exclusivamente para acciones destructivas.
 - Pruebas ampliadas para validar que las 4 categorías usan definiciones CSS distintas y 4 íconos SVG diferenciados con `aria-hidden="true"` junto al texto visible.
+- Preparación final para publicación en Marketplace y Open VSX: cambio de publisher definitivo a `klgomez` (`klgomez.gitsos`), migración del ícono de Activity Bar a PNG monocromo (`media/gitsos-activitybar.png`) para empaquetar sin archivos `.svg`, actualización de metadatos/keywords en `package.json` y limpieza de placeholders en `README.md`.
 
 ## [0.2.1] - 2026-11-20
 
@@ -39,7 +40,7 @@ Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documen
 ## [0.1.0] - 2026-11-20
 
 ### Agregado
-- Panel lateral **Guía interactiva** en la Activity Bar con ícono monocromo adaptable (`media/gitsos-activitybar.svg`).
+- Panel lateral **Guía interactiva** en la Activity Bar con ícono monocromo adaptable (`media/gitsos-activitybar.png`).
 - Buscador de texto sin sensibilidad a mayúsculas ni tildes y filtros por categoría (`Emergencias`, `Flujo diario`, `Ramas`, `Remoto`).
 - Diagrama offline colapsable de **Las 3 Zonas de Git** (*Working Directory* → *Staging Area* → *Local Repository*).
 - Catálogo local `commands.json` con **16 situaciones** explicadas en español simple para principiantes, pasos guía y advertencias.

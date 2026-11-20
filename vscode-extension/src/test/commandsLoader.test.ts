@@ -154,9 +154,12 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
     expect(activityContainers).toContainEqual(
       expect.objectContaining({
         id: 'gitsos-sidebar',
-        icon: 'media/gitsos-activitybar.svg',
+        icon: 'media/gitsos-activitybar.png',
       })
     );
+    const activityIcon = activityContainers[0]?.icon ?? '';
+    expect(activityIcon.endsWith('.png')).toBe(true);
+    expect(fs.existsSync(path.resolve(__dirname, '../../', activityIcon))).toBe(true);
 
     const sidebarViews = manifest.contributes?.views?.['gitsos-sidebar'] ?? [];
     expect(sidebarViews).toContainEqual(
@@ -166,15 +169,20 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
       })
     );
 
-    expect(manifest.publisher).toBe('gitsos-local');
+    expect(manifest.publisher).toBe('klgomez');
     expect(manifest.displayName).toBeTruthy();
     expect(manifest.description).toBeTruthy();
     expect(manifest.version).toBe('0.2.2');
     expect(manifest.license).toBe('MIT');
     expect(manifest.icon).toBe('media/icon.png');
+    expect(manifest.icon?.endsWith('.png')).toBe(true);
     expect(fs.existsSync(path.resolve(__dirname, '../../', manifest.icon ?? ''))).toBe(true);
     expect(manifest.galleryBanner).toEqual({ color: '#0f172a', theme: 'dark' });
-    expect(manifest.repository?.url).toBe('https://github.com/KLGomez/GitSOS.git');
+    expect(manifest.keywords).toEqual(
+      expect.arrayContaining(['git', 'github', 'principiantes', 'conventional commits', 'español'])
+    );
+    expect(manifest.repository?.url).toBe('https://github.com/KLGomez/GitSOS');
+    expect(manifest.repository?.directory).toBe('vscode-extension');
     expect(manifest.bugs?.url).toBe('https://github.com/KLGomez/GitSOS/issues');
     expect(manifest.homepage).toBe('https://git-sos.vercel.app/');
   });

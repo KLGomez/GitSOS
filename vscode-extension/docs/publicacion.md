@@ -1,18 +1,16 @@
-# Guía de publicación de GitSOS (VS Code Marketplace y Open VSX)
+# Guía de publicación de GitSOS (`klgomez.gitsos`)
 
-Esta guía documenta paso a paso cómo pasar del paquete local (`gitsos-local`) a la publicación oficial gratuita en **Visual Studio Marketplace** y **Open VSX Registry**.
+Esta guía documenta paso a paso cómo publicar **`klgomez.gitsos`** en **Visual Studio Marketplace** y **Open VSX Registry**.
 
 ---
 
 ## 1. Preparación previa antes de publicar
 
-1. **Cambiar el identificador de `publisher`:**
-   - Abrí [`package.json`](../package.json) dentro de `vscode-extension/`.
-   - Reemplazá `"publisher": "gitsos-local"` por tu ID único de publisher registrado (por ejemplo `"klgomez"` o `"gitsos"`).
-   - El mismo ID debe existir como **Publisher ID** en Visual Studio Marketplace y como **Namespace** en Open VSX.
-2. **Revisar versión y capturas:**
-   - Verificá `"version"` en [`package.json`](../package.json) y la entrada correspondiente en [`CHANGELOG.md`](../CHANGELOG.md).
-   - Cuando agregues capturas/GIF en [`media/capturas/`](../media/capturas/README.md), quitá `media/capturas/**` de [`.vscodeignore`](../.vscodeignore) (o enlazalas por URL pública HTTPS del repo) y actualizá [`README.md`](../README.md).
+1. **Identificador de `publisher` ya configurado:**
+   - [`package.json`](../package.json) tiene configurado `"publisher": "klgomez"` (ID final: `klgomez.gitsos`).
+   - El nombre visible *"Katherine Gomez"* se configura al dar de alta el publisher en el portal de Visual Studio Marketplace.
+2. **Capturas PNG pendientes (opcional antes de publicar o en un release siguiente):**
+   - Ver la lista recomendada en [`media/capturas/README.md`](../media/capturas/README.md). Cuando las agregues en formato PNG, quitá `media/capturas/**` de [`.vscodeignore`](../.vscodeignore) (o usá URLs HTTPS absolutas del repo) y enlazalas en [`README.md`](../README.md).
 3. **Ejecutar todas las verificaciones con `pnpm`:**
    ```bash
    cd vscode-extension
@@ -35,7 +33,7 @@ pnpm exec vsce ls --no-dependencies
 pnpm exec vsce package --no-dependencies
 ```
 
-Esto genera el archivo `gitsos-<version>.vsix`.
+Esto genera el archivo `gitsos-0.2.2.vsix` (sin ningún archivo `.svg` dentro del paquete).
 
 ### Prueba en una instalación limpia de VS Code
 Podés probar el `.vsix` sin afectar tus extensiones ni configuración actual usando carpetas temporales:
@@ -61,21 +59,23 @@ code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extension
    - **Scopes:** seleccioná **Show all scopes** → **Marketplace** → marcá **Manage**.
 3. Copiá y guardá el token en un lugar seguro (no se vuelve a mostrar).
 
-### 3.2 Crear el Publisher
+### 3.2 Crear el Publisher `klgomez`
 1. Ingresá a [https://marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage).
 2. Hacé clic en **Create publisher**.
-3. Completá **Name** (visible, ej. `GitSOS`) y **ID** (único en minúsculas, ej. `klgomez`, que debe coincidir exactamente con `"publisher"` en `vscode-extension/package.json`).
+3. Completá:
+   - **Name:** `Katherine Gomez` *(nombre visible en la ficha del Marketplace)*
+   - **ID:** `klgomez` *(debe coincidir exactamente con `"publisher"` en `vscode-extension/package.json`)*
 
 ### 3.3 Publicar con `vsce`
 Autenticate y publicá desde `vscode-extension/`:
 
 ```bash
 cd vscode-extension
-pnpm exec vsce login <tu-publisher-id>
+pnpm exec vsce login klgomez
 pnpm exec vsce publish --no-dependencies
 ```
 
-*(Alternativa para CI sin login interactivo: definir `VSCE_PAT` como variable de entorno y ejecutar `pnpm exec vsce publish --no-dependencies -p $VSCE_PAT`, o `pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix`).*
+*(Alternativa sin login interactivo: definir `VSCE_PAT` como variable de entorno y ejecutar `pnpm exec vsce publish --no-dependencies -p $VSCE_PAT`, o `pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix`).*
 
 ---
 
@@ -86,25 +86,26 @@ pnpm exec vsce publish --no-dependencies
 2. Abrí tu perfil → **Settings** y aceptá el **Eclipse Open VSX Publisher Agreement**.
 3. En **Access Tokens**, generá un nuevo token y guardalo de forma segura.
 
-### 4.2 Crear el Namespace y publicar `.vsix`
-Usando el mismo nombre de publisher definido en `package.json`:
+### 4.2 Crear el Namespace `klgomez` y publicar `.vsix`
+Usando el mismo publisher ID definido en `package.json`:
 
 ```bash
 cd vscode-extension
-pnpm dlx ovsx create-namespace <tu-publisher-id> -p <TU_OPEN_VSX_TOKEN>
+pnpm dlx ovsx create-namespace klgomez -p <TU_OPEN_VSX_TOKEN>
 pnpm dlx ovsx publish gitsos-0.2.2.vsix -p <TU_OPEN_VSX_TOKEN>
 ```
 
-*(Una vez creado el namespace la primera vez, en versiones futuras solo ejecutás `pnpm dlx ovsx publish ...`).*
+*(Una vez creado el namespace `klgomez` la primera vez, en versiones futuras solo ejecutás `pnpm dlx ovsx publish ...`).*
 
 ---
 
 ## 5. Checklist rápido de release
 
-- [ ] `"publisher"` actualizado en `vscode-extension/package.json`
-- [ ] Versión y fecha actualizadas en `package.json` y `CHANGELOG.md`
-- [ ] Capturas reales añadidas y verificadas en `README.md`
-- [ ] `pnpm build`, `pnpm lint`, `pnpm format:check` y `pnpm test` en verde
-- [ ] `pnpm exec vsce ls --no-dependencies` revisado sin archivos innecesarios
-- [ ] `.vsix` instalado y probado en un perfil limpio de VS Code
-- [ ] Publicado en Visual Studio Marketplace y Open VSX Registry
+- [x] `"publisher": "klgomez"` configurado en `vscode-extension/package.json`
+- [x] Ícono `128×128` PNG (`media/icon.png`) y cero archivos `.svg` en el paquete
+- [x] Metadatos (`repository`, `bugs`, `homepage`, `license: MIT`, `categories`, `keywords`) completos
+- [x] `pnpm build`, `pnpm lint`, `pnpm format:check` y `pnpm test` en verde
+- [x] `pnpm exec vsce ls --no-dependencies` y `gitsos-0.2.2.vsix` verificados
+- [ ] Agregar capturas PNG reales en `media/capturas/` (opcional)
+- [ ] Crear publisher `klgomez` (display name `Katherine Gomez`) + PAT y ejecutar `vsce publish`
+- [ ] Crear namespace `klgomez` + token en Open VSX y ejecutar `ovsx publish`
