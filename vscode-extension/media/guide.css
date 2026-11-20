@@ -10,6 +10,26 @@
 
 :root {
   color-scheme: light dark;
+  --gitsos-cat-flujo-diario: var(
+    --vscode-charts-blue,
+    var(--vscode-terminal-ansiBlue, var(--vscode-textLink-foreground))
+  );
+  --gitsos-cat-ramas: var(
+    --vscode-charts-purple,
+    var(--vscode-terminal-ansiMagenta, var(--vscode-textLink-foreground))
+  );
+  --gitsos-cat-remoto: var(
+    --vscode-charts-green,
+    var(--vscode-terminal-ansiGreen, var(--vscode-textLink-foreground))
+  );
+  --gitsos-cat-emergencias: var(
+    --vscode-terminal-ansiCyan,
+    var(--vscode-charts-lines, var(--vscode-textLink-foreground))
+  );
+  --gitsos-destructive-accent: var(
+    --vscode-editorError-foreground,
+    var(--vscode-charts-red, var(--vscode-charts-orange, var(--vscode-editorWarning-foreground)))
+  );
 }
 
 body {
@@ -413,14 +433,32 @@ body {
 }
 
 .command-card {
+  --card-accent: var(--vscode-textLink-foreground, currentColor);
   background-color: var(--vscode-editor-background);
   border: 1px solid
     var(
       --vscode-contrastBorder,
       var(--vscode-panel-border, var(--vscode-widget-border, currentColor))
     );
+  border-left: 4px solid var(--card-accent);
   border-radius: 6px;
   overflow: hidden;
+}
+
+.command-card[data-category='flujo-diario'] {
+  --card-accent: var(--gitsos-cat-flujo-diario);
+}
+
+.command-card[data-category='ramas'] {
+  --card-accent: var(--gitsos-cat-ramas);
+}
+
+.command-card[data-category='remoto'] {
+  --card-accent: var(--gitsos-cat-remoto);
+}
+
+.command-card[data-category='emergencias'] {
+  --card-accent: var(--gitsos-cat-emergencias);
 }
 
 .card-heading {
@@ -467,6 +505,26 @@ body {
   color: var(--vscode-foreground);
 }
 
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.08rem 0.45rem;
+  font-size: 0.76em;
+  font-weight: 600;
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-sideBar-background);
+  border: 1px solid var(--vscode-contrastBorder, var(--card-accent));
+  border-radius: 999px;
+}
+
+.category-badge svg {
+  width: 0.78rem;
+  height: 0.78rem;
+  color: var(--card-accent);
+  flex-shrink: 0;
+}
+
 .destructive-badge {
   display: inline-flex;
   align-items: center;
@@ -474,16 +532,17 @@ body {
   padding: 0.08rem 0.42rem;
   font-size: 0.76em;
   font-weight: 600;
-  color: var(--vscode-editorWarning-foreground, var(--vscode-foreground));
-  background-color: var(--vscode-textBlockQuote-background, transparent);
-  border: 1px solid
-    var(--vscode-contrastBorder, var(--vscode-editorWarning-foreground, currentColor));
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-sideBar-background);
+  border: 1px solid var(--vscode-contrastBorder, var(--gitsos-destructive-accent));
   border-radius: 999px;
 }
 
 .destructive-badge svg {
   width: 0.78rem;
   height: 0.78rem;
+  color: var(--gitsos-destructive-accent);
+  flex-shrink: 0;
 }
 
 .card-situation {
@@ -557,11 +616,15 @@ body {
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.88em;
-  color: var(--vscode-editorWarning-foreground, var(--vscode-foreground));
+  color: var(--vscode-foreground);
   background-color: var(--vscode-textBlockQuote-background, var(--vscode-sideBar-background));
   border-left: 3px solid
-    var(--vscode-editorWarning-foreground, var(--vscode-contrastBorder, currentColor));
+    var(--vscode-contrastBorder, var(--card-accent, var(--vscode-textLink-foreground)));
   border-radius: 0 4px 4px 0;
+}
+
+.command-card[data-destructive='true'] .card-warnings {
+  border-left-color: var(--vscode-contrastBorder, var(--gitsos-destructive-accent));
 }
 
 .card-actions {

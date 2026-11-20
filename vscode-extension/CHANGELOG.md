@@ -2,6 +2,12 @@
 
 Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documentan en este archivo siguiendo el formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [0.2.1] - 2026-11-20
+
+### Mejorado
+- Franja izquierda de acento visual y etiqueta con ícono y texto por categoría en las tarjetas del panel lateral (**Flujo diario**, **Ramas**, **Remoto** y **Emergencias**) usando únicamente variables de tema `--vscode-*` con contraste accesible en temas claro, oscuro y alto contraste.
+- Acentos rojo/naranja reservados exclusivamente para acciones delicadas/destructivas (`Acción delicada`), manteniendo estilo uniforme en los botones **Ejecutar en terminal** y **Copiar** en todas las tarjetas.
+
 ## [0.2.0] - 2026-11-20
 
 ### Agregado

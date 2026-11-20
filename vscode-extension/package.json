@@ -2,7 +2,7 @@
   "name": "gitsos",
   "displayName": "GitSOS — Guía Interactiva de Git",
   "description": "Guía interactiva de Git y GitHub en español para principiantes, 100% offline, con comandos guiados y confirmación segura.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "gitsos-local",
   "author": {
     "name": "Katherine Gomez",

@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import type { GitSosCommandEntry } from '../content/types.js';
+import type { CommandCategory, GitSosCommandEntry } from '../content/types.js';
 import type { Messages, SupportedLocale } from '../i18n/index.js';
 import { formatCommandForDisplay } from '../services/commandBuilder.js';
 import type { CategoryFilter } from './protocol.js';
@@ -25,6 +25,27 @@ const CLEAR_SVG =
 
 const WARNING_SVG =
   '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.2L14.2 13H1.8L8 2.2z"/><path d="M8 6.2v3.3"/><circle cx="8" cy="11.3" r="0.6" fill="currentColor"/></svg>';
+
+const CATEGORY_ICONS: Record<CommandCategory, string> = {
+  emergencias:
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5.8"/><circle cx="8" cy="8" r="2.3"/><path d="M3.9 3.9l2.4 2.4M9.7 9.7l2.4 2.4M12.1 3.9L9.7 6.3M6.3 9.7L3.9 12.1"/></svg>',
+  'flujo-diario':
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 5.5h10.5M10.5 3L13 5.5 10.5 8"/><path d="M13.5 10.5H3M5.5 8L3 10.5 5.5 13"/></svg>',
+  ramas:
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="3" x2="5" y2="11"/><circle cx="5" cy="12.5" r="1.8"/><circle cx="11.5" cy="5" r="1.8"/><path d="M5 8.5c0-2.5 2-3.5 4.7-3.5"/></svg>',
+  remoto:
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5h7.2a2.6 2.6 0 0 0 .4-5.1A3.7 3.7 0 0 0 5 6.4a3 3 0 0 0-.5 6.1z"/></svg>',
+};
+
+function getCategoryLabel(category: CommandCategory, messages: Messages): string {
+  const labels: Record<CommandCategory, string> = {
+    emergencias: messages.categoryEmergencias,
+    'flujo-diario': messages.categoryFlujoDiario,
+    ramas: messages.categoryRamas,
+    remoto: messages.categoryRemoto,
+  };
+  return labels[category];
+}
 
 const ARROW_DOWN_SVG =
   '<svg class="zone-arrow zone-arrow-vertical" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10M4.5 9.5L8 13l3.5-3.5"/></svg>';
@@ -77,6 +98,8 @@ function renderCommandCard(entry: GitSosCommandEntry, messages: Messages): strin
   const safeId = escapeHtml(entry.id);
   const triggerId = `trigger-${safeId}`;
   const panelId = `panel-${safeId}`;
+  const categoryLabel = getCategoryLabel(entry.categoria, messages);
+  const categoryBadge = `<span class="category-badge">${CATEGORY_ICONS[entry.categoria]}<span>${escapeHtml(categoryLabel)}</span></span>`;
 
   const destructiveBadge = entry.esDestructivo
     ? `<span class="destructive-badge">${WARNING_SVG}<span>${escapeHtml(messages.cardDestructiveBadge)}</span></span>`
@@ -102,12 +125,13 @@ function renderCommandCard(entry: GitSosCommandEntry, messages: Messages): strin
         </div>`
       : '';
 
-  return `<article class="command-card" data-command-id="${safeId}" data-category="${escapeHtml(entry.categoria)}">
+  return `<article class="command-card" data-command-id="${safeId}" data-category="${escapeHtml(entry.categoria)}" data-destructive="${entry.esDestructivo ? 'true' : 'false'}">
     <h3 class="card-heading">
       <button type="button" class="card-trigger" id="${triggerId}" aria-expanded="false" aria-controls="${panelId}">
         <span class="card-trigger-content">
           <span class="card-title-row">
             <span class="card-title-text">${escapeHtml(entry.titulo)}</span>
+            ${categoryBadge}
             ${destructiveBadge}
           </span>
           <span class="card-situation">${escapeHtml(entry.situacion)}</span>

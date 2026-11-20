@@ -42,7 +42,7 @@ Podés probar el `.vsix` sin afectar tus extensiones ni configuración actual us
 
 ```powershell
 $cleanDir = Join-Path $env:TEMP "gitsos-clean-vscode"
-code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions" --install-extension ".\gitsos-0.2.0.vsix"
+code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions" --install-extension ".\gitsos-0.2.1.vsix"
 code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions"
 ```
 
@@ -75,7 +75,7 @@ pnpm exec vsce login <tu-publisher-id>
 pnpm exec vsce publish --no-dependencies
 ```
 
-*(Alternativa para CI sin login interactivo: definir `VSCE_PAT` como variable de entorno y ejecutar `pnpm exec vsce publish --no-dependencies -p $VSCE_PAT`, o `pnpm exec vsce publish --packagePath gitsos-0.2.0.vsix`).*
+*(Alternativa para CI sin login interactivo: definir `VSCE_PAT` como variable de entorno y ejecutar `pnpm exec vsce publish --no-dependencies -p $VSCE_PAT`, o `pnpm exec vsce publish --packagePath gitsos-0.2.1.vsix`).*
 
 ---
 
@@ -92,7 +92,7 @@ Usando el mismo nombre de publisher definido en `package.json`:
 ```bash
 cd vscode-extension
 pnpm dlx ovsx create-namespace <tu-publisher-id> -p <TU_OPEN_VSX_TOKEN>
-pnpm dlx ovsx publish gitsos-0.2.0.vsix -p <TU_OPEN_VSX_TOKEN>
+pnpm dlx ovsx publish gitsos-0.2.1.vsix -p <TU_OPEN_VSX_TOKEN>
 ```
 
 *(Una vez creado el namespace la primera vez, en versiones futuras solo ejecutás `pnpm dlx ovsx publish ...`).*

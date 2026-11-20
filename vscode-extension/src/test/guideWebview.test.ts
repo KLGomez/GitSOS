@@ -73,6 +73,17 @@ describe('Webview de la guía lateral (Fase 3)', () => {
       '<pre class="command-code-block"><code>git add .\ngit commit -m &quot;{{mensaje}}&quot;</code></pre>'
     );
     expect(html).not.toContain('git add . &amp;&amp;');
+
+    const cardCount = commands.length;
+    expect(html.match(/class="category-badge"/g)).toHaveLength(cardCount);
+    expect(html.match(/class="action-btn action-btn-primary"/g)).toHaveLength(cardCount);
+    expect(html.match(/class="action-btn action-btn-secondary"/g)).toHaveLength(cardCount);
+    expect(html).toContain(`<span>${messages.categoryEmergencias}</span>`);
+    expect(html).toContain(`<span>${messages.categoryFlujoDiario}</span>`);
+    expect(html).toContain(`<span>${messages.categoryRamas}</span>`);
+    expect(html).toContain(`<span>${messages.categoryRemoto}</span>`);
+    expect(html).toContain('data-destructive="true"');
+    expect(html).toContain('data-destructive="false"');
   });
 
   it('escapa contenido dinámico para prevenir XSS', () => {
@@ -112,6 +123,13 @@ describe('Webview de la guía lateral (Fase 3)', () => {
     expect(css).toContain('--vscode-sideBar-background');
     expect(css).toContain('--vscode-focusBorder');
     expect(css).toContain('--vscode-contrastBorder');
+    expect(css).toContain('--gitsos-cat-flujo-diario');
+    expect(css).toContain('--gitsos-cat-ramas');
+    expect(css).toContain('--gitsos-cat-remoto');
+    expect(css).toContain('--gitsos-cat-emergencias');
+    expect(css).toContain('--gitsos-destructive-accent');
+    expect(css).toContain('border-left: 4px solid var(--card-accent);');
+    expect(css).not.toMatch(/--gitsos-cat-[^;]*(editorError|charts-red|charts-orange)/);
     expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
     expect(css).not.toMatch(/\brgba?\s*\(/i);
     expect(css).not.toMatch(/\bhsla?\s*\(/i);
