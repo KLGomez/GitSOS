@@ -5,7 +5,8 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "vscode-extension"
   ],
   "compilerOptions": {
     "jsx": "react-jsx",

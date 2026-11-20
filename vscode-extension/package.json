@@ -1,0 +1,50 @@
+{
+  "name": "gitsos",
+  "displayName": "GitSOS",
+  "description": "Guía interactiva de Git y GitHub para principiantes en VS Code",
+  "version": "0.1.0",
+  "publisher": "gitsos-local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitsos.hola",
+        "title": "%command.hola.title%",
+        "category": "GitSOS"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run build",
+    "compile": "pnpm run check-types && node esbuild.js",
+    "build": "pnpm run check-types && node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "format": "prettier --write \"src/**/*.{ts,json}\" esbuild.js eslint.config.mjs package.json",
+    "format:check": "prettier --check \"src/**/*.{ts,json}\" esbuild.js eslint.config.mjs",
+    "test": "vitest run",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "@types/vscode": "^1.93.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.10.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vitest": "^5.1.1"
+  }
+}

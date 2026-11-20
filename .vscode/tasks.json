@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "gitsos: compile-extension",
+      "type": "shell",
+      "command": "pnpm --dir vscode-extension run compile",
+      "group": "build",
+      "problemMatcher": ["$tsc"]
+    }
+  ]
+}
