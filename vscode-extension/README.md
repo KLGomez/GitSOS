@@ -75,6 +75,50 @@
 
 ---
 
+## ¿Qué son los Conventional Commits?
+
+Un *commit* es una foto de tu proyecto en un momento. Los **Conventional Commits** son una forma de escribir el mensaje de cada commit para que cualquiera (incluyéndote a vos en seis meses) entienda de un vistazo **qué se hizo**.
+
+El formato es:
+
+```
+tipo(alcance): descripción
+```
+
+- **tipo:** qué clase de cambio es.
+- **alcance** *(opcional)*: qué parte del proyecto tocaste, por ejemplo `login` o `ui`.
+- **descripción:** qué hiciste, corta y en minúscula.
+
+### Los tipos que usa GitSOS
+
+| Tipo | Cuándo usarlo | Ejemplo |
+| :--- | :--- | :--- |
+| `feat` | Agregaste una función nueva | `feat(login): agregar botón de ingreso` |
+| `fix` | Arreglaste un error | `fix: corregir ruta de archivos` |
+| `docs` | Cambiaste solo documentación | `docs: actualizar instrucciones del README` |
+| `style` | Formato o espacios, sin cambiar la lógica | `style: ordenar imports` |
+| `refactor` | Reorganizaste código sin cambiar lo que hace | `refactor(api): simplificar validaciones` |
+| `test` | Agregaste o corregiste pruebas | `test: cubrir caso de contraseña vacía` |
+| `chore` | Tareas de mantenimiento (dependencias, configuración) | `chore: actualizar dependencias` |
+
+### Cómo lo hace GitSOS por vos
+
+Al tocar **Ejecutar en terminal** en *Hacer commit* o *Guardar mis cambios*:
+
+1. Elegís el **tipo** de la lista.
+2. Escribís el **alcance** si querés, o lo salteás con `Enter`.
+3. Escribís solo la **descripción**.
+
+GitSOS arma el mensaje completo y ejecuta el commit. Si algo no sigue las buenas prácticas (empieza en mayúscula, termina en punto o es muy largo), te avisa, pero igual te deja continuar. Con `Escape` cancelás en cualquier paso y no se ejecuta nada.
+
+### Consejos para escribir buenos mensajes
+
+- Empezá con un verbo en infinitivo: *agregar*, *corregir*, *actualizar*.
+- Una idea por commit: si hiciste dos cosas distintas, hacé dos commits.
+- Pensá: *"Este commit va a…"* y completá la frase.
+
+---
+
 ## Alcance de esta versión (v0.2.0 — MVP)
 
 - **Costo cero y 100% offline:** todo el contenido y la interfaz viven dentro de la extensión, sin servidores propios ni cuentas externas.
