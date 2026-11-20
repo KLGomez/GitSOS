@@ -169,7 +169,7 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
     expect(manifest.publisher).toBe('gitsos-local');
     expect(manifest.displayName).toBeTruthy();
     expect(manifest.description).toBeTruthy();
-    expect(manifest.version).toBe('0.1.1');
+    expect(manifest.version).toBe('0.2.0');
     expect(manifest.license).toBe('MIT');
     expect(manifest.icon).toBe('media/icon.png');
     expect(fs.existsSync(path.resolve(__dirname, '../../', manifest.icon ?? ''))).toBe(true);

@@ -17,6 +17,7 @@
 - **Selector rápido (`GitSOS: ¿Qué necesito hacer?`):** abrí la Paleta de Comandos (`Ctrl+Shift+P` / `Cmd+Shift+P`) y elegí lo que te pasó en lenguaje cotidiano.
 - **Comandos directos en la paleta:** accesos rápidos para las situaciones clave (deshacer último commit, crear rama, cambiar de rama, stash y resolver conflictos).
 - **Ejecución guiada y segura:** antes de tocar tu repositorio, GitSOS muestra qué hace el comando, pide los datos faltantes (`showInputBox` con validación), exige confirmación modal en acciones delicadas y ejecuta todo en una terminal integrada dedicada (`GitSOS`). Los flujos con varios pasos (como `add` + `commit`) se envían línea por línea sin operadores dependientes de shell (`&&` / `;`), funcionando igual en PowerShell, CMD, Bash y Zsh.
+- **Asistente guiado de Conventional Commits en español:** al confirmar cambios (`hacer-commit` o el atajo `guardar-cambios`), GitSOS te guía en 3 pasos —tipo (`feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`), alcance opcional y descripción—, arma `tipo(scope): mensaje` o `tipo: mensaje`, escapa comillas dobles y avisa sin bloquear si el mensaje empieza con mayúscula, termina en punto o supera 72 caracteres.
 - **Accesible y adaptable:** compatible con temas claro, oscuro y alto contraste de VS Code, navegable completamente con teclado.
 
 ---
@@ -31,7 +32,7 @@
 
 ---
 
-## Situaciones incluidas (16 en v0.1.1)
+## Situaciones incluidas (18 en v0.2.0)
 
 | Categoría | Situación | Comando Git | Acción delicada |
 | :--- | :--- | :--- | :---: |
@@ -42,7 +43,9 @@
 | **Emergencias** | Resolver conflictos básicos | `git status` *(con guía paso a paso)* | No |
 | **Flujo diario** | Ver qué está pasando ahora | `git status` | No |
 | **Flujo diario** | Ver diferencias antes de guardar | `git diff` | No |
-| **Flujo diario** | Guardar mis cambios (`add` + `commit`) | `git add .` → `git commit -m "..."` | No |
+| **Flujo diario** | Preparar mis cambios (`add`) | `git add .` | No |
+| **Flujo diario** | Hacer commit (Conventional Commits) | `git commit -m "..."` | No |
+| **Flujo diario** | Guardar mis cambios (atajo `add` + `commit`) | `git add .` → `git commit -m "..."` | No |
 | **Flujo diario** | Ver el historial de commits | `git log --oneline` | No |
 | **Flujo diario** | Guardar cambios temporalmente (`stash`) | `git stash` | No |
 | **Flujo diario** | Recuperar cambios del stash | `git stash pop` | No |
@@ -57,8 +60,8 @@
 ## Instalación
 
 ### Desde un archivo `.vsix` local
-1. Descargá o generá el archivo `gitsos-0.1.1.vsix`.
-2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.1.1.vsix`).
+1. Descargá o generá el archivo `gitsos-0.2.0.vsix`.
+2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.2.0.vsix`).
 
 *(Una vez publicada en Visual Studio Marketplace y Open VSX Registry, también se podrá instalar buscando **GitSOS** directamente desde VS Code).*
 
@@ -72,7 +75,7 @@
 
 ---
 
-## Alcance de esta versión (v0.1.1 — MVP)
+## Alcance de esta versión (v0.2.0 — MVP)
 
 - **Costo cero y 100% offline:** todo el contenido y la interfaz viven dentro de la extensión, sin servidores propios ni cuentas externas.
 - **Sin IA en esta versión:** el MVP no incluye chatbot ni llamadas a modelos de lenguaje. En futuras versiones se sumará detección automática del estado del repositorio (`vscode.git`) y asistencia conversacional opcional (`vscode.lm`).

@@ -2,6 +2,20 @@
 
 Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documentan en este archivo siguiendo el formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [0.2.0] - 2026-11-20
+
+### Agregado
+- Separación de la preparación y confirmación de cambios en tres entradas dentro de **Flujo diario** (18 situaciones totales en `commands.json`):
+  - **Preparar mis cambios (add)** (`git add .`).
+  - **Hacer commit (Conventional Commits)** (`git commit -m "{{mensaje}}"`).
+  - **Guardar mis cambios (atajo add + commit)** (`git add .` y luego `git commit -m "{{mensaje}}"` en pasos separados).
+- Flujo guiado de **Conventional Commits en español** para `hacer-commit` y `guardar-cambios`:
+  - `showQuickPick` con los tipos `feat`, `fix`, `docs`, `style`, `refactor`, `test` y `chore` explicados en español.
+  - `showInputBox` opcional para el alcance (`scope`), omitiéndolo si queda vacío.
+  - `showInputBox` para la descripción del mensaje, armando `tipo(scope): mensaje` o `tipo: mensaje` y escapando comillas dobles (`\"`).
+  - Avisos de estilo en vivo y post-ejecución **sin bloquear** si la descripción empieza con mayúscula, termina en punto o el encabezado supera 72 caracteres.
+- Cancelación limpia con `Escape` en cualquiera de los 3 pasos sin ejecutar nada en la terminal.
+
 ## [0.1.1] - 2026-11-20
 
 ### Corregido
