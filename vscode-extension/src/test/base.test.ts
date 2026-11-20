@@ -22,7 +22,20 @@ describe('GitSOS Base (Fase 1)', () => {
   it('mantiene claves completas y no vacías para español e inglés', () => {
     const es = getMessages('es');
     const en = getMessages('en');
-    const expectedKeys: (keyof Messages)[] = ['holaMessage', 'holaActionHint'];
+    const expectedKeys: (keyof Messages)[] = [
+      'holaMessage',
+      'holaActionHint',
+      'quickPickTitle',
+      'quickPickPlaceholder',
+      'runInTerminalButton',
+      'copyCommandButton',
+      'confirmDestructiveTitle',
+      'confirmDestructiveButton',
+      'noWorkspaceWarning',
+      'commandCopiedInfo',
+      'commandNotFoundError',
+      'terminalName',
+    ];
 
     for (const key of expectedKeys) {
       expect(es[key].trim().length).toBeGreaterThan(0);

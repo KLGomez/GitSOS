@@ -1,3 +1,9 @@
 {
-  "command.hola.title": "Hola"
+  "command.hola.title": "Hola",
+  "command.ayuda.title": "¿Qué necesito hacer?",
+  "command.deshacerUltimoCommit.title": "Deshacer último commit",
+  "command.crearRama.title": "Crear rama",
+  "command.cambiarRama.title": "Cambiar de rama",
+  "command.guardarStash.title": "Guardar cambios temporalmente (stash)",
+  "command.resolverConflictos.title": "Resolver conflictos básicos"
 }

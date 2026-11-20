@@ -1,0 +1,200 @@
+{
+  "locale": "es",
+  "version": 1,
+  "commands": [
+    {
+      "id": "deshacer-ultimo-commit",
+      "titulo": "Deshacer último commit",
+      "situacion": "Hice un commit recién y me equivoqué o me faltó incluir un archivo",
+      "explicacionSimple": "Deshace el último commit que hiciste en tu computadora, pero deja todos tus cambios guardados y listos para que los corrijas sin perder una sola línea de código.",
+      "comandoGit": "git reset --soft HEAD~1",
+      "advertencias": [
+        "Usalo solo si todavía NO subiste este commit a GitHub o GitLab (antes de hacer git push).",
+        "Si ya hiciste push en una rama compartida, usá git revert en su lugar para no romper el historial del equipo."
+      ],
+      "esDestructivo": true,
+      "categoria": "emergencias",
+      "paletteCommandId": "gitsos.deshacerUltimoCommit"
+    },
+    {
+      "id": "crear-rama",
+      "titulo": "Crear rama",
+      "situacion": "Quiero empezar una función o arreglo nuevo sin tocar la rama principal",
+      "explicacionSimple": "Crea una línea de trabajo separada para que puedas programar y probar tranquilo sin arriesgar el código estable de la rama principal.",
+      "comandoGit": "git switch -c {{rama}}",
+      "advertencias": [
+        "Elegí un nombre corto y sin espacios (por ejemplo: feat/login o fix/boton-registro).",
+        "Si ya tenés archivos editados sin guardar, se van a mover con vos a la nueva rama."
+      ],
+      "esDestructivo": false,
+      "categoria": "ramas",
+      "inputs": [
+        {
+          "key": "rama",
+          "prompt": "Nombre para tu nueva rama (sin espacios, ej. feat/login)",
+          "placeholder": "feat/nueva-funcion",
+          "validation": "branch"
+        }
+      ],
+      "paletteCommandId": "gitsos.crearRama"
+    },
+    {
+      "id": "cambiar-rama",
+      "titulo": "Cambiar de rama",
+      "situacion": "Necesito pasarme a otra rama que ya existe en el proyecto",
+      "explicacionSimple": "Cambia tus archivos actuales a los de otra rama del proyecto para revisar otro código o seguir otra tarea.",
+      "comandoGit": "git switch {{rama}}",
+      "advertencias": [
+        "Si tenés cambios sin guardar que chocan con la otra rama, guardalos primero con commit o stash."
+      ],
+      "esDestructivo": false,
+      "categoria": "ramas",
+      "inputs": [
+        {
+          "key": "rama",
+          "prompt": "¿A qué rama querés cambiar?",
+          "placeholder": "main",
+          "validation": "branch"
+        }
+      ],
+      "paletteCommandId": "gitsos.cambiarRama"
+    },
+    {
+      "id": "guardar-stash",
+      "titulo": "Guardar cambios temporalmente (stash)",
+      "situacion": "Tengo cambios a medio hacer pero necesito cambiar de tarea o dejar limpia la carpeta",
+      "explicacionSimple": "Guarda tus cambios sin terminar en un cajón temporal seguro y deja tu carpeta de trabajo limpia para que puedas hacer otra cosa.",
+      "comandoGit": "git stash",
+      "advertencias": [
+        "Los archivos nuevos que nunca agregaste con git add no entran en git stash (para incluirlos se usa git stash -u).",
+        "Cuando quieras recuperar lo que guardaste, usá git stash pop."
+      ],
+      "esDestructivo": false,
+      "categoria": "emergencias",
+      "paletteCommandId": "gitsos.guardarStash"
+    },
+    {
+      "id": "resolver-conflictos",
+      "titulo": "Resolver conflictos básicos",
+      "situacion": "Git frenó una mezcla porque dos cambios tocaron las mismas líneas de un archivo",
+      "explicacionSimple": "Un conflicto ocurre cuando Git no sabe automáticamente cuál de dos cambios conservar. No se perdió tu código: solo tenés que elegir qué versión queda y confirmar la mezcla.",
+      "comandoGit": "git status",
+      "pasosGuia": [
+        "1. Ejecutá git status para ver la lista exacta de archivos marcados como 'both modified'.",
+        "2. Abrí cada archivo en VS Code: vas a ver marcas <<<<<<< (tu versión), ======= (separador) y >>>>>>> (la otra versión).",
+        "3. Elegí el código final que querés dejar y borrá por completo las líneas con <<<<<<<, ======= y >>>>>>>.",
+        "4. Guardá el archivo y cerrá el arreglo ejecutando git add <archivo> y luego git commit."
+      ],
+      "advertencias": [
+        "No hagas commit mientras quede alguna marca <<<<<<<, ======= o >>>>>>> dentro de tus archivos.",
+        "Si querés cancelar la mezcla y volver atrás, podés usar git merge --abort."
+      ],
+      "esDestructivo": false,
+      "categoria": "emergencias",
+      "paletteCommandId": "gitsos.resolverConflictos"
+    },
+    {
+      "id": "recuperar-stash",
+      "titulo": "Recuperar cambios del stash",
+      "situacion": "Guardé cambios temporalmente con stash y ahora quiero traerlos de vuelta",
+      "explicacionSimple": "Saca del cajón los últimos cambios que habías guardado con git stash y los vuelve a aplicar en tu rama actual.",
+      "comandoGit": "git stash pop",
+      "advertencias": [
+        "Asegurate de estar parado en la rama correcta antes de recuperar los cambios.",
+        "Si editaste las mismas líneas mientras tanto, pueden aparecer conflictos fáciles de revisar en VS Code."
+      ],
+      "esDestructivo": false,
+      "categoria": "emergencias"
+    },
+    {
+      "id": "corregir-mensaje-commit",
+      "titulo": "Corregir mensaje del último commit",
+      "situacion": "Escribí mal o poco claro el mensaje del último commit y quiero cambiarlo",
+      "explicacionSimple": "Reemplaza el texto del último commit local por un mensaje nuevo y más claro sin crear un commit adicional.",
+      "comandoGit": "git commit --amend -m \"{{mensaje}}\"",
+      "advertencias": [
+        "Reescribe el último commit: usalo únicamente si todavía NO hiciste git push.",
+        "Si ya lo subiste al remoto, evitá reescribir historia compartida."
+      ],
+      "esDestructivo": true,
+      "categoria": "emergencias",
+      "inputs": [
+        {
+          "key": "mensaje",
+          "prompt": "Nuevo mensaje para tu último commit",
+          "placeholder": "fix: corregir error en formulario",
+          "validation": "message"
+        }
+      ]
+    },
+    {
+      "id": "descartar-cambios-archivo",
+      "titulo": "Descartar cambios de un archivo",
+      "situacion": "Modifiqué un archivo por error y quiero volverlo a como estaba en el último commit",
+      "explicacionSimple": "Borra lo que cambiaste en ese archivo puntual desde el último commit y lo deja exactamente igual que antes.",
+      "comandoGit": "git restore -- {{archivo}}",
+      "advertencias": [
+        "Acción irreversible: los cambios no commiteados de ese archivo se pierden para siempre.",
+        "Verificá bien la ruta del archivo antes de confirmar."
+      ],
+      "esDestructivo": true,
+      "categoria": "emergencias",
+      "inputs": [
+        {
+          "key": "archivo",
+          "prompt": "Ruta del archivo cuyos cambios querés descartar",
+          "placeholder": "src/index.ts",
+          "validation": "filePath"
+        }
+      ]
+    },
+    {
+      "id": "dejar-de-rastrear-archivo",
+      "titulo": "Dejar de rastrear un archivo (.env o similar)",
+      "situacion": "Agregué sin querer un archivo privado (.env) o pesado y quiero sacarlo de Git sin borrarlo de mi PC",
+      "explicacionSimple": "Quita el archivo del seguimiento de Git manteniendo la copia física en tu computadora para que tus claves o archivos locales no se pierdan.",
+      "comandoGit": "git rm --cached -- {{archivo}}",
+      "pasosGuia": [
+        "1. Ejecutá este comando para sacar el archivo del seguimiento de Git (tu archivo local no se borra).",
+        "2. Agregá el nombre del archivo dentro de .gitignore y guardalo.",
+        "3. Hacé git add .gitignore y git commit -m \"chore: ignorar archivo privado\"."
+      ],
+      "advertencias": [
+        "Si solo lo agregás a .gitignore sin ejecutar git rm --cached, Git seguirá rastreándolo.",
+        "Si ya subiste una contraseña o API key a GitHub, además rotá esa clave por seguridad."
+      ],
+      "esDestructivo": true,
+      "categoria": "emergencias",
+      "inputs": [
+        {
+          "key": "archivo",
+          "prompt": "Archivo que querés quitar de Git sin borrarlo de tu PC (ej. .env)",
+          "placeholder": ".env",
+          "validation": "filePath"
+        }
+      ]
+    },
+    {
+      "id": "traer-cambios-remotos",
+      "titulo": "Traer cambios de la nube (pull)",
+      "situacion": "Mi equipo subió cambios a GitHub o GitLab y quiero actualizar mi copia local",
+      "explicacionSimple": "Descarga los últimos commits del repositorio remoto y los integra en la rama en la que estás trabajando.",
+      "comandoGit": "git pull",
+      "advertencias": [
+        "Guardá o hacé stash de tus cambios locales antes de hacer pull para evitar conflictos inesperados."
+      ],
+      "esDestructivo": false,
+      "categoria": "remoto"
+    },
+    {
+      "id": "ver-estado-actual",
+      "titulo": "Ver qué está pasando ahora (status)",
+      "situacion": "No sé en qué rama estoy ni qué archivos modifiqué o tengo listos para commit",
+      "explicacionSimple": "Muestra un resumen claro de tu rama actual, qué archivos cambiaste, cuáles están listos para el próximo commit y cuáles son nuevos.",
+      "comandoGit": "git status",
+      "advertencias": ["Es un comando de solo lectura: nunca modifica ni borra tus archivos."],
+      "esDestructivo": false,
+      "categoria": "flujo-diario"
+    }
+  ]
+}

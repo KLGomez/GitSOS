@@ -20,6 +20,36 @@
         "command": "gitsos.hola",
         "title": "%command.hola.title%",
         "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.ayuda",
+        "title": "%command.ayuda.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.deshacerUltimoCommit",
+        "title": "%command.deshacerUltimoCommit.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.crearRama",
+        "title": "%command.crearRama.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.cambiarRama",
+        "title": "%command.cambiarRama.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.guardarStash",
+        "title": "%command.guardarStash.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.resolverConflictos",
+        "title": "%command.resolverConflictos.title%",
+        "category": "GitSOS"
       }
     ]
   },
