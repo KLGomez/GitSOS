@@ -1,0 +1,119 @@
+{
+  "name": "gitsos",
+  "displayName": "GitSOS — Guía Interactiva de Git",
+  "description": "Guía interactiva de Git y GitHub en español para principiantes, 100% offline, con Conventional Commits guiados y confirmación segura.",
+  "version": "0.2.2",
+  "publisher": "klgomez",
+  "author": {
+    "name": "Katherine Gomez",
+    "url": "https://github.com/KLGomez"
+  },
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0f172a",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Education",
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "github",
+    "principiantes",
+    "conventional commits",
+    "español"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KLGomez/GitSOS",
+    "directory": "vscode-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/KLGomez/GitSOS/issues"
+  },
+  "homepage": "https://git-sos.vercel.app/",
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitsos-sidebar",
+          "title": "%viewsContainer.gitsos.title%",
+          "icon": "media/gitsos-activitybar.png"
+        }
+      ]
+    },
+    "views": {
+      "gitsos-sidebar": [
+        {
+          "type": "webview",
+          "id": "gitsos.guideView",
+          "name": "%view.guide.name%"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "gitsos.ayuda",
+        "title": "%command.ayuda.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.deshacerUltimoCommit",
+        "title": "%command.deshacerUltimoCommit.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.crearRama",
+        "title": "%command.crearRama.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.cambiarRama",
+        "title": "%command.cambiarRama.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.guardarStash",
+        "title": "%command.guardarStash.title%",
+        "category": "GitSOS"
+      },
+      {
+        "command": "gitsos.resolverConflictos",
+        "title": "%command.resolverConflictos.title%",
+        "category": "GitSOS"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run build",
+    "compile": "pnpm run check-types && node esbuild.js",
+    "build": "pnpm run check-types && node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json",
+    "lint": "eslint src",
+    "format": "prettier --write \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs package.json",
+    "format:check": "prettier --check \"src/**/*.{ts,json}\" \"media/**/*.css\" esbuild.js eslint.config.mjs",
+    "test": "vitest run",
+    "package": "vsce package --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "@types/vscode": "^1.93.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.10.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vitest": "^5.1.1"
+  }
+}

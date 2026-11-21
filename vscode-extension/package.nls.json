@@ -1,0 +1,10 @@
+{
+  "viewsContainer.gitsos.title": "GitSOS",
+  "view.guide.name": "Guía interactiva",
+  "command.ayuda.title": "¿Qué necesito hacer?",
+  "command.deshacerUltimoCommit.title": "Deshacer último commit",
+  "command.crearRama.title": "Crear rama",
+  "command.cambiarRama.title": "Cambiar de rama",
+  "command.guardarStash.title": "Guardar cambios temporalmente (stash)",
+  "command.resolverConflictos.title": "Resolver conflictos básicos"
+}
