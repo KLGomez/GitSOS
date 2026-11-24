@@ -2,6 +2,14 @@
 
 Todos los cambios relevantes de la extensión **GitSOS** para VS Code se documentan en este archivo siguiendo el formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
+## [0.2.3] - 2026-11-24
+
+### Agregado
+- Sección **Capturas** en `README.md` con las 4 imágenes reales en formato PNG (`panel-lateral.png`, `zone-git.png`, `conventional-commits.png` y `confirmacion-destructiva.png`), mantenidas fuera del `.vsix` mediante `.vscodeignore` y reescritas automáticamente a URLs HTTPS del repositorio al empaquetar con `--baseImagesUrl`.
+
+### Mejorado
+- Acortado el título del asistente guiado de Conventional Commits (`Hacer commit — Paso 1 de 3 — Elegí el tipo de cambio`) para evitar repetir `(Conventional Commits)` dos veces, junto con pruebas unitarias actualizadas.
+
 ## [0.2.2] - 2026-11-20
 
 ### Mejorado
