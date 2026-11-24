@@ -4,8 +4,11 @@
 
 # GitSOS — Guía Interactiva de Git y GitHub para Principiantes
 
+[![Versión en Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/klgomez.gitsos.svg)](https://marketplace.visualstudio.com/items?itemName=klgomez.gitsos)
+
 **GitSOS** es una extensión gratuita, comunitaria y **100% offline** para Visual Studio Code diseñada para personas que recién empiezan con Git y GitHub. Explica qué hace cada comando en español simple, te pide los datos necesarios paso a paso y pide confirmación antes de ejecutar acciones delicadas.
 
+- Visual Studio Marketplace: [klgomez.gitsos](https://marketplace.visualstudio.com/items?itemName=klgomez.gitsos)
 - Sitio web y guía completa: [https://git-sos.vercel.app/](https://git-sos.vercel.app/)
 - Código fuente: [https://github.com/KLGomez/GitSOS](https://github.com/KLGomez/GitSOS)
 
@@ -73,13 +76,18 @@ Confirmación modal obligatoria que muestra el comando exacto y advertencias ant
 
 ## Instalación
 
-### Desde Visual Studio Marketplace / Open VSX
-Buscá **GitSOS** (ID: `klgomez.gitsos`) en la vista de Extensiones de VS Code (`Ctrl+Shift+X`), o ejecutá:
-```bash
-code --install-extension klgomez.gitsos
-```
+### Desde Visual Studio Marketplace (recomendado)
+1. Abrí la vista de **Extensiones** en VS Code (`Ctrl+Shift+X` / `Cmd+Shift+X`), buscá **`GitSOS`** (`klgomez.gitsos`) y hacé clic en **Install**, o instalala desde la [ficha en Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=klgomez.gitsos).
+2. También podés abrir **Quick Open** (`Ctrl+P` / `Cmd+P`) y ejecutar:
+   ```text
+   ext install klgomez.gitsos
+   ```
+3. O instalarla desde la terminal con:
+   ```bash
+   code --install-extension klgomez.gitsos
+   ```
 
-### Desde un archivo `.vsix` local
+### Alternativa: desde un archivo `.vsix` local
 1. Descargá o generá el archivo `gitsos-0.2.3.vsix`.
 2. En VS Code, abrí la vista de **Extensiones** (`Ctrl+Shift+X`), hacé clic en el menú `...` → **Install from VSIX...** (o ejecutá `code --install-extension gitsos-0.2.3.vsix`).
 

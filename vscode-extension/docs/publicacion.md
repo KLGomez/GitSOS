@@ -96,18 +96,31 @@ pnpm exec vsce publish --packagePath gitsos-0.2.3.vsix
 ### 4.1 Crear cuenta, firmar acuerdo y generar token
 1. Ingresá a [https://open-vsx.org](https://open-vsx.org) iniciando sesión con tu cuenta de **GitHub**.
 2. Abrí tu perfil → **Settings** y aceptá el **Eclipse Open VSX Publisher Agreement**.
-3. En **Access Tokens**, generá un nuevo token y guardalo de forma segura.
+3. En **Access Tokens**, generá un nuevo token y guardalo en un gestor seguro (nunca lo escribas en archivos del repositorio ni en comandos literales).
 
-### 4.2 Crear el Namespace `klgomez` y publicar `.vsix`
-Usando el mismo publisher ID definido en `package.json`:
+### 4.2 Cargar `$env:OVSX_PAT`, verificar, crear namespace y publicar `.vsix`
+Cargá el token solo en memoria dentro de tu sesión actual de PowerShell usando `$env:OVSX_PAT`:
 
-```bash
-cd vscode-extension
-pnpm dlx ovsx create-namespace klgomez -p <TU_OPEN_VSX_TOKEN>
-pnpm dlx ovsx publish gitsos-0.2.3.vsix -p <TU_OPEN_VSX_TOKEN>
+```powershell
+# PowerShell 7+
+$env:OVSX_PAT = Read-Host "Open VSX PAT" -MaskInput
+
+# Alternativa para Windows PowerShell 5.1 (donde no existe -MaskInput)
+# $sec = Read-Host "Open VSX PAT" -AsSecureString
+# $env:OVSX_PAT = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec))
 ```
 
-*(Una vez creado el namespace `klgomez` la primera vez, en versiones futuras solo ejecutás `pnpm dlx ovsx publish ...`).*
+Luego verificá el token, creá el namespace `klgomez` (solo la primera vez) y publicá `gitsos-0.2.3.vsix` leyendo siempre desde `$env:OVSX_PAT`:
+
+```powershell
+cd vscode-extension
+pnpm dlx ovsx verify-pat klgomez -p $env:OVSX_PAT
+pnpm dlx ovsx create-namespace klgomez -p $env:OVSX_PAT
+pnpm dlx ovsx publish gitsos-0.2.3.vsix -p $env:OVSX_PAT
+Remove-Item Env:OVSX_PAT
+```
+
+*(Nota: `ovsx` también toma automáticamente `OVSX_PAT` del entorno si omitís `-p $env:OVSX_PAT`. Una vez creado el namespace `klgomez`, en futuras versiones solo ejecutás `pnpm dlx ovsx publish gitsos-0.2.3.vsix -p $env:OVSX_PAT` y limpiás la variable con `Remove-Item Env:OVSX_PAT`.)*
 
 ---
 
@@ -119,5 +132,5 @@ pnpm dlx ovsx publish gitsos-0.2.3.vsix -p <TU_OPEN_VSX_TOKEN>
 - [x] `pnpm build`, `pnpm lint`, `pnpm format:check` y `pnpm test` en verde
 - [x] `pnpm exec vsce ls --no-dependencies` y `gitsos-0.2.3.vsix` verificados
 - [x] Capturas PNG reales en `media/capturas/` enlazadas en `README.md` y excluidas del `.vsix`
-- [ ] Crear publisher `klgomez` (display name `Katherine Gomez`) + PAT y ejecutar `vsce publish`
-- [ ] Crear namespace `klgomez` + token en Open VSX y ejecutar `ovsx publish`
+- [x] Publicar v0.2.3 en Visual Studio Marketplace (`klgomez.gitsos`)
+- [ ] Crear namespace `klgomez` y publicar `gitsos-0.2.3.vsix` en Open VSX usando `$env:OVSX_PAT`
