@@ -3,10 +3,15 @@ import '../styles/global.css';
 import GitSOSInterface from '../components/GitSOSInterface';
 import VsCodeExtensionSection from '../components/VsCodeExtensionSection.astro';
 import { getCollection } from 'astro:content';
-import { getVsCodeMarketplaceUrl, isVsCodeExtensionSectionEnabled } from '../lib/featureFlags';
+import {
+  getVsCodeMarketplaceUrl,
+  getVsCodeOpenVsxUrl,
+  isVsCodeExtensionSectionEnabled,
+} from '../lib/featureFlags';
 
 const showVsCodeExtension = isVsCodeExtensionSectionEnabled();
 const vsCodeMarketplaceUrl = getVsCodeMarketplaceUrl();
+const vsCodeOpenVsxUrl = getVsCodeOpenVsxUrl();
 
 const rawDocs = await getCollection('docs');
 const docs = rawDocs
@@ -140,7 +145,12 @@ const docs = rawDocs
           </div>
         </div>
 
-        {showVsCodeExtension && <VsCodeExtensionSection marketplaceUrl={vsCodeMarketplaceUrl} />}
+        {showVsCodeExtension && (
+          <VsCodeExtensionSection
+            marketplaceUrl={vsCodeMarketplaceUrl}
+            openVsxUrl={vsCodeOpenVsxUrl}
+          />
+        )}
       </div>
     </GitSOSInterface>
   </body>

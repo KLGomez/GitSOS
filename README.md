@@ -221,6 +221,18 @@ Abre `.env` y añade tu clave de API de Google Gemini:
 GOOGLE_GENERATIVE_AI_API_KEY=tu_api_key_de_gemini_aqui
 ```
 
+#### Variables opcionales para la sección de la extensión de VS Code (Vercel / local)
+La sección web que enlaza a la extensión de VS Code (`src/components/VsCodeExtensionSection.astro`) permanece **apagada en producción** por defecto y activa solo en *preview deployments* de Vercel (`VERCEL_ENV=preview`). Para habilitarla y apuntarla en producción desde **Vercel Project Settings → Environment Variables**, configurá:
+
+```env
+SHOW_VSCODE_EXTENSION=true
+VSCODE_MARKETPLACE_URL=https://marketplace.visualstudio.com/items?itemName=klgomez.gitsos
+```
+
+- `SHOW_VSCODE_EXTENSION`: definir en `true` cuando quieras mostrar la sección en producción (si no se define o vale `false`, no se emite en el HTML).
+- `VSCODE_MARKETPLACE_URL`: URL pública de la ficha en Visual Studio Marketplace.
+- `VSCODE_OPENVSX_URL` *(opcional)*: URL de la ficha en Open VSX Registry (por ejemplo `https://open-vsx.org/extension/klgomez/gitsos`); solo si está definida se renderiza el enlace secundario.
+
 ### 5. Iniciar el Servidor de Desarrollo
 ```bash
 npm run dev
