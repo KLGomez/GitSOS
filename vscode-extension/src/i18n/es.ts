@@ -54,7 +54,7 @@ export const esMessages = {
   zonesConnectorCommit: 'git commit',
   zonesRevertHint: 'Para sacar un archivo de Staging sin perder cambios:',
   zonesRevertCommand: 'git restore --staged <archivo>',
-  commitTypeTitle: 'Paso 1 de 3 — Elegí el tipo de cambio (Conventional Commits)',
+  commitTypeTitle: 'Paso 1 de 3 — Elegí el tipo de cambio',
   commitTypePlaceholder: 'Seleccioná qué tipo de cambio hiciste',
   commitScopePrompt:
     'Paso 2 de 3 — Alcance o módulo afectado (opcional, ej. auth, ui, api). Dejá vacío para omitir.',

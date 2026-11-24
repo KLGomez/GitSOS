@@ -53,7 +53,7 @@ export const enMessages: Messages = {
   zonesConnectorCommit: 'git commit',
   zonesRevertHint: 'To remove a file from Staging without losing changes:',
   zonesRevertCommand: 'git restore --staged <file>',
-  commitTypeTitle: 'Step 1 of 3 — Pick the change type (Conventional Commits)',
+  commitTypeTitle: 'Step 1 of 3 — Pick the change type',
   commitTypePlaceholder: 'Select what kind of change you made',
   commitScopePrompt:
     'Step 2 of 3 — Affected scope or module (optional, e.g. auth, ui, api). Leave empty to skip.',

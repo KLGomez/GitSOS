@@ -172,7 +172,7 @@ describe('Catálogo commands.json y loader (Fase 2 y 3)', () => {
     expect(manifest.publisher).toBe('klgomez');
     expect(manifest.displayName).toBeTruthy();
     expect(manifest.description).toBeTruthy();
-    expect(manifest.version).toBe('0.2.2');
+    expect(manifest.version).toBe('0.2.3');
     expect(manifest.license).toBe('MIT');
     expect(manifest.icon).toBe('media/icon.png');
     expect(manifest.icon?.endsWith('.png')).toBe(true);

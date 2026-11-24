@@ -25,6 +25,13 @@ interface CommitTypeQuickPickItem extends vscode.QuickPickItem {
 }
 
 /**
+ * Quita el sufijo redundante "(Conventional Commits)" del título al abrir el asistente guiado.
+ */
+export function formatCommitAssistantEntryTitle(entryTitle: string): string {
+  return entryTitle.replace(/\s*\(Conventional Commits\)\s*/gi, ' ').trim();
+}
+
+/**
  * Guía al usuario paso a paso para armar un mensaje Conventional Commit en español.
  * Devuelve `undefined` si cancela con Escape en cualquiera de los 3 pasos.
  */
@@ -32,6 +39,7 @@ export async function collectConventionalCommitMessage(
   entryTitle: string
 ): Promise<{ readonly message: string; readonly warnings: readonly string[] } | undefined> {
   const messages = getMessages('es');
+  const shortEntryTitle = formatCommitAssistantEntryTitle(entryTitle);
 
   const typeItems: CommitTypeQuickPickItem[] = CONVENTIONAL_COMMIT_TYPES.map((option) => ({
     label: option.type,
@@ -40,7 +48,7 @@ export async function collectConventionalCommitMessage(
   }));
 
   const selectedType = await vscode.window.showQuickPick(typeItems, {
-    title: `${entryTitle} — ${messages.commitTypeTitle}`,
+    title: `${shortEntryTitle} — ${messages.commitTypeTitle}`,
     placeHolder: messages.commitTypePlaceholder,
     ignoreFocusOut: true,
     matchOnDescription: true,
@@ -51,7 +59,7 @@ export async function collectConventionalCommitMessage(
   }
 
   const scopeValue = await vscode.window.showInputBox({
-    title: `GitSOS — ${entryTitle}`,
+    title: `GitSOS — ${shortEntryTitle}`,
     prompt: messages.commitScopePrompt,
     placeHolder: messages.commitScopePlaceholder,
     ignoreFocusOut: true,
@@ -63,7 +71,7 @@ export async function collectConventionalCommitMessage(
   }
 
   const descriptionValue = await vscode.window.showInputBox({
-    title: `GitSOS — ${entryTitle}`,
+    title: `GitSOS — ${shortEntryTitle}`,
     prompt: messages.commitDescriptionPrompt,
     placeHolder: messages.commitDescriptionPlaceholder,
     ignoreFocusOut: true,

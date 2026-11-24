@@ -9,8 +9,9 @@ Esta guía documenta paso a paso cómo publicar **`klgomez.gitsos`** en **Visual
 1. **Identificador de `publisher` ya configurado:**
    - [`package.json`](../package.json) tiene configurado `"publisher": "klgomez"` (ID final: `klgomez.gitsos`).
    - El nombre visible *"Katherine Gomez"* se configura al dar de alta el publisher en el portal de Visual Studio Marketplace.
-2. **Capturas PNG pendientes (opcional antes de publicar o en un release siguiente):**
-   - Ver la lista recomendada en [`media/capturas/README.md`](../media/capturas/README.md). Cuando las agregues en formato PNG, quitá `media/capturas/**` de [`.vscodeignore`](../.vscodeignore) (o usá URLs HTTPS absolutas del repo) y enlazalas en [`README.md`](../README.md).
+2. **Capturas PNG reales incorporadas:**
+   - Ya se incluyen 4 capturas reales en [`media/capturas/`](../media/capturas/README.md) (`panel-lateral.png`, `zone-git.png`, `conventional-commits.png` y `confirmacion-destructiva.png`), enlazadas con rutas relativas desde [`README.md`](../README.md).
+   - Permanecen excluidas de `.vsix` en [`.vscodeignore`](../.vscodeignore) (`media/capturas/**`) para mantener el paquete liviano; `pnpm run package` las reescribe automáticamente con `--baseImagesUrl`.
 3. **Ejecutar todas las verificaciones con `pnpm`:**
    ```bash
    cd vscode-extension
@@ -41,14 +42,14 @@ Equivalente explícito con `vsce`:
 pnpm exec vsce package --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension
 ```
 
-Esto genera el archivo `gitsos-0.2.2.vsix` (sin ningún archivo `.svg` dentro del paquete y con las URLs de `README.md` reescritas correctamente para el monorepo).
+Esto genera el archivo `gitsos-0.2.3.vsix` (sin ningún archivo `.svg` dentro del paquete y con las URLs de `README.md` reescritas correctamente para el monorepo).
 
 ### Prueba en una instalación limpia de VS Code
 Podés probar el `.vsix` sin afectar tus extensiones ni configuración actual usando carpetas temporales:
 
 ```powershell
 $cleanDir = Join-Path $env:TEMP "gitsos-clean-vscode"
-code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions" --install-extension ".\gitsos-0.2.2.vsix"
+code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions" --install-extension ".\gitsos-0.2.3.vsix"
 code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extensions"
 ```
 
@@ -75,17 +76,17 @@ code --user-data-dir "$cleanDir\user-data" --extensions-dir "$cleanDir\extension
    - **ID:** `klgomez` *(debe coincidir exactamente con `"publisher"` en `vscode-extension/package.json`)*
 
 ### 3.3 Publicar con `vsce`
-Se recomienda empaquetar primero con `pnpm run package` (para que `gitsos-0.2.2.vsix` ya incluya `--baseContentUrl` y `--baseImagesUrl` aplicados al `README.md`) y luego publicar ese artefacto verificado con `--packagePath`:
+Se recomienda empaquetar primero con `pnpm run package` (para que `gitsos-0.2.3.vsix` ya incluya `--baseContentUrl` y `--baseImagesUrl` aplicados al `README.md`) y luego publicar ese artefacto verificado con `--packagePath`:
 
 ```bash
 cd vscode-extension
 pnpm run package
 pnpm exec vsce login klgomez
-pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix
+pnpm exec vsce publish --packagePath gitsos-0.2.3.vsix
 ```
 
 *(Alternativas sin login interactivo definiendo `VSCE_PAT` como variable de entorno:*
-- *Publicar el `.vsix` ya empaquetado con `pnpm run package`: `pnpm exec vsce publish --packagePath gitsos-0.2.2.vsix -p $VSCE_PAT`*
+- *Publicar el `.vsix` ya empaquetado con `pnpm run package`: `pnpm exec vsce publish --packagePath gitsos-0.2.3.vsix -p $VSCE_PAT`*
 - *O empaquetar y publicar en un paso pasando ambos flags del monorepo: `pnpm exec vsce publish --no-dependencies --baseContentUrl https://github.com/KLGomez/GitSOS/blob/main/vscode-extension --baseImagesUrl https://raw.githubusercontent.com/KLGomez/GitSOS/main/vscode-extension -p $VSCE_PAT`.)*
 
 ---
@@ -103,7 +104,7 @@ Usando el mismo publisher ID definido en `package.json`:
 ```bash
 cd vscode-extension
 pnpm dlx ovsx create-namespace klgomez -p <TU_OPEN_VSX_TOKEN>
-pnpm dlx ovsx publish gitsos-0.2.2.vsix -p <TU_OPEN_VSX_TOKEN>
+pnpm dlx ovsx publish gitsos-0.2.3.vsix -p <TU_OPEN_VSX_TOKEN>
 ```
 
 *(Una vez creado el namespace `klgomez` la primera vez, en versiones futuras solo ejecutás `pnpm dlx ovsx publish ...`).*
@@ -116,7 +117,7 @@ pnpm dlx ovsx publish gitsos-0.2.2.vsix -p <TU_OPEN_VSX_TOKEN>
 - [x] Ícono `128×128` PNG (`media/icon.png`) y cero archivos `.svg` en el paquete
 - [x] Metadatos (`repository`, `bugs`, `homepage`, `license: MIT`, `categories`, `keywords`) completos
 - [x] `pnpm build`, `pnpm lint`, `pnpm format:check` y `pnpm test` en verde
-- [x] `pnpm exec vsce ls --no-dependencies` y `gitsos-0.2.2.vsix` verificados
-- [ ] Agregar capturas PNG reales en `media/capturas/` (opcional)
+- [x] `pnpm exec vsce ls --no-dependencies` y `gitsos-0.2.3.vsix` verificados
+- [x] Capturas PNG reales en `media/capturas/` enlazadas en `README.md` y excluidas del `.vsix`
 - [ ] Crear publisher `klgomez` (display name `Katherine Gomez`) + PAT y ejecutar `vsce publish`
 - [ ] Crear namespace `klgomez` + token en Open VSX y ejecutar `ovsx publish`

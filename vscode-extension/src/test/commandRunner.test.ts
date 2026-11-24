@@ -401,6 +401,20 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
     showInputBoxMock.mockResolvedValueOnce('ui').mockResolvedValueOnce('agregar botón "Entrar"');
     const withScopeOk = await runGitSosEntry(commitEntry, { skipExplanationModal: true });
     expect(withScopeOk).toBe(true);
+    expect(showQuickPickMock).toHaveBeenCalledWith(
+      expect.any(Array),
+      expect.objectContaining({
+        title: 'Hacer commit — Paso 1 de 3 — Elegí el tipo de cambio',
+      })
+    );
+    expect(showInputBoxMock).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({ title: 'GitSOS — Hacer commit' })
+    );
+    expect(showInputBoxMock).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ title: 'GitSOS — Hacer commit' })
+    );
     expect(showWarningMessageMock).not.toHaveBeenCalled();
     expect(fakeTerminal.sendText).toHaveBeenCalledWith(
       'git commit -m "feat(ui): agregar botón \\"Entrar\\""',
@@ -418,6 +432,12 @@ describe('Ejecución de comandos y QuickPick (Fase 2)', () => {
       );
     const withWarningsOk = await runGitSosEntry(saveChangesEntry, { skipExplanationModal: true });
     expect(withWarningsOk).toBe(true);
+    expect(showQuickPickMock).toHaveBeenCalledWith(
+      expect.any(Array),
+      expect.objectContaining({
+        title: 'Guardar mis cambios (atajo add + commit) — Paso 1 de 3 — Elegí el tipo de cambio',
+      })
+    );
     expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(1, 'git add .', true);
     expect(fakeTerminal.sendText).toHaveBeenNthCalledWith(
       2,
